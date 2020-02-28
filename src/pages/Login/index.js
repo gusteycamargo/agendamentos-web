@@ -28,7 +28,7 @@ function Login(props) {
       }
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <div className="background-form"> 
                 <form className="form" onSubmit={handleLogin}>
                     <img className="logo" src={Logo} alt="Airbnb logo" />
@@ -49,7 +49,7 @@ function Login(props) {
                     placeholder="Senha"
                     onChange={e => setPassword(e.target.value)}
                     />
-                    <button className="btn-login btn btn-primary" type="submit">Login</button>
+                    <button className="btn-login" type="submit">Login</button>
                 </form>
             </div>
         </div>

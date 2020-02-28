@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import api from '../../services/api'
 import { logout } from "../../services/auth";
-import { isAdm } from "../../services/auth";
 import Logo from "../../assets/logo.png";
 import MenuAdm from '../MenuAdm';
 import './index.css';
@@ -39,7 +38,7 @@ function Index(props) {
             <div className="header">
                 <div className="container-index">
 
-                    <img className="img" src={Logo}></img>
+                    <img className="img" src={Logo} alt="Logo da UNESPAR"></img>
                     <div className="logout">
                         <p className="usuario">{userLogged.fullname}</p>
                         <p className="campus">{"Campus de "+campusUserLogged.city}</p>

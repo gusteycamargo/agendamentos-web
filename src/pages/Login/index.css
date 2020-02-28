@@ -20,7 +20,7 @@
     height: 100%;
 }
 
-.container {
+.container-fluid {
     background: url(../../assets/background.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -99,7 +99,7 @@
     width: 100%;
 }
 
-.btn:hover, .btn:focus {
+.btn-login:hover, .btn-login:focus {
     cursor: pointer;
 	background-color: rgba(4, 41, 99, 0.66);
 }
