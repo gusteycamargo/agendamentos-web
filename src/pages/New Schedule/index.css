@@ -55,7 +55,10 @@
 
 .btnColor {
     background-color: #042963;
-    border:none
+    border:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnColor:hover {
@@ -75,4 +78,17 @@
 .col-right {
     height: 36px;
     margin-bottom: 7px;
+}
+
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
 }
