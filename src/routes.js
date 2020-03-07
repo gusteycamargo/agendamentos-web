@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdm } from "./services/auth";
 import Login from './pages/Login';
 import NewSchedule from './pages/New Schedule';
+import NewCategory from "./pages/New Category";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -38,7 +39,7 @@ const Routes = () => (
       <PrivateRoute path="/schedule/view" component={() => <h1>App</h1>} />
       <PrivateRoute path="/schedule/edit" component={() => <h1>App</h1>} />
       <PrivateRoute path="/schedule/delete" component={() => <h1>App</h1>} />
-      <AdmRoute path="/category/new" component={() => <h1>App</h1>} />
+      <AdmRoute path="/category/new" component={NewCategory} />
       <AdmRoute path="/category/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/category/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/category/delete" component={() => <h1>App</h1>} />

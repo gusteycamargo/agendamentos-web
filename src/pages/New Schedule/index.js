@@ -19,7 +19,7 @@ import Spinner from 'react-activity/lib/Spinner';
 import 'react-activity/lib/Spinner/Spinner.css';
 
 function NewSchedule(props) {
-    const FORMAT = 'yyyy/MM/dd';
+    const FORMAT = 'yyyy-MM-dd';
     const FORMATVIEW = 'dd/MM/yyyy';
     const MySwal = withReactContent(Swal);
 
@@ -27,10 +27,10 @@ function NewSchedule(props) {
     const [initial, setInitial] = useState('');
     const [final, setFinal] = useState('');
     const [equipament, setEquipament] = useState([]);
-    const [course, setCourse] = useState([]);
-    const [category, setCategory] = useState([]);
-    const [place, setPlace] = useState([]);
-    const [requestingUser, setRequestingUser] = useState([]);
+    const [course, setCourse] = useState('');
+    const [category, setCategory] = useState('');
+    const [place, setPlace] = useState('');
+    const [requestingUser, setRequestingUser] = useState('');
 
     const [courses, setCourses] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -93,7 +93,7 @@ function NewSchedule(props) {
     }
 
     async function save() {
-        if(course && category && place && requestingUser) {
+        if(typeof course === 'object' && typeof category === 'object' && typeof place === 'object' && typeof requestingUser === 'object' ) {
             const userLogged = await api.get('/userLogged');
             setIsLoading(true);
             await api.post("/schedules", {
@@ -110,15 +110,16 @@ function NewSchedule(props) {
                     equipaments: equipamentsSelected    
             })
             .then(function (response) {
+                console.log(response.data);
                 MySwal.fire('Prontinho', 'Agendamento realizado com sucesso!', 'success');
                 controlFields();
                 setEquipamentsView('');
                 setComments('');
                 setEquipament([]);
-                setPlace([]);
-                setCourse([]);
-                setRequestingUser([]);
-                setCategory([]);
+                setPlace('');
+                setCourse('');
+                setRequestingUser('');
+                setCategory('');
             })
             .catch(function (error) {
                 console.log(error)
@@ -146,9 +147,8 @@ function NewSchedule(props) {
                                     formatDate={formatDate}
                                     format={FORMATVIEW}
                                     parseDate={parseDate}
-                                    placeholder={`${dateFnsFormat(date, FORMATVIEW)}`}
                                     value={date}
-                                    onChange={controlFields}
+                                    onDayTouchStart={controlFields}
                                 />
                             </div>
                             <div className="col-sm col-pd pb-2">
@@ -162,6 +162,7 @@ function NewSchedule(props) {
                             </div>
                             <div className="col-sm col-pd pb-2">
                                 <TimePicker 
+                                    onClick={controlFields}
                                     className="time tam" 
                                     disableClock={true} 
                                     value={final} 
