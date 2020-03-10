@@ -1,16 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import Index from "../../components/Index";
+import Index from "../../../components/Index";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import TimePicker from 'react-time-picker';
 import 'react-widgets/dist/css/react-widgets.css';
 import { Combobox } from 'react-widgets'
 import dateFnsFormat from 'date-fns/format';
-import api from '../../services/api';
-import { parseDate } from '../../utils/parseDate';
-import { formatDate } from '../../utils/formatDate';
+import api from '../../../services/api';
+import { parseDate } from '../../../utils/parseDate';
+import { formatDate } from '../../../utils/formatDate';
 import 'react-day-picker/lib/style.css';
 import './index.css';
 import Swal from 'sweetalert2'

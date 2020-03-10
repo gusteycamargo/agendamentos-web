@@ -2,33 +2,36 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import Index from "../../components/Index";
-import api from '../../services/api';
+import Index from "../../../components/Index";
+import api from '../../../services/api';
 import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Spinner from 'react-activity/lib/Spinner';
 import 'react-activity/lib/Spinner/Spinner.css';
 
-function NewCategory(props) {
+function NewPlace(props) {
     const MySwal = withReactContent(Swal);
 
-    const [description, setDescription] = useState('');
+    const [capacity, setCapacity] = useState('');
+    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     async function save() {
-        if(description) {
+        if(capacity && name) {
             const userLogged = await api.get('/userLogged');
             setIsLoading(true);
-            await api.post("/categories", {
-                    description,
+            await api.post("/places", {
+                    name,
+                    capacity,
                     status: 'Ativo',
                     campus_id: userLogged.data.campus.id,
             })
             .then(function (response) {
                 console.log(response.data);
-                MySwal.fire('Prontinho', 'Ano cadastrado com sucesso!', 'success');
-                setDescription('');
+                MySwal.fire('Prontinho', 'Sala cadastrada com sucesso!', 'success');
+                setName('');
+                setCapacity('');
             })
             .catch(function (error) {
                 console.log(error)
@@ -51,13 +54,19 @@ function NewCategory(props) {
                         <div className="d-flex flex-column pb-2 pt-5 ">
                             <input type="text" 
                                    className="tam form-control" 
-                                   placeholder="Descrição"
-                                   value={description}
-                                   onChange={e => setDescription(e.target.value)}
+                                   placeholder="Nome"
+                                   value={name}
+                                   onChange={e => setName(e.target.value)}
+                            ></input>
+                            <input type="number" 
+                                   className="tam form-control mt-2" 
+                                   placeholder="Capacidade"
+                                   value={capacity}
+                                   onChange={e => setCapacity(e.target.value)}
                             ></input>
                             <button 
                                 onClick={save} 
-                                className="btn btn-primary btnColor tam mt-2"
+                                className="btn btn-primary btnColor tam mt-3"
                                 >
                                     Salvar
                                     <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
@@ -71,4 +80,4 @@ function NewCategory(props) {
     );
 }
 
-export default withRouter(NewCategory);
+export default withRouter(NewPlace);

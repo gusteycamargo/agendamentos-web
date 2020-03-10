@@ -2,8 +2,13 @@ import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdm } from "./services/auth";
 import Login from './pages/Login';
-import NewSchedule from './pages/New Schedule';
-import NewCategory from "./pages/New Category";
+import NewSchedule from './pages/Schedule/New Schedule';
+import NewCategory from "./pages/Category/New Category";
+import NewCampus from "./pages/Campus/New Campus";
+import NewCourse from "./pages/Course/New Course";
+import NewEquipament from "./pages/Equipament/New Equipament";
+import NewPlace from "./pages/Place/New Place";
+import NewUser from "./pages/User/New User";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -43,23 +48,23 @@ const Routes = () => (
       <AdmRoute path="/category/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/category/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/category/delete" component={() => <h1>App</h1>} />
-      <AdmRoute path="/campus/new" component={() => <h1>App</h1>} />
+      <AdmRoute path="/campus/new" component={NewCampus} />
       <AdmRoute path="/campus/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/campus/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/campus/delete" component={() => <h1>App</h1>} />
-      <AdmRoute path="/course/new" component={() => <h1>App</h1>} />
+      <AdmRoute path="/course/new" component={NewCourse} />
       <AdmRoute path="/course/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/course/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/course/delete" component={() => <h1>App</h1>} />
-      <AdmRoute path="/equipament/new" component={() => <h1>App</h1>} />
+      <AdmRoute path="/equipament/new" component={NewEquipament} />
       <AdmRoute path="/equipament/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/equipament/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/equipament/delete" component={() => <h1>App</h1>} />
-      <AdmRoute path="/place/new" component={() => <h1>App</h1>} />
+      <AdmRoute path="/place/new" component={NewPlace} />
       <AdmRoute path="/place/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/place/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/place/delete" component={() => <h1>App</h1>} />
-      <AdmRoute path="/user/new" component={() => <h1>App</h1>} />
+      <AdmRoute path="/user/new" component={NewUser} />
       <AdmRoute path="/user/view" component={() => <h1>App</h1>} />
       <AdmRoute path="/user/edit" component={() => <h1>App</h1>} />
       <AdmRoute path="/user/delete" component={() => <h1>App</h1>} />
