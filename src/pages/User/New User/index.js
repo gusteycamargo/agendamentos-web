@@ -53,7 +53,7 @@ function NewCategory(props) {
             })
             .then(function (response) {
                 console.log(response.data);
-                MySwal.fire('Prontinho', 'Ano cadastrado com sucesso!', 'success');
+                MySwal.fire('Prontinho', 'Usuário cadastrado com sucesso!', 'success');
                 setEmail('');
                 setFullname('');
                 setUsername('');
