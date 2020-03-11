@@ -23,3 +23,63 @@
 .btnColor:focus {
 	background-color: rgba(4, 41, 99, 0.80);
 }
+
+.filtro {
+	display: flex;
+	flex-direction: row;
+}
+
+.DayPickerInput {
+    width: 230px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    height: 34px;
+    flex: 1;
+    display: flex;
+}
+
+.DayPickerInput input {
+    border: 0px;
+    padding: 8px;
+}
+
+.tam {
+    width: 230px;
+    height: 36px;
+}
+
+.w-date {
+    width: 230px;
+}
+
+.mr {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.btFiltrar {
+	width: 100px;
+	color: #FFF;
+	font-weight: bold;
+    background-color: #042963;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btFiltrar:hover {
+	background-color: rgba(4, 41, 99, 0.80);
+}
+
+.btFiltrar:focus {
+	background-color: rgba(4, 41, 99, 0.80);
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.red {
+    color: #ff0000;
+}

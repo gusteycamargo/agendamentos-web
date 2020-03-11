@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Index from "../../../components/Index";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
@@ -41,7 +41,24 @@ function NewSchedule(props) {
     const [comments, setComments] = useState('');
     const [users, setUsers] = useState([]);
     const [disabledFixed, setDisabledFixed] = useState(true);
+    const [isUser, setIsUser] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [userLogged, setUserLogged] = useState([]);
+
+    useEffect(() => {
+        async function getUser() {
+            const response = await api.get('/userLogged');
+            setUserLogged(response.data.user);
+            if(response.data.user.function === 'user') {
+                setIsUser(true);
+            }
+            else {
+                setIsUser(false);
+            }
+        }
+
+        getUser();
+    }, []);
 
     async function disponibilty() {
         if(date && initial && final) {
@@ -94,20 +111,25 @@ function NewSchedule(props) {
 
     async function save() {
         if(typeof course === 'object' && typeof category === 'object' && typeof place === 'object' && typeof requestingUser === 'object' ) {
-            const userLogged = await api.get('/userLogged');
             setIsLoading(true);
+            const response = await api.get('/userLogged');
+            if(isUser){
+                requestingUser.id = userLogged.id;
+            }
+
             await api.post("/schedules", {
                     place_id: place.id,
                     category_id: category.id,
                     course_id: course.id,
-                    registration_user_id: userLogged.data.user.id,
+                    registration_user_id: userLogged.id,
                     requesting_user_id: requestingUser.id,
-                    campus_id: userLogged.data.campus.id,
+                    campus_id: response.data.campus.id,
                     comments,
                     date: dateFnsFormat(date, FORMAT),
                     initial,
                     final,
-                    equipaments: equipamentsSelected    
+                    equipaments: equipamentsSelected,
+                    status: "Confirmado"
             })
             .then(function (response) {
                 console.log(response.data);
@@ -217,7 +239,7 @@ function NewSchedule(props) {
                                 <Combobox 
                                     disabled={disabledFixed} 
                                     onChange={setRequestingUser}
-                                    value={requestingUser}
+                                    value={(isUser) ? userLogged.fullname : requestingUser}
                                     placeholder="Solicitante" 
                                     className="tam" 
                                     textField='fullname' 
