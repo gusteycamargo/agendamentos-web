@@ -7,64 +7,31 @@ import api from '../../../services/api';
 import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import Spinner from 'react-activity/lib/Spinner';
-import 'react-activity/lib/Spinner/Spinner.css';
+import FormCategory from '../../../components/Form Category';
 
 function NewCategory(props) {
     const MySwal = withReactContent(Swal);
 
-    const [description, setDescription] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-
-    async function save() {
-        if(description) {
-            const userLogged = await api.get('/userLogged');
-            setIsLoading(true);
-            await api.post("/categories", {
-                    description,
-                    status: 'Ativo',
-                    campus_id: userLogged.data.campus.id,
-            })
-            .then(function (response) {
-                console.log(response.data);
-                MySwal.fire('Prontinho', 'Ano cadastrado com sucesso!', 'success');
-                setDescription('');
-            })
-            .catch(function (error) {
-                console.log(error)
-                MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error');
-            });
-            setIsLoading(false);
-        }
-        else {
-            MySwal.fire('Campos não preenchidos...', 'Preencha todos os campos!', 'error')
-        }
+    async function save(id, data) {
+        await api.post("/categories", data)
+        .then(function (response) {
+            MySwal.fire('Prontinho', 'Ano cadastrado com sucesso!', 'success');
+        })
+        .catch(function (error) {
+            console.log(error)
+            MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error');
+        });
+        
     }
       
     return (
         <div>
             {      
                 <>
-                <Index></Index>
-                <div className="container d-flex flex-column align-items-center justify-content-center">
-                    <div className="d-flex flex-row">
-                        <div className="d-flex flex-column pb-2 pt-5 ">
-                            <input type="text" 
-                                   className="tam form-control" 
-                                   placeholder="Descrição"
-                                   value={description}
-                                   onChange={e => setDescription(e.target.value)}
-                            ></input>
-                            <button 
-                                onClick={save} 
-                                className="btn btn-primary btnColor tam mt-3"
-                                >
-                                    Salvar
-                                    <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
-                            </button>
-                        </div>
+                    <Index></Index>
+                    <div className="container d-flex flex-column align-items-center justify-content-center">
+                        <FormCategory onSubmit={save} category={''}></FormCategory>
                     </div>
-                </div>
                 </>
             }
         </div>
