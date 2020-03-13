@@ -17,6 +17,7 @@ import ViewPlace from "./pages/Place/View Place";
 import ViewUser from "./pages/User/View User";
 import ViewSchedule from "./pages/Schedule/View Schedule";
 import EditCampus from "./pages/Campus/Edit Campus";
+import EditCategory from "./pages/Category/Edit Category";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -54,7 +55,7 @@ const Routes = () => (
       <PrivateRoute path="/schedule/delete" component={() => <h1>App</h1>} />
       <AdmRoute path="/category/new" component={NewCategory} />
       <AdmRoute path="/category/view" component={ViewCategory} />
-      <AdmRoute path="/category/edit" component={() => <h1>App</h1>} />
+      <AdmRoute path="/category/edit" component={EditCategory} />
       <AdmRoute path="/category/delete" component={() => <h1>App</h1>} />
       <AdmRoute path="/campus/new" component={NewCampus} />
       <AdmRoute path="/campus/view" component={ViewCampus} />

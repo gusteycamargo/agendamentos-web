@@ -1,0 +1,113 @@
+import 'bootstrap/dist/css/bootstrap.css';
+
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import Index from "../../../components/Index";
+import api from '../../../services/api';
+import './index.css';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import 'react-activity/lib/Spinner/Spinner.css';
+import FormCampus from '../../../components/Form Campus';
+import FormCategory from '../../../components/Form Category';
+
+function EditCategory(props) {
+    const MySwal = withReactContent(Swal);
+    
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState('');
+    const [edit, setEdit] = useState(false);
+
+    useEffect(() => {
+        async function retrieveCategories() {
+            await api.get("/categories")
+            .then(function (response) {
+                setCategories(response.data);
+            })
+            .catch(function (error) {
+                console.log(error)
+                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
+            });
+        }
+
+        retrieveCategories();
+    }, [edit]);
+
+    async function editCategories(id, data) {
+        await api.put(`/categories/${id}`, data)
+        .then(function (response) {
+            MySwal.fire('Prontinho', 'Ano editado com sucesso', 'success');
+            setEdit(false);
+        })
+        .catch(function (error) {
+            console.log(error)
+            MySwal.fire('Oops...', 'Houve um tentar editar as informações, tente novamente!', 'error');
+        });
+    }
+
+    function defineEdit(category) {
+        setCategory(category);
+        setEdit(true);
+    }
+
+    function returnToTable() {
+        setEdit(false);
+    }
+      
+    return (
+        <div>
+            {      
+                <>
+                <Index></Index>
+                <div className="d-flex align-items-center justify-content-center mt-2">
+                    <div className="container-index">
+                        {
+                            (edit) ?
+                                (
+                                    <>
+                                        <FormCategory onSubmit={editCategories} category={category}></FormCategory>
+                                        <div className="d-flex flex-row align-items justify-content-center">
+                                            <button onClick={returnToTable} className="btn btn-primary btnColor tam">
+                                                Voltar
+                                            </button>
+                                        </div>
+                                    </>
+                                ) 
+                                : 
+                                (
+
+                                    <table className="table table-bordered table-hover">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Descrição</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {categories.map(category => (
+                                                <tr key={category.id}>
+                                                    <td>{category.description}</td>
+                                                    <td>{category.status}</td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(category)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                            
+                                        </tbody>
+                                    </table>
+                                )
+                        }
+                        
+                    </div>
+                </div>
+                </>
+            }
+        </div>
+    );
+}
+
+export default withRouter(EditCategory);
