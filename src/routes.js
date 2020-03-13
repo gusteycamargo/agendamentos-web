@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdm } from "./services/auth";
+import Error404 from '../src/assets/404.jpg';
 import Login from './pages/Login';
 import NewSchedule from './pages/Schedule/New Schedule';
 import NewCategory from "./pages/Category/New Category";
@@ -19,6 +20,9 @@ import ViewSchedule from "./pages/Schedule/View Schedule";
 import EditCampus from "./pages/Campus/Edit Campus";
 import EditCategory from "./pages/Category/Edit Category";
 import EditCourse from "./pages/Course/Edit Course";
+import EditEquipament from "./pages/Equipament/Edit Equipament";
+import EditPlace from "./pages/Place/Edit Place";
+import EditUser from "./pages/User/Edit User";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -68,17 +72,17 @@ const Routes = () => (
       <AdmRoute path="/course/delete" component={() => <h1>App</h1>} />
       <AdmRoute path="/equipament/new" component={NewEquipament} />
       <AdmRoute path="/equipament/view" component={ViewEqupament} />
-      <AdmRoute path="/equipament/edit" component={() => <h1>App</h1>} />
+      <AdmRoute path="/equipament/edit" component={EditEquipament} />
       <AdmRoute path="/equipament/delete" component={() => <h1>App</h1>} />
       <AdmRoute path="/place/new" component={NewPlace} />
       <AdmRoute path="/place/view" component={ViewPlace} />
-      <AdmRoute path="/place/edit" component={() => <h1>App</h1>} />
+      <AdmRoute path="/place/edit" component={EditPlace} />
       <AdmRoute path="/place/delete" component={() => <h1>App</h1>} />
       <AdmRoute path="/user/new" component={NewUser} />
       <AdmRoute path="/user/view" component={ViewUser} />
-      <AdmRoute path="/user/edit" component={() => <h1>App</h1>} />
+      <AdmRoute path="/user/edit" component={EditUser} />
       <AdmRoute path="/user/delete" component={() => <h1>App</h1>} />
-      <Route path="*" component={() => <h1>Page not found</h1>} />
+      <Route path="*" component={() => <img src={Error404} alt={"Error 404"}/>} />
     </Switch>
   </BrowserRouter>
 );
