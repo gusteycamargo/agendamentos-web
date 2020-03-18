@@ -139,7 +139,7 @@ function EditSchedule(props) {
                                 (
                                     <>
                                         <FormSchedule onSubmit={editSchedules} schedule={schedule}></FormSchedule>
-                                        <div className="d-flex flex-row align-items justify-content-center">
+                                        <div className="d-flex flex-row align-items justify-content-center bt-back">
                                             <button onClick={returnToTable} className="btn btn-primary btnColor tam">
                                                 Voltar
                                             </button>

@@ -7,6 +7,10 @@
     height: 36px;
 }
 
+.bt-back {
+    padding-right: 90px;
+}
+
 .btnColor {
     background-color: #042963;
     border:none;
