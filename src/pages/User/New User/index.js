@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Index from "../../../components/Index";
 import api from '../../../services/api';
@@ -10,6 +10,21 @@ import withReactContent from 'sweetalert2-react-content'
 import FormUser from '../../../components/Form User';
 
 function NewCategory(props) {
+
+    useEffect(() => {
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+        setShow(verify());
+    }, []);
+
+    const [show, setShow] = useState(false);
     const MySwal = withReactContent(Swal);
 
     async function save(id, data) {
@@ -26,13 +41,16 @@ function NewCategory(props) {
       
     return (
         <div>
-            {      
-                <>
+            {     
+                (show) ? 
+                (<>
                     <Index></Index>
                     <div className="container d-flex flex-column align-items-center justify-content-center">
                         <FormUser onSubmit={save} user={''}></FormUser>
                     </div>
-                </>
+                </>)
+                :
+                (<Index></Index>)
             }
         </div>
     );

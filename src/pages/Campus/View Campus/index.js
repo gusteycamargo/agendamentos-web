@@ -13,6 +13,7 @@ function ViewCampus(props) {
     const MySwal = withReactContent(Swal);
     
     const [campuses, setCampuses] = useState([]);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrieveCampuses() {
@@ -26,14 +27,24 @@ function ViewCampus(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+        setShow(verify());
         retrieveCampuses();
-    }, [])
-    
+    }, []);    
       
     return (
         <div>
-            {      
-                <>
+            {    
+                (show) ?  
+                (<>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
                     <div className="container-index">
@@ -58,7 +69,9 @@ function ViewCampus(props) {
                         </table>
                     </div>
                 </div>
-                </>
+                </>)
+                :
+                (<Index></Index>)
             }
         </div>
     );

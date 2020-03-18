@@ -16,6 +16,7 @@ function EditPlace(props) {
     const [places, setPlaces] = useState([]);
     const [place, setPlace] = useState('');
     const [edit, setEdit] = useState(false);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrievePlaces() {
@@ -29,6 +30,17 @@ function EditPlace(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+
+        setShow(verify());
         retrievePlaces();
     }, [edit]);
 

@@ -13,6 +13,7 @@ function ViewPlace(props) {
     const MySwal = withReactContent(Swal);
     
     const [places, setPlaces] = useState([]);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrievePlaces() {
@@ -26,14 +27,25 @@ function ViewPlace(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+
+        setShow(verify());
         retrievePlaces();
-    }, [])
-    
+    }, []);    
       
     return (
         <div>
-            {      
-                <>
+            {   
+                (show) ?   
+                (<>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
                     <div className="container-index">
@@ -58,7 +70,9 @@ function ViewPlace(props) {
                         </table>
                     </div>
                 </div>
-                </>
+                </>)
+                :
+                (<Index></Index>)
             }
         </div>
     );

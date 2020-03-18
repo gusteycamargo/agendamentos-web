@@ -12,6 +12,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 function ViewCourse(props) {
     const MySwal = withReactContent(Swal);
     
+    const [show, setShow] = useState(false);
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
@@ -26,14 +27,25 @@ function ViewCourse(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+
+        setShow(verify());
         retrieveCourses();
-    }, [])
-    
+    }, []);    
       
     return (
         <div>
-            {      
-                <>
+            {     
+                (show) ? 
+                (<>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
                     <div className="container-index">
@@ -56,7 +68,9 @@ function ViewCourse(props) {
                         </table>
                     </div>
                 </div>
-                </>
+                </>)
+                :
+                (<Index></Index>)
             }
         </div>
     );

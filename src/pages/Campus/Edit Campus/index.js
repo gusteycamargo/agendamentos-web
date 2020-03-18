@@ -16,6 +16,7 @@ function EditCampus(props) {
     const [campuses, setCampuses] = useState([]);
     const [campus, setCampus] = useState('');
     const [edit, setEdit] = useState(false);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrieveCampuses() {
@@ -29,6 +30,17 @@ function EditCampus(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+
+        setShow(verify());
         retrieveCampuses();
     }, [edit]);
 
@@ -56,53 +68,57 @@ function EditCampus(props) {
       
     return (
         <div>
-            {      
+            {     
+                (show) ? 
+                (
                 <>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        {
-                            (edit) ?
-                                (
-                                    <>
-                                        <FormCampus onSubmit={editCampus} campus={campus}></FormCampus>
-                                        <div className="d-flex flex-row align-items justify-content-center">
-                                            <button onClick={returnToTable} className="btn btn-primary btnColor tam">
-                                                Voltar
-                                            </button>
-                                        </div>
-                                    </>
-                                ) 
-                                : 
-                                (
-                                    <table className="table table-bordered table-hover">
-                                        <thead className="thead-dark">
-                                            <tr>
-                                                <th scope="col">Cidade</th>
-                                                <th scope="col">Endereço</th>
-                                                <th scope="col">Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {campuses.map(campus => (
-                                                <tr key={campus.id}>
-                                                    <td>{campus.city}</td>
-                                                    <td>{campus.adress}</td>
-                                                    <td><button onClick={() => defineEdit(campus)} className="btn btn-primary btnColor">
-                                                            Editar
-                                                        </button>
-                                                    </td>
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        <div className="container-index">
+                            {
+                                (edit) ?
+                                    (
+                                        <>
+                                            <FormCampus onSubmit={editCampus} campus={campus}></FormCampus>
+                                            <div className="d-flex flex-row align-items justify-content-center">
+                                                <button onClick={returnToTable} className="btn btn-primary btnColor tam">
+                                                    Voltar
+                                                </button>
+                                            </div>
+                                        </>
+                                    ) 
+                                    : 
+                                    (
+                                        <table className="table table-bordered table-hover">
+                                            <thead className="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Cidade</th>
+                                                    <th scope="col">Endereço</th>
+                                                    <th scope="col">Ações</th>
                                                 </tr>
-                                            ))} 
-                                            
-                                        </tbody>
-                                    </table>
-                                )
-                        }
-                        
+                                            </thead>
+                                            <tbody>
+                                                {campuses.map(campus => (
+                                                    <tr key={campus.id}>
+                                                        <td>{campus.city}</td>
+                                                        <td>{campus.adress}</td>
+                                                        <td><button onClick={() => defineEdit(campus)} className="btn btn-primary btnColor">
+                                                                Editar
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))} 
+                                                
+                                            </tbody>
+                                        </table>
+                                    )
+                            }
+                            
+                        </div>
                     </div>
-                </div>
                 </>
+                ) : (<Index></Index>) 
+                
             }
         </div>
     );

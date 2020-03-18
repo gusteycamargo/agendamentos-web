@@ -16,6 +16,7 @@ function EditEquipament(props) {
     const [equipaments, setEquipaments] = useState([]);
     const [equipament, setEquipament] = useState('');
     const [edit, setEdit] = useState(false);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrieveEquipaments() {
@@ -29,6 +30,16 @@ function EditEquipament(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+        setShow(verify());
         retrieveEquipaments();
     }, [edit]);
 
@@ -55,8 +66,9 @@ function EditEquipament(props) {
       
     return (
         <div>
-            {      
-                <>
+            {    
+                (show) ?  
+                (<>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
                     <div className="container-index">
@@ -104,7 +116,9 @@ function EditEquipament(props) {
                         
                     </div>
                 </div>
-                </>
+                </>)
+                :
+                (<Index></Index>)
             }
         </div>
     );

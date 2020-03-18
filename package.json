@@ -19,6 +19,7 @@
     "react-scripts": "3.4.0",
     "react-time-picker": "^3.9.0",
     "react-widgets": "^4.4.11",
+    "redux": "^4.0.5",
     "styled-components": "^5.0.1",
     "sweetalert2": "^9.8.2",
     "sweetalert2-react-content": "^3.0.1"

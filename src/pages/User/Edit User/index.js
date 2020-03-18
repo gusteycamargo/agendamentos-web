@@ -16,6 +16,7 @@ function EditUser(props) {
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState('');
     const [edit, setEdit] = useState(false);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrieveUsers() {
@@ -29,6 +30,16 @@ function EditUser(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+        setShow(verify());
         retrieveUsers();
     }, [edit]);
 
@@ -56,8 +67,9 @@ function EditUser(props) {
       
     return (
         <div>
-            {      
-                <>
+            {    
+                (show) ?  
+                (<>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
                     <div className="container-index">
@@ -107,7 +119,9 @@ function EditUser(props) {
                         
                     </div>
                 </div>
-                </>
+                </>)
+                :
+                (<Index></Index>)
             }
         </div>
     );

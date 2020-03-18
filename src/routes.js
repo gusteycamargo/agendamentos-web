@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdm } from "./services/auth";
-import Error404 from '../src/assets/404.jpg';
 import Login from './pages/Login';
 import NewSchedule from './pages/Schedule/New Schedule';
 import NewCategory from "./pages/Category/New Category";
@@ -23,12 +22,13 @@ import EditCourse from "./pages/Course/Edit Course";
 import EditEquipament from "./pages/Equipament/Edit Equipament";
 import EditPlace from "./pages/Place/Edit Place";
 import EditUser from "./pages/User/Edit User";
+import EditSchedule from "./pages/Schedule/Edit Schedule";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isAdm() ? (
+      (isAuthenticated() && isAdm()) ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />
@@ -56,7 +56,7 @@ const Routes = () => (
       <Route exact path="/" component={Login} />
       <PrivateRoute path="/schedule/new" component={NewSchedule} />
       <PrivateRoute path="/schedule/view" component={ViewSchedule} />
-      <PrivateRoute path="/schedule/edit" component={() => <h1>App</h1>} />
+      <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/delete" component={() => <h1>App</h1>} />
       <AdmRoute path="/category/new" component={NewCategory} />
       <AdmRoute path="/category/view" component={ViewCategory} />
@@ -82,7 +82,7 @@ const Routes = () => (
       <AdmRoute path="/user/view" component={ViewUser} />
       <AdmRoute path="/user/edit" component={EditUser} />
       <AdmRoute path="/user/delete" component={() => <h1>App</h1>} />
-      <Route path="*" component={() => <img src={Error404} alt={"Error 404"}/>} />
+      <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>
 );

@@ -1,7 +1,7 @@
 import api from './api';
 
 export const TOKEN_KEY = "@agendamentos-Token";
-export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
+export const isAuthenticated = () => sessionStorage.getItem(TOKEN_KEY) !== null;
 
 
 export async function isAdm () {
@@ -13,10 +13,10 @@ export async function isAdm () {
   return false;
 } 
 
-export const getToken = () => localStorage.getItem(TOKEN_KEY);
+export const getToken = () => sessionStorage.getItem(TOKEN_KEY);
 export const login = token => {
-  localStorage.setItem(TOKEN_KEY, token);
+  sessionStorage.setItem(TOKEN_KEY, token);
 };
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(TOKEN_KEY);
 };

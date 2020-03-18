@@ -13,6 +13,7 @@ function ViewEquipament(props) {
     const MySwal = withReactContent(Swal);
     
     const [equipaments, setEquipaments] = useState([]);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         async function retrieveEquipaments() {
@@ -26,9 +27,19 @@ function ViewEquipament(props) {
             });
         }
 
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+
+        setShow(verify());
         retrieveEquipaments();
-    }, [])
-    
+    }, []);    
       
     return (
         <div>

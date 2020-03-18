@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Index from "../../../components/Index";
 import api from '../../../services/api';
@@ -10,6 +10,21 @@ import withReactContent from 'sweetalert2-react-content'
 import FormCampus from '../../../components/Form Campus';
 
 function NewCampus(props) {
+
+    useEffect(() => {
+        async function verify() {
+            const response = await api.get("/userLogged");
+            if(response.data.user.function !== 'adm') {
+                props.history.push("/schedule/new");
+            }
+            else{
+                return true;
+            }
+        }
+        setShow(verify());
+    }, []);
+
+    const [show, setShow] = useState(false);
     const MySwal = withReactContent(Swal);
     
     async function save(id, data) {
@@ -25,13 +40,17 @@ function NewCampus(props) {
       
     return (
         <div>
-            {      
+            {   
+                (show) ? 
+                (   
                 <>
                 <Index></Index>
                 <div className="container d-flex flex-column align-items-center justify-content-center">
                     <FormCampus onSubmit={save} campus={''}></FormCampus>
                 </div>
                 </>
+                )
+                : (<Index></Index>)
             }
         </div>
     );
