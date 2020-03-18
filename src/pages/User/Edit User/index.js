@@ -22,7 +22,11 @@ function EditUser(props) {
         async function retrieveUsers() {
             await api.get("/users")
             .then(function (response) {
-                setUsers(response.data);
+                const usersReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+
+                setUsers(usersReceived);
             })
             .catch(function (error) {
                 console.log(error)

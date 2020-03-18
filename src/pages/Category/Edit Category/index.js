@@ -23,7 +23,11 @@ function EditCategory(props) {
         async function retrieveCategories() {
             await api.get("/categories")
             .then(function (response) {
-                setCategories(response.data);
+                const categoriesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+
+                setCategories(categoriesReceived);
             })
             .catch(function (error) {
                 console.log(error)
@@ -93,7 +97,6 @@ function EditCategory(props) {
                                             <thead className="thead-dark">
                                                 <tr>
                                                     <th scope="col">Descrição</th>
-                                                    <th scope="col">Status</th>
                                                     <th scope="col">Ações</th>
                                                 </tr>
                                             </thead>
@@ -101,7 +104,6 @@ function EditCategory(props) {
                                                 {categories.map(category => (
                                                     <tr key={category.id}>
                                                         <td>{category.description}</td>
-                                                        <td>{category.status}</td>
                                                         <td>
                                                             <button onClick={() => defineEdit(category)} className="btn btn-primary btnColor">
                                                                 Editar

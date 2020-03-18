@@ -22,7 +22,11 @@ function EditPlace(props) {
         async function retrievePlaces() {
             await api.get("/places")
             .then(function (response) {
-                setPlaces(response.data);
+                const placesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+
+                setPlaces(placesReceived);
             })
             .catch(function (error) {
                 console.log(error)

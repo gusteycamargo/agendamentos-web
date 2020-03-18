@@ -22,7 +22,11 @@ function EditEquipament(props) {
         async function retrieveEquipaments() {
             await api.get("/equipaments")
             .then(function (response) {
-                setEquipaments(response.data);
+                const equipamentsReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+
+                setEquipaments(equipamentsReceived);
             })
             .catch(function (error) {
                 console.log(error)

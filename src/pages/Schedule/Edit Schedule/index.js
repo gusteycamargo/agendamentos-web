@@ -56,7 +56,11 @@ function EditSchedule(props) {
                 },
             })
             .then(function (response) {
-                setSchedules(response.data);
+                const schedulesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Confirmado';
+                });
+
+                setSchedules(schedulesReceived);
             })
             .catch(function (error) {
                 console.log(error)
@@ -81,7 +85,11 @@ function EditSchedule(props) {
                 },
             })
             .then(function (response) {
-                setSchedules(response.data);
+                const schedulesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Confirmado';
+                });
+
+                setSchedules(schedulesReceived);
             })
             .catch(function (error) {
                 console.log(error)

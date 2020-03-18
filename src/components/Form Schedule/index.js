@@ -79,6 +79,7 @@ function FormSchedule({ onSubmit, schedule }) {
                     initial,
                     final,
                     date_a: dateFnsFormat(date, FORMAT), 
+                    status: 'Confirmado'
                 },
             })
             .then(function (response) {

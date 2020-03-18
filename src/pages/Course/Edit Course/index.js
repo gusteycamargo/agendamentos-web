@@ -22,7 +22,11 @@ function EditCourse(props) {
         async function retrieveCourses() {
             await api.get("/courses")
             .then(function (response) {
-                setCourses(response.data);
+                const coursesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+
+                setCourses(coursesReceived);
             })
             .catch(function (error) {
                 console.log(error)
@@ -92,7 +96,6 @@ function EditCourse(props) {
                                         <thead className="thead-dark">
                                             <tr>
                                                 <th scope="col">Nome</th>
-                                                <th scope="col">Status</th>
                                                 <th scope="col">Ações</th>
                                             </tr>
                                         </thead>
@@ -100,7 +103,6 @@ function EditCourse(props) {
                                             {courses.map(course => (
                                                 <tr key={course.id}>
                                                     <td>{course.name}</td>
-                                                    <td>{course.status}</td>
                                                     <td>
                                                         <button onClick={() => defineEdit(course)} className="btn btn-primary btnColor">
                                                             Editar

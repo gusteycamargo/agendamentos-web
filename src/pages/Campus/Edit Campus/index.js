@@ -22,7 +22,11 @@ function EditCampus(props) {
         async function retrieveCampuses() {
             await api.get("/campuses")
             .then(function (response) {
-                setCampuses(response.data);
+                const campusesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+
+                setCampuses(campusesReceived);
             })
             .catch(function (error) {
                 console.log(error)
