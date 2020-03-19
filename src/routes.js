@@ -29,6 +29,7 @@ import DeleteCourse from "./pages/Course/Delete Course";
 import DeleteEquipament from "./pages/Equipament/Delete Equipament";
 import DeletePlace from "./pages/Place/Delete Place";
 import DeleteUser from "./pages/User/Delete User";
+import DeleteSchedule from "./pages/Schedule/Delete Schedule";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -63,7 +64,7 @@ const Routes = () => (
       <PrivateRoute path="/schedule/new" component={NewSchedule} />
       <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
-      <PrivateRoute path="/schedule/delete" component={() => <h1>App</h1>} />
+      <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
       <AdmRoute path="/category/new" component={NewCategory} />
       <AdmRoute path="/category/view" component={ViewCategory} />
       <AdmRoute path="/category/edit" component={EditCategory} />

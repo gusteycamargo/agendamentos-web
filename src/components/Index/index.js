@@ -49,7 +49,6 @@ function Index(props) {
 
             <div className="menu-items">
                 <div className="container-index">
-                    <a className="button-menu">Início</a>
                     <div className="dropdown">
                         <a className="dropbtn">Novo</a>
                         <div className="dropdown-content ">

@@ -1,0 +1,33 @@
+.container-index {
+	width: 90%;
+}
+
+.tam {
+    width: 230px;
+    height: 36px;
+}
+
+.bt-back {
+    padding-right: 90px;
+}
+
+.btnColor {
+    background-color: #042963;
+    border:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnColor:hover {
+    background-color: rgba(4, 41, 99, 0.80);
+    cursor: pointer;
+}
+
+.btnColor:focus {
+	background-color: rgba(4, 41, 99, 0.80);
+}
+
+.m-0 {
+    margin: 0;
+}
