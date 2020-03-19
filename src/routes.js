@@ -23,6 +23,12 @@ import EditEquipament from "./pages/Equipament/Edit Equipament";
 import EditPlace from "./pages/Place/Edit Place";
 import EditUser from "./pages/User/Edit User";
 import EditSchedule from "./pages/Schedule/Edit Schedule";
+import DeleteCampus from "./pages/Campus/Delete Campus";
+import DeleteCategory from "./pages/Category/Delete Category";
+import DeleteCourse from "./pages/Course/Delete Course";
+import DeleteEquipament from "./pages/Equipament/Delete Equipament";
+import DeletePlace from "./pages/Place/Delete Place";
+import DeleteUser from "./pages/User/Delete User";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -61,27 +67,27 @@ const Routes = () => (
       <AdmRoute path="/category/new" component={NewCategory} />
       <AdmRoute path="/category/view" component={ViewCategory} />
       <AdmRoute path="/category/edit" component={EditCategory} />
-      <AdmRoute path="/category/delete" component={() => <h1>App</h1>} />
+      <AdmRoute path="/category/delete" component={DeleteCategory} />
       <AdmRoute path="/campus/new" component={NewCampus} />
       <AdmRoute path="/campus/view" component={ViewCampus} />
       <AdmRoute path="/campus/edit" component={EditCampus} />
-      <AdmRoute path="/campus/delete" component={() => <h1>App</h1>} />
+      <AdmRoute path="/campus/delete" component={DeleteCampus} />
       <AdmRoute path="/course/new" component={NewCourse} />
       <AdmRoute path="/course/view" component={ViewCourse} />
       <AdmRoute path="/course/edit" component={EditCourse} />
-      <AdmRoute path="/course/delete" component={() => <h1>App</h1>} />
+      <AdmRoute path="/course/delete" component={DeleteCourse} />
       <AdmRoute path="/equipament/new" component={NewEquipament} />
       <AdmRoute path="/equipament/view" component={ViewEqupament} />
       <AdmRoute path="/equipament/edit" component={EditEquipament} />
-      <AdmRoute path="/equipament/delete" component={() => <h1>App</h1>} />
+      <AdmRoute path="/equipament/delete" component={DeleteEquipament} />
       <AdmRoute path="/place/new" component={NewPlace} />
       <AdmRoute path="/place/view" component={ViewPlace} />
       <AdmRoute path="/place/edit" component={EditPlace} />
-      <AdmRoute path="/place/delete" component={() => <h1>App</h1>} />
+      <AdmRoute path="/place/delete" component={DeletePlace} />
       <AdmRoute path="/user/new" component={NewUser} />
       <AdmRoute path="/user/view" component={ViewUser} />
       <AdmRoute path="/user/edit" component={EditUser} />
-      <AdmRoute path="/user/delete" component={() => <h1>App</h1>} />
+      <AdmRoute path="/user/delete" component={DeleteUser} />
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>

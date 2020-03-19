@@ -58,7 +58,7 @@ function FormSchedule({ onSubmit, schedule }) {
 
         getUser();
 
-        if(schedule !== ''){
+        if(schedule !== ''){            
             setDate(new Date(schedule.date));
             setEquipaments(schedule.equipaments);
             setInitial(schedule.initial);
@@ -66,7 +66,8 @@ function FormSchedule({ onSubmit, schedule }) {
             setCourse(schedule.course);
             setCategory(schedule.category);
             setPlace(schedule.place);
-            setRequestingUser(schedule.requestingUser);
+            setRequestingUser(schedule.requesting_user);
+            setComments(schedule.comments);
         }
 
     }, []);
@@ -98,8 +99,14 @@ function FormSchedule({ onSubmit, schedule }) {
             });
             setIsLoading(false);
 
-            let response = await api.get("/users");
-            setUsers(response.data); 
+            let response;
+            if(userLogged.function === 'adm') {                
+                response = await api.get("/users");
+                setUsers(response.data); 
+            }
+            else {
+                setUsers([userLogged]);
+            }
             response = await api.get("/categories");
             setCategories(response.data); 
             response = await api.get("/courses");
@@ -251,7 +258,7 @@ function FormSchedule({ onSubmit, schedule }) {
                                     <Combobox 
                                         disabled={disabledFixed} 
                                         onChange={setRequestingUser}
-                                        value={(isUser) ? userLogged.fullname : requestingUser}
+                                        value={requestingUser}
                                         placeholder="Solicitante" 
                                         className="tam" 
                                         textField='fullname' 

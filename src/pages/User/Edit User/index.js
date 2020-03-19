@@ -50,7 +50,7 @@ function EditUser(props) {
     async function editUsers(id, data) {
         await api.put(`/users/${id}`, data)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Campus editado com sucesso', 'success');
+            MySwal.fire('Prontinho', 'Usuário editado com sucesso', 'success');
             setEdit(false);
         })
         .catch(function (error) {
