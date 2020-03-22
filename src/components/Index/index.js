@@ -80,6 +80,12 @@ function Index(props) {
                             { userAdm && <MenuAdm value="view"></MenuAdm> }
                         </div>
                     </div>
+                    <div className="dropdown">
+                        <a className="dropbtn">Ações</a>
+                        <div className="dropdown-content ">
+                            { userAdm && <Link to="/reports">Gráficos</Link> }
+                        </div>
+                    </div>
                 </div>		
 	        </div>
         </div>
