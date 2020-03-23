@@ -13,7 +13,6 @@ function DeleteCategory(props) {
     const MySwal = withReactContent(Swal);
     
     const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState('');
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
 

@@ -11,7 +11,6 @@ import { parseDate } from '../../../utils/parseDate';
 import { formatDate } from '../../../utils/formatDate';
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
-import FormSchedule from '../../../components/Form Schedule';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { Combobox } from 'react-widgets'
@@ -29,7 +28,6 @@ function EditSchedule(props) {
     const [periods, setPeriods] = useState([]);
     const [period, setPeriod] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [schedule, setSchedule] = useState('');
     const [deleted, setDeleted] = useState(false);
 
     useEffect(() => {

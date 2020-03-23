@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Index from "../../../components/Index";
 import api from '../../../services/api';
-import {isAdm} from '../../../services/auth';
 import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'

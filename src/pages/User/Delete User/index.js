@@ -8,13 +8,11 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
-import FormUser from '../../../components/Form User';
 
 function DeleteUser(props) {
     const MySwal = withReactContent(Swal);
     
     const [users, setUsers] = useState([]);
-    const [user, setUser] = useState('');
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
 

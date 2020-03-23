@@ -13,7 +13,6 @@ function DeleteEquipament(props) {
     const MySwal = withReactContent(Swal);
     
     const [equipaments, setEquipaments] = useState([]);
-    const [equipament, setEquipament] = useState('');
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
 

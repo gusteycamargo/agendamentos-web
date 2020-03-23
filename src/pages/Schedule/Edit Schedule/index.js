@@ -31,7 +31,6 @@ function EditSchedule(props) {
     const [isLoading, setIsLoading] = useState(false);
     const [schedule, setSchedule] = useState('');
     const [edit, setEdit] = useState(false);
-    const [filterV, setFilterV] = useState(false);
 
     useEffect(() => {
         async function retrieveSchedules() {

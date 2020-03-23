@@ -44,6 +44,8 @@ function ViewEquipament(props) {
     return (
         <div>
             {      
+                (show) ?  
+                (
                 <>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
@@ -72,6 +74,9 @@ function ViewEquipament(props) {
                     </div>
                 </div>
                 </>
+                )
+                :
+                (<Index></Index>)
             }
         </div>
     );

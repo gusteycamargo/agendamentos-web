@@ -8,13 +8,11 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
-import FormPlace from '../../../components/Form Place';
 
 function DeletePlace(props) {
     const MySwal = withReactContent(Swal);
     
     const [places, setPlaces] = useState([]);
-    const [place, setPlace] = useState('');
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
 
@@ -80,7 +78,9 @@ function DeletePlace(props) {
 
     return (
         <div>
-            {      
+            {    
+                (show) ? 
+                (  
                 <>
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
@@ -114,6 +114,7 @@ function DeletePlace(props) {
                     </div>
                 </div>
                 </>
+                )  : (<Index></Index>)
             }
         </div>
     );

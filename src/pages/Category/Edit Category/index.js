@@ -8,7 +8,6 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
-import FormCampus from '../../../components/Form Campus';
 import FormCategory from '../../../components/Form Category';
 
 function EditCategory(props) {

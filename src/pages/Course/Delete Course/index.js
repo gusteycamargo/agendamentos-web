@@ -8,13 +8,11 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
-import FormCourse from '../../../components/Form Course';
 
 function DeleteCourse(props) {
     const MySwal = withReactContent(Swal);
     
     const [courses, setCourses] = useState([]);
-    const [course, setCourse] = useState('');
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
 

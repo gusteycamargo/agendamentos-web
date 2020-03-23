@@ -1,5 +1,6 @@
 .container-index {
-	width: 90%;
+    width: 90%;
+    height: auto;
 }
 
 .tam {
@@ -28,13 +29,36 @@
 	background-color: rgba(4, 41, 99, 0.80);
 }
 
-.mt-p {
-    margin-bottom: 0;
-    margin-top: 4px;
+.mb-p {
+    margin: 0;
+    padding-bottom: 4px;
 }
 
-.direction {
+.row {
     display: flex;
     flex-direction: row;
+}
 
+.column {
+    display: flex;
+    flex-direction: column;
+    height: 34px;
+}
+
+.DayPickerInput {
+    width: 230px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    height: 34px;
+    flex: 1;
+    display: flex;
+}
+
+.DayPickerInput input {
+    border: 0px;
+    padding: 8px;
+}
+
+.mt-5 {
+    margin-top: 5px;
 }
