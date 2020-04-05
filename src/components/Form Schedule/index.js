@@ -102,15 +102,27 @@ function FormSchedule({ onSubmit, schedule }) {
             let response;
             if(userLogged.function === 'adm') {                
                 response = await api.get("/users");
-                setUsers(response.data); 
+
+                const usersReceived = response.data.filter((elem) => {
+                    return elem.status === 'Ativo';
+                });
+                setUsers(usersReceived); 
             }
             else {
                 setUsers([userLogged]);
             }
+
             response = await api.get("/categories");
-            setCategories(response.data); 
+            const categoriesReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+            setCategories(categoriesReceived); 
+            
             response = await api.get("/courses");
-            setCourses(response.data); 
+            const coursesReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+            setCourses(coursesReceived); 
         }
         else {
             MySwal.fire('Campos não preenchidos...', 'Preencha todos os campos!', 'error')
