@@ -179,6 +179,7 @@ function FormSchedule({ onSubmit, schedule }) {
             setCourse('');
             setRequestingUser('');
             setCategory('');
+            setEquipamentsSelected([]);
             setIsLoading(false);
         }
         else {
