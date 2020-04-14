@@ -20,7 +20,6 @@ function NewSchedule(props) {
             MySwal.fire('Prontinho', 'Agendamento realizado com sucesso!', 'success');
         })
         .catch(function (error) {
-            console.log(error)
             MySwal.fire('Oops...', 'Houve um erro ao realizar seu agendamento, tente novamente!', 'error');
         });
     }

@@ -73,6 +73,8 @@ function FormSchedule({ onSubmit, schedule }) {
     }, []);
 
     async function disponibilty() {
+        console.log(date);
+        
         if(date && initial && final) {
             setIsLoading(true);
             await api.get("/availability", {
@@ -93,40 +95,48 @@ function FormSchedule({ onSubmit, schedule }) {
                     setPlaces(response.data.avaibilityPlaces);
                 }
                 setDisabledFixed(false);
+
+                retrieveData();
             })
             .catch(function (error) {
-                MySwal.fire('Oops...', 'Houve um erro ao verificar a disponibilidade, tente novamente!', 'error')
+                console.log(error);
+                
+                MySwal.fire('Oops...', error.response.data.error, 'error')
             });
             setIsLoading(false);
 
-            let response;
-            if(userLogged.function === 'adm') {                
-                response = await api.get("/users");
-
-                const usersReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-                setUsers(usersReceived); 
-            }
-            else {
-                setUsers([userLogged]);
-            }
-
-            response = await api.get("/categories");
-            const categoriesReceived = response.data.filter((elem) => {
-                return elem.status === 'Ativo';
-            });
-            setCategories(categoriesReceived); 
             
-            response = await api.get("/courses");
-            const coursesReceived = response.data.filter((elem) => {
-                return elem.status === 'Ativo';
-            });
-            setCourses(coursesReceived); 
         }
         else {
             MySwal.fire('Campos não preenchidos...', 'Preencha todos os campos!', 'error')
         }
+    }
+
+    async function retrieveData() {
+        let response;
+        if(userLogged.function === 'adm') {                
+            response = await api.get("/users");
+
+            const usersReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+            setUsers(usersReceived); 
+        }
+        else {
+            setUsers([userLogged]);
+        }
+
+        response = await api.get("/categories");
+        const categoriesReceived = response.data.filter((elem) => {
+            return elem.status === 'Ativo';
+        });
+        setCategories(categoriesReceived); 
+        
+        response = await api.get("/courses");
+        const coursesReceived = response.data.filter((elem) => {
+            return elem.status === 'Ativo';
+        });
+        setCourses(coursesReceived); 
     }
 
     function selectEquipament() {
@@ -302,7 +312,7 @@ function FormSchedule({ onSubmit, schedule }) {
                                 </div>
                                 <div className="col-sm col-pd pb-3">
                                     <textarea 
-                                        disabled={disabledFixed} 
+                                        disabled={true} 
                                         className="tam form-control disabled"  
                                         placeholder="Seus equipamentos selecionados aparecerão aqui" 
                                         rows="2"

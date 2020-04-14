@@ -97,6 +97,9 @@
     border: 0;
     border-radius: 5px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-login:hover, .btn-login:focus {
