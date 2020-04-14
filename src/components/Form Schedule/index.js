@@ -41,6 +41,7 @@ function FormSchedule({ onSubmit, schedule }) {
     const [users, setUsers] = useState([]);
     const [disabledFixed, setDisabledFixed] = useState(true);
     const [isUser, setIsUser] = useState(true);
+    const [isLoadingVerification, setIsLoadingVerification] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [userLogged, setUserLogged] = useState([]);
 
@@ -76,7 +77,7 @@ function FormSchedule({ onSubmit, schedule }) {
         console.log(date);
         
         if(date && initial && final) {
-            setIsLoading(true);
+            setIsLoadingVerification(true);
             await api.get("/availability", {
                 headers: { 
                     initial,
@@ -103,7 +104,7 @@ function FormSchedule({ onSubmit, schedule }) {
                 
                 MySwal.fire('Oops...', error.response.data.error, 'error')
             });
-            setIsLoading(false);
+            setIsLoadingVerification(false);
 
             
         }
@@ -260,7 +261,7 @@ function FormSchedule({ onSubmit, schedule }) {
                                         className="btn btn-primary btnColor tam"
                                         >
                                             Ver. disponibilidade
-                                            <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
+                                            <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoadingVerification} />
                                         </button>
                                 </div>
                             </div>
