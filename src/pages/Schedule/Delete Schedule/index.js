@@ -15,6 +15,8 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { Combobox } from 'react-widgets'
 import 'react-widgets/dist/css/react-widgets.css';
+import Bounce from 'react-activity/lib/Bounce';
+import 'react-activity/lib/Bounce/Bounce.css';
 import Spinner from 'react-activity/lib/Spinner';
 import 'react-activity/lib/Spinner/Spinner.css';
 
@@ -32,6 +34,7 @@ function EditSchedule(props) {
 
     useEffect(() => {
         async function retrieveSchedules() {
+            setIsLoading(true);
             let dateFilter, periodFilter;
             if(date && period) {
                 if(period.period === "Manhã") {
@@ -63,6 +66,7 @@ function EditSchedule(props) {
                 console.log(error)
                 MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
+            setIsLoading(false);
         }
 
         retrieveSchedules();
@@ -111,6 +115,7 @@ function EditSchedule(props) {
     }
 
     async function deleteSchedules(id) {
+        setIsLoading(true);
         await api.delete(`/schedules/${id}`)
         .then(function (response) {
             MySwal.fire('Prontinho', 'Agendamento deletado com sucesso', 'success');
@@ -120,6 +125,7 @@ function EditSchedule(props) {
             console.log(error)
             MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
         });
+        setIsLoading(false);
     }
 
     function confirmDelete(schedule) {
@@ -174,7 +180,6 @@ function EditSchedule(props) {
                                     
                                     <button onClick={filter} className="btFiltrar">
                                         Filtrar
-                                        <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
                                     </button>
                                 </div>
                             </div>
@@ -195,34 +200,46 @@ function EditSchedule(props) {
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {schedules.map(schedule => (
-                                        <tr key={schedule.id}>
-                                            <td>{returnDateFormatted(schedule.date)}</td>
-                                            <td>{schedule.initial}</td>
-                                            <td>{schedule.final}</td>
-                                            <td>{schedule.requesting_user.fullname}</td>
-                                            <td>{schedule.registration_user.fullname}</td>
-                                            <td>{schedule.place.name}</td>
-                                            <td className="d-flex flex-column">
-                                                {schedule.equipaments.map(equipament => (
-                                                    <p>{equipament.name}</p>
-                                                    
-                                                ))
-                                                }
-                                            </td>
-                                            <td>{schedule.category.description}</td>
-                                            <td>{schedule.course.name}</td>
-                                            <td>{schedule.comments}</td>
-                                            <td>
-                                                <button onClick={() => confirmDelete(schedule)} className="btn btn-danger btnColor">
-                                                    Excluir
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))} 
-                                    
-                                </tbody>
+                                {
+                                    (isLoading) ? 
+                                    (
+                                        <tbody>
+                                            <tr>
+                                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                                            </tr>
+                                        </tbody>
+                                    ) : 
+                                    (
+                                        <tbody>
+                                            {schedules.map(schedule => (
+                                                <tr key={schedule.id}>
+                                                    <td>{returnDateFormatted(schedule.date)}</td>
+                                                    <td>{schedule.initial}</td>
+                                                    <td>{schedule.final}</td>
+                                                    <td>{schedule.requesting_user.fullname}</td>
+                                                    <td>{schedule.registration_user.fullname}</td>
+                                                    <td>{schedule.place.name}</td>
+                                                    <td className="d-flex flex-column">
+                                                        {schedule.equipaments.map(equipament => (
+                                                            <p>{equipament.name}</p>
+                                                            
+                                                        ))
+                                                        }
+                                                    </td>
+                                                    <td>{schedule.category.description}</td>
+                                                    <td>{schedule.course.name}</td>
+                                                    <td>{schedule.comments}</td>
+                                                    <td>
+                                                        <button onClick={() => confirmDelete(schedule)} className="btn btn-danger btnColor">
+                                                            Excluir
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                        
+                                        </tbody>
+                                    )
+                                }
                             </table>
                             </>
                         }

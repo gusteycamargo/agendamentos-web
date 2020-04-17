@@ -90,91 +90,92 @@ function Reports(props) {
             {   
                 (show) ?   
                 (<>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index mb-3 ">
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        <div className="container-index mb-3 ">
 
-                        <div className="row flex-wrap">   
-                            <div className="column mt-1">
-                                <DayPickerInput
-                                    onDayChange={setDatea}
-                                    className="date-input tam"
-                                    formatDate={formatDate}
-                                    format={FORMATVIEW}
-                                    parseDate={parseDate}
-                                    placeholder="De"
-                                    value={datea}
-                                />
-                            </div>                         
-                            
-                            <div className="column mt-1 ml-2 mr-2">
-                                <DayPickerInput
-                                    onDayChange={setDateb}
-                                    className="date-input tam"
-                                    formatDate={formatDate}
-                                    format={FORMATVIEW}
-                                    parseDate={parseDate}
-                                    placeholder="Até"
-                                    value={dateb}
-                                />
+                            <div className="row flex-wrap">   
+                                <div className="column mt-1">
+                                    <DayPickerInput
+                                        onDayChange={setDatea}
+                                        className="date-input tam"
+                                        formatDate={formatDate}
+                                        format={FORMATVIEW}
+                                        parseDate={parseDate}
+                                        placeholder="De"
+                                        value={datea}
+                                    />
+                                </div>                         
+                                
+                                <div className="column mt-1 ml-2 mr-2">
+                                    <DayPickerInput
+                                        onDayChange={setDateb}
+                                        className="date-input tam"
+                                        formatDate={formatDate}
+                                        format={FORMATVIEW}
+                                        parseDate={parseDate}
+                                        placeholder="Até"
+                                        value={dateb}
+                                    />
+                                </div>
+                                
+                                <div className="column mt-1">
+                                    <Combobox 
+                                        textField='name' 
+                                        data={types} 
+                                        onChange={setTypeChart}
+                                        value={typeChart}
+                                        placeholder="Tipo" 
+                                        className="tam" 
+                                    />
+                                </div>
+                                
+                                <div className="column ml-2 mt-1">
+                                    <button onClick={onFilter} className="btFiltrar bt-height">
+                                        Filtrar
+                                        <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
+                                    </button>
+                                </div>
+                                
+                            </div>
+
+                            <div className="d-flex align-items-center justify-content-center mt-5">
+
+                                <WindowSizeListener onResize={windowSize => {
+                                    setWidth(windowSize.windowWidth-200);
+                                    setHeight(windowSize.windowHeight-100);
+                                    }}/>
+                                {(firstLook) ? (
+                                    <p>Selecione o tipo de gráfico desejado</p>
+                                ) : (
+                                    <Chart
+                                        width={width}
+                                        height={height}
+                                        chartType="ColumnChart"
+                                        loader={<div>Loading Chart <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={true} /></div>}
+                                        data={dataChart}
+                                        options={{
+                                            title: 'Utilizações em agendamentos',
+                                            chartArea: { width: '70%' },
+                                            hAxis: {
+                                                title: 'Nomes',
+                                                minValue: 0,
+                                            },
+                                            vAxis: {
+                                                title: 'Total de utilizações',
+                                            },
+                                        }}
+                                        
+                                        legendToggle
+                                    />
+                                )}
                             </div>
                             
-                            <div className="column mt-1">
-                                <Combobox 
-                                    textField='name' 
-                                    data={types} 
-                                    onChange={setTypeChart}
-                                    value={typeChart}
-                                    placeholder="Tipo" 
-                                    className="tam" 
-                                />
-                            </div>
-                            
-                            <div className="column ml-2 mt-1">
-                                <button onClick={onFilter} className="btFiltrar bt-height">
-                                    Filtrar
-                                    <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
-                                </button>
-                            </div>
                             
                         </div>
-
-                        <div className="d-flex align-items-center justify-content-center mt-5">
-
-                            <WindowSizeListener onResize={windowSize => {
-                                setWidth(windowSize.windowWidth-200);
-                                setHeight(windowSize.windowHeight-100);
-                                }}/>
-                            {(firstLook) ? (
-                                <p>Selecione o tipo de gráfico desejado</p>
-                            ) : (
-                                <Chart
-                                    width={width}
-                                    height={height}
-                                    chartType="ColumnChart"
-                                    loader={<div>Loading Chart <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={true} /></div>}
-                                    data={dataChart}
-                                    options={{
-                                        title: 'Utilizações em agendamentos',
-                                        chartArea: { width: '70%' },
-                                        hAxis: {
-                                            title: 'Nomes',
-                                            minValue: 0,
-                                        },
-                                        vAxis: {
-                                            title: 'Total de utilizações',
-                                        },
-                                    }}
-                                    
-                                    legendToggle
-                                />
-                            )}
-                        </div>
-                        
-                        
                     </div>
-                </div>
-                </>)
+                    </>
+                )
                 :
                 (<Index></Index>)
             }
