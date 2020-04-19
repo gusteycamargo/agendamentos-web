@@ -56,7 +56,7 @@ function ViewUser(props) {
                 <Index></Index>
                 <div className="d-flex align-items-center justify-content-center mt-2">
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
+                        <table className="table table-bordered table-hover"> 
                             <thead className="thead-dark">
                                 <tr>
                                     <th scope="col">Nome completo</th>
