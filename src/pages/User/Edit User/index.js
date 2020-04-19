@@ -9,6 +9,8 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
 import FormUser from '../../../components/Form User';
+import Bounce from 'react-activity/lib/Bounce';
+import 'react-activity/lib/Bounce/Bounce.css';
 
 function EditUser(props) {
     const MySwal = withReactContent(Swal);
@@ -17,9 +19,11 @@ function EditUser(props) {
     const [user, setUser] = useState('');
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function retrieveUsers() {
+            setIsLoading(true);
             await api.get("/users")
             .then(function (response) {
                 const usersReceived = response.data.filter((elem) => {
@@ -32,10 +36,13 @@ function EditUser(props) {
                 console.log(error)
                 MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
+            setIsLoading(false);
         }
 
         async function verify() {
+            setIsLoading(true);
             const response = await api.get("/userLogged");
+            setIsLoading(false);
             if(response.data.user.function !== 'adm') {
                 props.history.push("/schedule/new");
             }
@@ -48,6 +55,7 @@ function EditUser(props) {
     }, [edit]);
 
     async function editUsers(id, data) {
+        setIsLoading(true);
         await api.put(`/users/${id}`, data)
         .then(function (response) {
             MySwal.fire('Prontinho', 'Usuário editado com sucesso', 'success');
@@ -57,6 +65,7 @@ function EditUser(props) {
             console.log(error)
             MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
         });
+        setIsLoading(false);
     }
 
     function defineEdit(user) {
@@ -101,22 +110,32 @@ function EditUser(props) {
                                                 <th scope="col">Ações</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {users.map(user => (
-                                                <tr key={user.id}>
-                                                    <td>{user.fullname}</td>
-                                                    <td>{user.username}</td>
-                                                    <td>{user.email}</td>
-                                                    <td>{user.function}</td>
-                                                    <td>
-                                                        <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
-                                                            Editar
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))} 
-                                            
-                                        </tbody>
+                                        {(isLoading) ? 
+                                            (
+                                                <tbody>
+                                                    <tr className="loading">
+                                                        <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                                                    </tr>
+                                                </tbody>
+                                            ) : 
+                                            (
+                                                <tbody>
+                                                    {users.map(user => (
+                                                        <tr key={user.id}>
+                                                            <td>{user.fullname}</td>
+                                                            <td>{user.username}</td>
+                                                            <td>{user.email}</td>
+                                                            <td>{user.function}</td>
+                                                            <td>
+                                                                <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
+                                                                    Editar
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))} 
+                                                </tbody>
+                                            )
+                                        }
                                     </table>
                                 )
                         }

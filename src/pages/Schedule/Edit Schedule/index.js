@@ -207,7 +207,7 @@ function EditSchedule(props) {
                                             (isLoading) ? 
                                             (
                                                 <tbody>
-                                                    <tr>
+                                                    <tr className="loading">
                                                         <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
                                                     </tr>
                                                 </tbody>

@@ -8,6 +8,8 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
+import Bounce from 'react-activity/lib/Bounce';
+import 'react-activity/lib/Bounce/Bounce.css';
 
 function DeletePlace(props) {
     const MySwal = withReactContent(Swal);
@@ -15,9 +17,11 @@ function DeletePlace(props) {
     const [places, setPlaces] = useState([]);
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function retrievePlaces() {
+            setIsLoading(true);
             await api.get("/places")
             .then(function (response) {
                 const placesReceived = response.data.filter((elem) => {
@@ -30,10 +34,13 @@ function DeletePlace(props) {
                 console.log(error)
                 MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
+            setIsLoading(false);
         }
 
         async function verify() {
+            setIsLoading(true);
             const response = await api.get("/userLogged");
+            setIsLoading(false);
             if(response.data.user.function !== 'adm') {
                 props.history.push("/schedule/new");
             }
@@ -47,6 +54,7 @@ function DeletePlace(props) {
     }, [deleted]);
 
     async function deletePlaces(id) {
+        setIsLoading(true);
         await api.delete(`/places/${id}`)
         .then(function (response) {
             MySwal.fire('Prontinho', 'Sala deletada com sucesso', 'success');
@@ -56,6 +64,7 @@ function DeletePlace(props) {
             console.log(error)
             MySwal.fire('Oops...', 'Houve um tentar editar as informações, tente novamente!', 'error');
         });
+        setIsLoading(false);
     }
 
     function confirmDelete(place) {
@@ -94,20 +103,31 @@ function DeletePlace(props) {
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {places.map(place => (
-                                        <tr key={place.id}>
-                                            <td>{place.name}</td>
-                                            <td>{place.capacity}</td>
-                                            <td>
-                                                <button onClick={() => confirmDelete(place)} className="btn btn-primary btnColor">
-                                                    Excluir
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))} 
-                                    
-                                </tbody>
+                                {(isLoading) ? 
+                                    (
+                                        <tbody>
+                                            <tr className="loading">
+                                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                                            </tr>
+                                        </tbody>
+                                    ) : 
+                                    (
+                                        <tbody>
+                                            {places.map(place => (
+                                                <tr key={place.id}>
+                                                    <td>{place.name}</td>
+                                                    <td>{place.capacity}</td>
+                                                    <td>
+                                                        <button onClick={() => confirmDelete(place)} className="btn btn-primary btnColor">
+                                                            Excluir
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                            
+                                        </tbody>
+                                    )
+                                }
                             </table>
                         }
                         

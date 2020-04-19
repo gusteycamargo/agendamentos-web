@@ -8,15 +8,19 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
+import Bounce from 'react-activity/lib/Bounce';
+import 'react-activity/lib/Bounce/Bounce.css';
 
 function ViewCategory(props) {
     const MySwal = withReactContent(Swal);
     
     const [categories, setCategories] = useState([]);
     const [show, setShow] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function retrieveCategories() {
+            setIsLoading(true);
             await api.get("/categories")
             .then(function (response) {
                 setCategories(response.data);
@@ -25,9 +29,12 @@ function ViewCategory(props) {
                 console.log(error)
                 MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
+            setIsLoading(false);
         }
         async function verify() {
+            setIsLoading(true);
             const response = await api.get("/userLogged");
+            setIsLoading(false);
             if(response.data.user.function !== 'adm') {
                 props.history.push("/schedule/new");
             }
@@ -55,15 +62,26 @@ function ViewCategory(props) {
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {categories.map(category => (
-                                        <tr key={category.id}>
-                                            <td>{category.description}</td>
-                                            <td>{category.status}</td>
-                                        </tr>
-                                    ))} 
-                                    
-                                </tbody>
+                                {(isLoading) ? 
+                                    (
+                                        <tbody>
+                                            <tr className="loading">
+                                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                                            </tr>
+                                        </tbody>
+                                    ) : 
+                                    (
+                                        <tbody>
+                                            {categories.map(category => (
+                                                <tr key={category.id}>
+                                                    <td>{category.description}</td>
+                                                    <td>{category.status}</td>
+                                                </tr>
+                                            ))} 
+                                            
+                                        </tbody>
+                                    )
+                                }
                             </table>
                         </div>
                     </div>

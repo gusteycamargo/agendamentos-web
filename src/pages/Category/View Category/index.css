@@ -23,3 +23,8 @@
 .btnColor:focus {
 	background-color: rgba(4, 41, 99, 0.80);
 }
+
+.loading {
+    width: 100%;
+    height: 100%;
+}
