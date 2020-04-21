@@ -77,14 +77,14 @@
 	display: flex;
 }
 
-.menu-items a {
+.item {
 	font-size: 15px;
 	margin-left: 5px;
 	margin-right: 15px;
 	color: #FFF;
 }
 
-.menu-items a:hover {
+.item:hover {
 	color: #CCC;
 }
 

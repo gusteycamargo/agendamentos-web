@@ -4,6 +4,7 @@ import api from '../../services/api'
 import Logo from "../../assets/logo.png";
 import { login } from "../../services/auth";
 import Spinner from 'react-activity/lib/Spinner';
+import { useSelector, useDispatch } from 'react-redux';
 import 'react-activity/lib/Spinner/Spinner.css';
 import '../../styles/global.css'
 import './index.css';
@@ -13,6 +14,20 @@ function Login(props) {
     const [password, setPassword] = useState([]);
     const [error, setError] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    function addUserLoggedAction(user) {
+        return { type: 'ADD_USER_LOGGED', user }
+    }
+
+    function addCampusAction(campus) {
+        return { type: 'ADD_CAMPUS', campus }
+    }
+
+    function addUserAndCampus(user, campus) {
+      dispatch(addUserLoggedAction(user));
+      dispatch(addCampusAction(campus));
+    }
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -22,10 +37,14 @@ function Login(props) {
             try {
                 setIsLoading(true);
                 const response = await api.post("/sessions", { username, password });
-                console.log(response);
                 login(response.data.token);
+                const responseUser = await api.get('/userLogged');
+                addUserAndCampus(responseUser.data.user, responseUser.data.campus);
+
                 props.history.push("/schedule/new");
             } catch (err) {
+                console.log(err);
+                
                 setError("Nome de usuário ou senha incorreta.");
             }
             setIsLoading(false);

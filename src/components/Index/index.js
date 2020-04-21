@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { Link, withRouter } from "react-router-dom";
 import api from '../../services/api'
 import { logout } from "../../services/auth";
 import Logo from "../../assets/logo.png";
 import MenuAdm from '../MenuAdm';
+import { useSelector, useDispatch } from 'react-redux';
+import CryptoJS from 'crypto-js';
 import './index.css';
 
 function Index(props) {
-    const [userLogged, setUserLogged] = useState({});
-    const [campusUserLogged, setCampusUserLogged] = useState({});
     const [userAdm, setUserAdm] = useState(false);
 
-    useEffect(() => {
-        async function getUserLogged() {
-            const response = await api.get('/userLogged');
+    const bytesUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.user), '~insira a chave aqui~');
+    const userLogged = JSON.parse(bytesUserLogged.toString(CryptoJS.enc.Utf8));
 
-            if(response.data.user.function === 'adm') {
+    const bytesCampusUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.campus), '~insira a chave aqui~');
+    const campusUserLogged = JSON.parse(bytesCampusUserLogged.toString(CryptoJS.enc.Utf8));
+
+    useEffect(() => {     
+        function isAdm() {
+            if(userLogged.function === 'adm') {
                 setUserAdm(true);
             }
-
-            setUserLogged(response.data.user);
-            setCampusUserLogged(response.data.campus);
         }
 
-        getUserLogged();
+        isAdm();
     }, []);
 
     async function handleLogout(e) {
@@ -50,7 +51,7 @@ function Index(props) {
             <div className="menu-items">
                 <div className="container-index">
                     <div className="dropdown">
-                        <a className="dropbtn">Novo</a>
+                        <div className="dropbtn item">Novo</div>
                         <div className="dropdown-content ">
                             <Link to="/schedule/new">Agendamento</Link>
                             { userAdm && <MenuAdm value="new"></MenuAdm> }
@@ -58,7 +59,7 @@ function Index(props) {
                     </div>
 
                     <div className="dropdown">
-                        <a className="dropbtn">Editar</a>
+                        <div className="dropbtn item">Editar</div>
                         <div className="dropdown-content ">
                             <Link to="/schedule/edit">Agendamento</Link>
                             { userAdm && <MenuAdm value="edit"></MenuAdm> }
@@ -66,7 +67,7 @@ function Index(props) {
                     </div>
 
                     <div className="dropdown">
-                        <a className="dropbtn">Excluir</a>
+                        <div className="dropbtn item">Excluir</div>
                         <div className="dropdown-content ">
                             <Link to="/schedule/delete">Agendamento</Link>
                             { userAdm && <MenuAdm value="delete"></MenuAdm> }
@@ -74,22 +75,25 @@ function Index(props) {
                     </div>
 
                     <div className="dropdown">
-                        <a className="dropbtn">Visualizar</a>
+                        <div className="dropbtn item">Visualizar</div>
                         <div className="dropdown-content">
                             <Link to="/schedule/view">Agendamento</Link>
                             { userAdm && <MenuAdm value="view"></MenuAdm> }
                         </div>
                     </div>
-                    <div className="dropdown">
-                        <a className="dropbtn">Ações</a>
-                        <div className="dropdown-content ">
-                            { userAdm && <Link to="/reports">Gráficos</Link> }
+                    {
+                        userAdm &&
+                        <div className="dropdown">
+                            <div className="dropbtn item">Ações</div>
+                            <div className="dropdown-content ">
+                                { userAdm && <Link to="/reports">Gráficos</Link> }
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>		
 	        </div>
         </div>
     );
 }
 
-export default withRouter(Index);
+export default memo(withRouter(Index));
