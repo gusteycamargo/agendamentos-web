@@ -8,24 +8,22 @@ import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import FormEquipament from '../../../components/Form Equipament';
+import { useSelector } from 'react-redux';
+import isAdm from '../../../utils/isAdm';
 
-function NewEquipament(props) {
-
-    useEffect(() => {
-        async function verify() {
-            const response = await api.get("/userLogged");
-            if(response.data.user.function !== 'adm') {
-                props.history.push("/schedule/new");
-            }
-            else{
-                return true;
-            }
-        }
-        setShow(verify());
-    }, []);
-
+function NewEquipament({ history }) {
     const [show, setShow] = useState(false);
     const MySwal = withReactContent(Swal);
+    const userLogged = useSelector(state => state.user);
+
+    useEffect(() => {        
+        if(isAdm(userLogged)) {
+            setShow(true);
+        }
+        else {
+            history.push("/schedule/new");
+        }
+    }, [history, userLogged]);
     
     async function save(id, data) {
         await api.post("/equipaments", data)

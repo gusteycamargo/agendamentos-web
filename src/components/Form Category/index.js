@@ -19,7 +19,7 @@ function FormCategory({ onSubmit, category }) {
         if(category !== ''){
             setDescription(category.description);
         }
-    }, [])
+    }, [category])
 
     async function save(e) {
         e.preventDefault();

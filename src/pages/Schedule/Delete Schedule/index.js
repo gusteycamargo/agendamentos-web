@@ -17,8 +17,6 @@ import { Combobox } from 'react-widgets'
 import 'react-widgets/dist/css/react-widgets.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
-import Spinner from 'react-activity/lib/Spinner';
-import 'react-activity/lib/Spinner/Spinner.css';
 
 function EditSchedule(props) {
     const MySwal = withReactContent(Swal);
@@ -146,109 +144,97 @@ function EditSchedule(props) {
         });     
     }
       
-    return (
-        <div>
-            {                 
-                <>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        {
-                            <>
-                            <div className="filtrar">
-                                <p className="m-0">Filtrar</p>
-                                <div className="filtro">
-                                    <div className="w-date">
-                                        <DayPickerInput
-                                            onDayChange={setDate}
-                                            className="date-input tam"
-                                            formatDate={formatDate}
-                                            format={FORMATVIEW}
-                                            parseDate={parseDate}
-                                            value={date}
-                                        />
-                                    </div>
-                                    
-                                    <Combobox 
-                                        textField='period' 
-                                        data={periods} 
-                                        onChange={setPeriod}
-                                        value={period}
-                                        placeholder="Turno" 
-                                        className="tam mr" 
-                                    />
-                                    
-                                    <button onClick={filter} className="btFiltrar">
-                                        Filtrar
-                                    </button>
-                                </div>
-                            </div>
-
-                            <table className="table table-bordered table-hover mt-3">
-                                <thead className="thead-dark">
-                                    <tr>
-                                        <th scope="col">Data</th>
-                                        <th scope="col">Início</th>
-                                        <th scope="col">Término</th>
-                                        <th scope="col">Solicitante</th>
-                                        <th scope="col">Cadastrador</th>
-                                        <th scope="col">Sala</th>
-                                        <th scope="col">Equipamentos</th>
-                                        <th scope="col">Ano</th>
-                                        <th scope="col">Curso</th>
-                                        <th scope="col">Observações</th>
-                                        <th scope="col">Ações</th>
-                                    </tr>
-                                </thead>
-                                {
-                                    (isLoading) ? 
-                                    (
-                                        <tbody>
-                                            <tr className="loading">
-                                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
-                                            </tr>
-                                        </tbody>
-                                    ) : 
-                                    (
-                                        <tbody>
-                                            {schedules.map(schedule => (
-                                                <tr key={schedule.id}>
-                                                    <td>{returnDateFormatted(schedule.date)}</td>
-                                                    <td>{schedule.initial}</td>
-                                                    <td>{schedule.final}</td>
-                                                    <td>{schedule.requesting_user.fullname}</td>
-                                                    <td>{schedule.registration_user.fullname}</td>
-                                                    <td>{schedule.place.name}</td>
-                                                    <td className="d-flex flex-column">
-                                                        {schedule.equipaments.map(equipament => (
-                                                            <p>{equipament.name}</p>
-                                                            
-                                                        ))
-                                                        }
-                                                    </td>
-                                                    <td>{schedule.category.description}</td>
-                                                    <td>{schedule.course.name}</td>
-                                                    <td>{schedule.comments}</td>
-                                                    <td>
-                                                        <button onClick={() => confirmDelete(schedule)} className="btn btn-danger btnColor">
-                                                            Excluir
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))} 
-                                        
-                                        </tbody>
-                                    )
-                                }
-                            </table>
-                            </>
-                        }
-                        
+    return (                
+        <>
+            <Index></Index>
+            <div className="d-flex align-items-center justify-content-center mt-2">
+                {(isLoading) &&
+                    <div className="loading">
+                        <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
                     </div>
+                }
+                <div className="container-index">
+                    {
+                        <>
+                        <div className="filtrar">
+                            <p className="m-0">Filtrar</p>
+                            <div className="filtro">
+                                <div className="w-date">
+                                    <DayPickerInput
+                                        onDayChange={setDate}
+                                        className="date-input tam"
+                                        formatDate={formatDate}
+                                        format={FORMATVIEW}
+                                        parseDate={parseDate}
+                                        value={date}
+                                    />
+                                </div>
+                                
+                                <Combobox 
+                                    textField='period' 
+                                    data={periods} 
+                                    onChange={setPeriod}
+                                    value={period}
+                                    placeholder="Turno" 
+                                    className="tam mr" 
+                                />
+                                
+                                <button onClick={filter} className="btFiltrar">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+
+                        <table className="table table-bordered table-hover mt-3">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Início</th>
+                                    <th scope="col">Término</th>
+                                    <th scope="col">Solicitante</th>
+                                    <th scope="col">Cadastrador</th>
+                                    <th scope="col">Sala</th>
+                                    <th scope="col">Equipamentos</th>
+                                    <th scope="col">Ano</th>
+                                    <th scope="col">Curso</th>
+                                    <th scope="col">Observações</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    {schedules.map(schedule => (
+                                        <tr key={schedule.id}>
+                                            <td>{returnDateFormatted(schedule.date)}</td>
+                                            <td>{schedule.initial}</td>
+                                            <td>{schedule.final}</td>
+                                            <td>{schedule.requesting_user.fullname}</td>
+                                            <td>{schedule.registration_user.fullname}</td>
+                                            <td>{schedule.place.name}</td>
+                                            <td className="d-flex flex-column">
+                                                {schedule.equipaments.map(equipament => (
+                                                    <p key={equipament.id}>{equipament.name}</p>
+                                                    
+                                                ))
+                                                }
+                                            </td>
+                                            <td>{schedule.category.description}</td>
+                                            <td>{schedule.course.name}</td>
+                                            <td>{schedule.comments}</td>
+                                            <td>
+                                                <button onClick={() => confirmDelete(schedule)} className="btn btn-danger btnColor">
+                                                    Excluir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))} 
+                                </tbody>
+                            </table>
+                        </>
+                    }
+                    
                 </div>
-                </>
-            }
-        </div>
+            </div>
+        </>
     );
 }
 

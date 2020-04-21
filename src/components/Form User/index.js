@@ -40,7 +40,7 @@ function FormUser({ onSubmit, user }) {
             setCampus(user.campus);
             setFuncUser(user.function);
         }
-    }, [])
+    }, [user])
 
     function defineFunctions(){
         setFunc([{ func: "adm"}, { func: "user"}]);

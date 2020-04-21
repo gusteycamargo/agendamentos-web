@@ -23,7 +23,7 @@ function FormEquipament({ onSubmit, equipament }) {
             setBrand(equipament.brand);
             setEquityNumber(equipament.equityNumber);
         }
-    }, [])
+    }, [equipament])
 
     async function save(e) {
         e.preventDefault();

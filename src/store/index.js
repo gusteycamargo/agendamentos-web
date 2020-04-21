@@ -18,10 +18,10 @@ function userLogged(state = INITIAL_STATE, action) {
 
     switch (action.type) {
         case 'ADD_USER_LOGGED':            
-            ciphertext = CryptoJS.AES.encrypt(JSON.stringify(action.user), '~insira a chave aqui~').toString();
+            ciphertext = CryptoJS.AES.encrypt(JSON.stringify(action.user), 'biscoitinho#1usuario!parana').toString();
             return { ...state, user: ciphertext };
         case 'ADD_CAMPUS':
-            ciphertext = CryptoJS.AES.encrypt(JSON.stringify(action.campus), '~insira a chave aqui~').toString();
+            ciphertext = CryptoJS.AES.encrypt(JSON.stringify(action.campus), 'cookie@!4$campus*parana').toString();
             return { ...state, campus: ciphertext };
         default:
             return state;

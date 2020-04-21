@@ -21,7 +21,7 @@ function FormPlace({ onSubmit, place }) {
             setName(place.name);
             setCapacity(place.capacity);
         }
-    }, [])
+    }, [place])
 
     async function save(e) {
         e.preventDefault();

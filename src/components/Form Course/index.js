@@ -19,7 +19,7 @@ function FormCourse({ onSubmit, course }) {
         if(course !== ''){
             setName(course.name);
         }
-    }, [])
+    }, [course])
 
     async function save(e) {
         e.preventDefault();

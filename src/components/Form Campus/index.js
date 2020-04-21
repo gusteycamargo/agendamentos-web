@@ -20,7 +20,7 @@ function FormCampus({ onSubmit, campus }) {
             setCity(campus.city);
             setAdress(campus.adress);
         }
-    }, [])
+    }, [campus])
 
     async function save(e) {
         e.preventDefault();

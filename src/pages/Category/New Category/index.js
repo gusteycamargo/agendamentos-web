@@ -4,27 +4,26 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Index from "../../../components/Index";
 import api from '../../../services/api';
+import isAdm from '../../../utils/isAdm';
 import './index.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import FormCategory from '../../../components/Form Category';
+import { useSelector } from 'react-redux';
 
-function NewCategory(props) {
-    useEffect(() => {
-        async function verify() {
-            const response = await api.get("/userLogged");
-            if(response.data.user.function !== 'adm') {
-                props.history.push("/schedule/new");
-            }
-            else{
-                return true;
-            }
-        }
-        setShow(verify());
-    }, [])
+function NewCategory({ history }) {
     const [show, setShow] = useState(false);
-
     const MySwal = withReactContent(Swal);
+    const userLogged = useSelector(state => state.user);
+
+    useEffect(() => {        
+        if(isAdm(userLogged)) {
+            setShow(true);
+        }
+        else {
+            history.push("/schedule/new");
+        }
+    }, [history, userLogged]);
 
     async function save(id, data) {
         await api.post("/categories", data)

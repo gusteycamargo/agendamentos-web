@@ -1,16 +1,15 @@
 import React, { useEffect, useState, memo } from "react";
 import { Link, withRouter } from "react-router-dom";
-import api from '../../services/api'
 import { logout } from "../../services/auth";
 import Logo from "../../assets/logo.png";
 import MenuAdm from '../MenuAdm';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CryptoJS from 'crypto-js';
 import './index.css';
 
 function Index(props) {
     const [userAdm, setUserAdm] = useState(false);
-
+    
     const bytesUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.user), '~insira a chave aqui~');
     const userLogged = JSON.parse(bytesUserLogged.toString(CryptoJS.enc.Utf8));
 
@@ -25,7 +24,7 @@ function Index(props) {
         }
 
         isAdm();
-    }, []);
+    }, [userLogged]);
 
     async function handleLogout(e) {
         e.preventDefault();
