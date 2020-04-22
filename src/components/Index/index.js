@@ -10,10 +10,10 @@ import './index.css';
 function Index(props) {
     const [userAdm, setUserAdm] = useState(false);
     
-    const bytesUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.user), '~insira a chave aqui~');
+    const bytesUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.user), 'biscoitinho#1usuario!parana');
     const userLogged = JSON.parse(bytesUserLogged.toString(CryptoJS.enc.Utf8));
 
-    const bytesCampusUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.campus), '~insira a chave aqui~');
+    const bytesCampusUserLogged = CryptoJS.AES.decrypt(useSelector(state => state.campus), 'cookie@!4$campus*parana');
     const campusUserLogged = JSON.parse(bytesCampusUserLogged.toString(CryptoJS.enc.Utf8));
 
     useEffect(() => {     
