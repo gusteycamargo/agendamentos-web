@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 // import 'react-activity/lib/Spinner/Spinner.css';
 // import 'react-widgets/dist/css/react-widgets.css';
 // import './index.css';
-import React, { useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import Index from "../../../components/Index";
 import api from '../../../services/api';

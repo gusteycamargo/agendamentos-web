@@ -7,18 +7,17 @@ import api from '../../../services/api';
 import 'react-widgets/dist/css/react-widgets.css';
 import { Combobox } from 'react-widgets'
 import './index.css';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import dateFnsFormat from 'date-fns/format';
 import { parseDate } from '../../../utils/parseDate';
 import { formatDate } from '../../../utils/formatDate';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import withReactContent from 'sweetalert2-react-content';
-
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 
-function ViewUser(props) {
+function ViewSchedule(props) {
     const MySwal = withReactContent(Swal);
     const FORMAT = 'yyyy-MM-dd';
     const FORMATVIEW = 'dd/MM/yyyy';
@@ -43,7 +42,6 @@ function ViewUser(props) {
             })
             .catch(function (error) {
                 console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
             setIsLoading(false);
         }
@@ -93,104 +91,101 @@ function ViewUser(props) {
         <div>
             {      
                 <>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        <div className="filtrar">
-                            <p className="m-0">Filtrar</p>
-                            <div className="filtro">
-                                <div className="w-date">
-                                    <DayPickerInput
-                                        onDayChange={setDate}
-                                        className="date-input tam"
-                                        formatDate={formatDate}
-                                        format={FORMATVIEW}
-                                        parseDate={parseDate}
-                                        value={date}
-                                    />
-                                </div>
-                                
-                                <Combobox 
-                                    textField='period' 
-                                    data={periods} 
-                                    onChange={setPeriod}
-                                    value={period}
-                                    placeholder="Turno" 
-                                    className="tam mr" 
-                                />
-                                
-                                <button onClick={filter} className="btFiltrar">
-                                    Filtrar
-                                </button>
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        {(isLoading) &&
+                            <div className="loading">
+                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
                             </div>
-                        </div>
+                        }
+                        <div className="container-index">
+                            <div className="filtrar">
+                                <p className="m-0">Filtrar</p>
+                                <div className="filtro">
+                                    <div className="w-date">
+                                        <DayPickerInput
+                                            onDayChange={setDate}
+                                            className="date-input tam"
+                                            formatDate={formatDate}
+                                            format={FORMATVIEW}
+                                            parseDate={parseDate}
+                                            value={date}
+                                        />
+                                    </div>
+                                    
+                                    <Combobox 
+                                        textField='period' 
+                                        data={periods} 
+                                        onChange={setPeriod}
+                                        value={period}
+                                        placeholder="Turno" 
+                                        className="tam mr" 
+                                    />
+                                    
+                                    <button onClick={filter} className="btFiltrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>
 
-                        <table className="table table-bordered table-hover mt-3">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Início</th>
-                                    <th scope="col">Término</th>
-                                    <th scope="col">Solicitante</th>
-                                    <th scope="col">Cadastrador</th>
-                                    <th scope="col">Sala</th>
-                                    <th scope="col">Equipamentos</th>
-                                    <th scope="col">Ano</th>
-                                    <th scope="col">Curso</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Observações</th>
-                                </tr>
-                            </thead>
-                            {(isLoading) ? 
-                                (
-                                    <tbody>
-                                        <tr className="loading">
-                                            <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                            <table className="table table-bordered table-hover mt-3">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Início</th>
+                                        <th scope="col">Término</th>
+                                        <th scope="col">Solicitante</th>
+                                        <th scope="col">Cadastrador</th>
+                                        <th scope="col">Sala</th>
+                                        <th scope="col">Equipamentos</th>
+                                        <th scope="col">Ano</th>
+                                        <th scope="col">Curso</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Observações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {schedules.map(schedule => (
+                                        <tr key={schedule.id}>
+                                            <td>{returnDateFormatted(schedule.date)}</td>
+                                            <td>{schedule.initial}</td>
+                                            <td>{schedule.final}</td>
+                                            <td>{schedule.requesting_user.fullname}</td>
+                                            <td>{schedule.registration_user.fullname}</td>
+                                            <td>{schedule.place.name}</td>
+                                            <td className="d-flex flex-column">
+                                                {schedule.equipaments.map(equipament => (
+                                                    <p key={equipament.id}>{equipament.name}</p>          
+                                                ))
+                                                }
+                                            </td>
+                                            <td>{schedule.category.description}</td>
+                                            <td>{schedule.course.name}</td>
+                                            <td>{
+                                                <p className={
+                                                    (schedule.status === 'Cancelado') ?
+                                                    "red"
+                                                    : 
+                                                    ""
+                                                }>{schedule.status}</p>
+                                                                                        
+                                                }</td>
+                                            <td>{schedule.comments}</td>
                                         </tr>
-                                    </tbody>
-                                ) : 
-                                (
-                                    <tbody>
-                                        {schedules.map(schedule => (
-                                            <tr key={schedule.id}>
-                                                <td>{returnDateFormatted(schedule.date)}</td>
-                                                <td>{schedule.initial}</td>
-                                                <td>{schedule.final}</td>
-                                                <td>{schedule.requesting_user.fullname}</td>
-                                                <td>{schedule.registration_user.fullname}</td>
-                                                <td>{schedule.place.name}</td>
-                                                <td className="d-flex flex-column">
-                                                    {schedule.equipaments.map(equipament => (
-                                                        <p>{equipament.name}</p>
-                                                        
-                                                    ))
-                                                    }
-                                                </td>
-                                                <td>{schedule.category.description}</td>
-                                                <td>{schedule.course.name}</td>
-                                                <td>{
-                                                    <p className={
-                                                        (schedule.status === 'Cancelado') ?
-                                                        "red"
-                                                        : 
-                                                        ""
-                                                    }>{schedule.status}</p>
-                                                                                            
-                                                    }</td>
-                                                <td>{schedule.comments}</td>
-                                            </tr>
-                                        ))} 
-                                        
-                                    </tbody>
-                                )
+                                    ))}                                    
+                                </tbody>
+                            </table>
+                            {(schedules.length <= 0) && 
+                                <div className="zero">
+                                    <p>Nada a ser exibido</p>
+                                </div>
                             }
-                        </table>
+                        </div>
                     </div>
-                </div>
                 </>
             }
         </div>
     );
 }
 
-export default withRouter(ViewUser);
+export default withRouter(ViewSchedule);

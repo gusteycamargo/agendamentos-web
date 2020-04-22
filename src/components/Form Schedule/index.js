@@ -71,7 +71,7 @@ function FormSchedule({ onSubmit, schedule }) {
             setComments(schedule.comments);
         }
 
-    }, []);
+    }, [schedule]);
 
     async function disponibilty() {
         console.log(date);

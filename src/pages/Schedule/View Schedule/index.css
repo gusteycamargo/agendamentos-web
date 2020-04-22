@@ -88,3 +88,13 @@
     width: 100%;
     height: 100%;
 }
+
+.zero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zero p {
+    color: #AAA;
+}

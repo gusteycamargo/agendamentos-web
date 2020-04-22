@@ -4,7 +4,7 @@ import api from '../../services/api'
 import Logo from "../../assets/logo.png";
 import { login } from "../../services/auth";
 import Spinner from 'react-activity/lib/Spinner';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import 'react-activity/lib/Spinner/Spinner.css';
 import '../../styles/global.css'
 import './index.css';
