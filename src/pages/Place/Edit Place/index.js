@@ -11,8 +11,10 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import FormPlace from '../../../components/Form Place';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
+import { useSelector } from 'react-redux';
+import isAdm from '../../../utils/isAdm';
 
-function EditPlace(props) {
+function EditPlace({ history }) {
     const MySwal = withReactContent(Swal);
     
     const [places, setPlaces] = useState([]);
@@ -20,6 +22,16 @@ function EditPlace(props) {
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const userLogged = useSelector(state => state.user);
+
+    useEffect(() => {        
+        if(isAdm(userLogged)) {
+            setShow(true);
+        }
+        else {
+            history.push("/schedule/new");
+        }
+    }, [history, userLogged]);
 
     useEffect(() => {
         async function retrievePlaces() {
@@ -34,24 +46,10 @@ function EditPlace(props) {
             })
             .catch(function (error) {
                 console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
             setIsLoading(false);
         }
 
-        async function verify() {
-            setIsLoading(true);
-            const response = await api.get("/userLogged");
-            setIsLoading(false);
-            if(response.data.user.function !== 'adm') {
-                props.history.push("/schedule/new");
-            }
-            else{
-                return true;
-            }
-        }
-
-        setShow(verify());
         retrievePlaces();
     }, [edit]);
 
@@ -84,11 +82,15 @@ function EditPlace(props) {
                 (show) ?  
                 (
                 <>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        {
-                            (edit) ?
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        {(isLoading) &&
+                            <div className="loading">
+                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                            </div>
+                        }
+                        <div className="container-index">
+                            {(edit) ?
                                 (
                                     <>
                                         <FormPlace onSubmit={editPlaces} place={place}></FormPlace>
@@ -109,37 +111,29 @@ function EditPlace(props) {
                                                 <th scope="col">Ações</th>
                                             </tr>
                                         </thead>
-                                        {(isLoading) ? 
-                                            (
-                                                <tbody>
-                                                    <tr className="loading">
-                                                        <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
-                                                    </tr>
-                                                </tbody>
-                                            ) : 
-                                            (
-                                                <tbody>
-                                                    {places.map(place => (
-                                                        <tr key={place.id}>
-                                                            <td>{place.name}</td>
-                                                            <td>{place.capacity}</td>
-                                                            <td>
-                                                                <button onClick={() => defineEdit(place)} className="btn btn-primary btnColor">
-                                                                    Editar
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))} 
-                                                    
-                                                </tbody>
-                                            )
-                                        }
+                                        <tbody>
+                                            {places.map(place => (
+                                                <tr key={place.id}>
+                                                    <td>{place.name}</td>
+                                                    <td>{place.capacity}</td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(place)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                            
+                                        </tbody>
                                     </table>
-                                )
-                        }
-                        
+                            )} 
+                            {(places.length <= 0) && 
+                                <div className="zero">
+                                    <p>Nada a ser exibido</p>
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
                 </>)
                 :
                 (<Index></Index>)

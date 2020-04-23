@@ -59,8 +59,8 @@ function FormSchedule({ onSubmit, schedule }) {
 
         getUser();
 
-        if(schedule !== ''){            
-            setDate(new Date(schedule.date));
+        if(schedule !== ''){         
+            setDate(new Date(schedule.date));            
             setEquipaments(schedule.equipaments);
             setInitial(schedule.initial);
             setFinal(schedule.final);

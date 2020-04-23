@@ -18,7 +18,7 @@ import 'react-widgets/dist/css/react-widgets.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 
-function EditSchedule(props) {
+function DeleteSchedule(props) {
     const MySwal = withReactContent(Swal);
     const FORMAT = 'yyyy-MM-dd';
     const FORMATVIEW = 'dd/MM/yyyy';
@@ -33,24 +33,10 @@ function EditSchedule(props) {
     useEffect(() => {
         async function retrieveSchedules() {
             setIsLoading(true);
-            let dateFilter, periodFilter;
-            if(date && period) {
-                if(period.period === "Manhã") {
-                    period.period = "Manha";
-                }
-
-                dateFilter = dateFnsFormat(date, FORMAT);
-                periodFilter = period.period;
-            }
-            else {
-                dateFilter = dateFnsFormat(new Date(), FORMAT);
-                periodFilter = '';
-            }
-
             await api.get("/filter", {
                 headers: { 
-                    period: periodFilter,
-                    date_a: dateFilter, 
+                    period: '',
+                    date_a: dateFnsFormat(new Date(), FORMAT), 
                 },
             })
             .then(function (response) {
@@ -62,7 +48,6 @@ function EditSchedule(props) {
             })
             .catch(function (error) {
                 console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
             setIsLoading(false);
         }
@@ -154,88 +139,87 @@ function EditSchedule(props) {
                     </div>
                 }
                 <div className="container-index">
-                    {
-                        <>
-                        <div className="filtrar">
-                            <p className="m-0">Filtrar</p>
-                            <div className="filtro">
-                                <div className="w-date">
-                                    <DayPickerInput
-                                        onDayChange={setDate}
-                                        className="date-input tam"
-                                        formatDate={formatDate}
-                                        format={FORMATVIEW}
-                                        parseDate={parseDate}
-                                        value={date}
-                                    />
-                                </div>
-                                
-                                <Combobox 
-                                    textField='period' 
-                                    data={periods} 
-                                    onChange={setPeriod}
-                                    value={period}
-                                    placeholder="Turno" 
-                                    className="tam mr" 
+                    <div className="filtrar">
+                        <p className="m-0">Filtrar</p>
+                        <div className="filtro">
+                            <div className="w-date">
+                                <DayPickerInput
+                                    onDayChange={setDate}
+                                    className="date-input tam"
+                                    formatDate={formatDate}
+                                    format={FORMATVIEW}
+                                    parseDate={parseDate}
+                                    value={date}
                                 />
-                                
-                                <button onClick={filter} className="btFiltrar">
-                                    Filtrar
-                                </button>
                             </div>
+                            
+                            <Combobox 
+                                textField='period' 
+                                data={periods} 
+                                onChange={setPeriod}
+                                value={period}
+                                placeholder="Turno" 
+                                className="tam mr" 
+                            />
+                            
+                            <button onClick={filter} className="btFiltrar">
+                                Filtrar
+                            </button>
                         </div>
+                    </div>
 
-                        <table className="table table-bordered table-hover mt-3">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Início</th>
-                                    <th scope="col">Término</th>
-                                    <th scope="col">Solicitante</th>
-                                    <th scope="col">Cadastrador</th>
-                                    <th scope="col">Sala</th>
-                                    <th scope="col">Equipamentos</th>
-                                    <th scope="col">Ano</th>
-                                    <th scope="col">Curso</th>
-                                    <th scope="col">Observações</th>
-                                    <th scope="col">Ações</th>
+                    <table className="table table-bordered table-hover mt-3">
+                        <thead className="thead-dark">
+                            <tr>
+                                <th scope="col">Data</th>
+                                <th scope="col">Início</th>
+                                <th scope="col">Término</th>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Cadastrador</th>
+                                <th scope="col">Sala</th>
+                                <th scope="col">Equipamentos</th>
+                                <th scope="col">Ano</th>
+                                <th scope="col">Curso</th>
+                                <th scope="col">Observações</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {schedules.map(schedule => (
+                                <tr key={schedule.id}>
+                                    <td>{returnDateFormatted(schedule.date)}</td>
+                                    <td>{schedule.initial}</td>
+                                    <td>{schedule.final}</td>
+                                    <td>{schedule.requesting_user.fullname}</td>
+                                    <td>{schedule.registration_user.fullname}</td>
+                                    <td>{schedule.place.name}</td>
+                                    <td className="d-flex flex-column">
+                                        {schedule.equipaments.map(equipament => (
+                                            <p key={equipament.id}>{equipament.name}</p>                                          
+                                        ))
+                                        }
+                                    </td>
+                                    <td>{schedule.category.description}</td>
+                                    <td>{schedule.course.name}</td>
+                                    <td>{schedule.comments}</td>
+                                    <td>
+                                        <button onClick={() => confirmDelete(schedule)} className="btn btn-danger btnColor">
+                                            Excluir
+                                        </button>
+                                    </td>
                                 </tr>
-                            </thead>
-                                <tbody>
-                                    {schedules.map(schedule => (
-                                        <tr key={schedule.id}>
-                                            <td>{returnDateFormatted(schedule.date)}</td>
-                                            <td>{schedule.initial}</td>
-                                            <td>{schedule.final}</td>
-                                            <td>{schedule.requesting_user.fullname}</td>
-                                            <td>{schedule.registration_user.fullname}</td>
-                                            <td>{schedule.place.name}</td>
-                                            <td className="d-flex flex-column">
-                                                {schedule.equipaments.map(equipament => (
-                                                    <p key={equipament.id}>{equipament.name}</p>
-                                                    
-                                                ))
-                                                }
-                                            </td>
-                                            <td>{schedule.category.description}</td>
-                                            <td>{schedule.course.name}</td>
-                                            <td>{schedule.comments}</td>
-                                            <td>
-                                                <button onClick={() => confirmDelete(schedule)} className="btn btn-danger btnColor">
-                                                    Excluir
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))} 
-                                </tbody>
-                            </table>
-                        </>
+                            ))} 
+                        </tbody>
+                    </table>
+                    {(schedules.length <= 0) && 
+                        <div className="zero">
+                            <p>Nada a ser exibido</p>
+                        </div>
                     }
-                    
                 </div>
             </div>
         </>
     );
 }
 
-export default withRouter(EditSchedule);
+export default withRouter(DeleteSchedule);

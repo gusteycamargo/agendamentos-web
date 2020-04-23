@@ -35,24 +35,10 @@ function EditSchedule(props) {
     useEffect(() => {
         async function retrieveSchedules() {
             setIsLoading(true);
-            let dateFilter, periodFilter;
-            if(date && period) {
-                if(period.period === "Manhã") {
-                    period.period = "Manha";
-                }
-
-                dateFilter = dateFnsFormat(date, FORMAT);
-                periodFilter = period.period;
-            }
-            else {
-                dateFilter = dateFnsFormat(new Date(), FORMAT);
-                periodFilter = '';
-            }
-
             await api.get("/filter", {
                 headers: { 
-                    period: periodFilter,
-                    date_a: dateFilter, 
+                    period: '',
+                    date_a: dateFnsFormat(new Date(), FORMAT), 
                 },
             })
             .then(function (response) {
@@ -64,7 +50,6 @@ function EditSchedule(props) {
             })
             .catch(function (error) {
                 console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
             setIsLoading(false);
         }
@@ -140,11 +125,15 @@ function EditSchedule(props) {
         <div>
             {                 
                 <>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        {
-                            (edit) ?
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        {(isLoading) &&
+                            <div className="loading">
+                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                            </div>
+                        }
+                        <div className="container-index">
+                            {(edit) ?
                                 (
                                     <>
                                         <FormSchedule onSubmit={editSchedules} schedule={schedule}></FormSchedule>
@@ -158,98 +147,88 @@ function EditSchedule(props) {
                                 : 
                                 (
                                     <>
-                                    <div className="filtrar">
-                                        <p className="m-0">Filtrar</p>
-                                        <div className="filtro">
-                                            <div className="w-date">
-                                                <DayPickerInput
-                                                    onDayChange={setDate}
-                                                    className="date-input tam"
-                                                    formatDate={formatDate}
-                                                    format={FORMATVIEW}
-                                                    parseDate={parseDate}
-                                                    value={date}
-                                                />
-                                            </div>
-                                            
-                                            <Combobox 
-                                                textField='period' 
-                                                data={periods} 
-                                                onChange={setPeriod}
-                                                value={period}
-                                                placeholder="Turno" 
-                                                className="tam mr" 
-                                            />
-                                            
-                                            <button onClick={filter} className="btFiltrar">
-                                                Filtrar
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <table className="table table-bordered table-hover mt-3">
-                                        <thead className="thead-dark">
-                                            <tr>
-                                                <th scope="col">Data</th>
-                                                <th scope="col">Início</th>
-                                                <th scope="col">Término</th>
-                                                <th scope="col">Solicitante</th>
-                                                <th scope="col">Cadastrador</th>
-                                                <th scope="col">Sala</th>
-                                                <th scope="col">Equipamentos</th>
-                                                <th scope="col">Ano</th>
-                                                <th scope="col">Curso</th>
-                                                <th scope="col">Observações</th>
-                                                <th scope="col">Ações</th>
-                                            </tr>
-                                        </thead>
-                                        {
-                                            (isLoading) ? 
-                                            (
-                                                <tbody>
-                                                    <tr className="loading">
-                                                        <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
-                                                    </tr>
-                                                </tbody>
-                                            ) : 
-                                            (
-                                                <tbody>
-                                                    {schedules.map(schedule => (
-                                                        <tr key={schedule.id}>
-                                                            <td>{returnDateFormatted(schedule.date)}</td>
-                                                            <td>{schedule.initial}</td>
-                                                            <td>{schedule.final}</td>
-                                                            <td>{schedule.requesting_user.fullname}</td>
-                                                            <td>{schedule.registration_user.fullname}</td>
-                                                            <td>{schedule.place.name}</td>
-                                                            <td className="d-flex flex-column">
-                                                                {schedule.equipaments.map(equipament => (
-                                                                    <p>{equipament.name}</p>
-                                                                    
-                                                                ))
-                                                                }
-                                                            </td>
-                                                            <td>{schedule.category.description}</td>
-                                                            <td>{schedule.course.name}</td>
-                                                            <td>{schedule.comments}</td>
-                                                            <td>
-                                                                <button onClick={() => defineEdit(schedule)} className="btn btn-primary btnColor">
-                                                                    Editar
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))} 
+                                        <div className="filtrar">
+                                            <p className="m-0">Filtrar</p>
+                                            <div className="filtro">
+                                                <div className="w-date">
+                                                    <DayPickerInput
+                                                        onDayChange={setDate}
+                                                        className="date-input tam"
+                                                        formatDate={formatDate}
+                                                        format={FORMATVIEW}
+                                                        parseDate={parseDate}
+                                                        value={date}
+                                                    />
+                                                </div>
                                                 
-                                                </tbody>
-                                            )
-                                            
+                                                <Combobox 
+                                                    textField='period' 
+                                                    data={periods} 
+                                                    onChange={setPeriod}
+                                                    value={period}
+                                                    placeholder="Turno" 
+                                                    className="tam mr" 
+                                                />
+                                                
+                                                <button onClick={filter} className="btFiltrar">
+                                                    Filtrar
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <table className="table table-bordered table-hover mt-3">
+                                            <thead className="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Data</th>
+                                                    <th scope="col">Início</th>
+                                                    <th scope="col">Término</th>
+                                                    <th scope="col">Solicitante</th>
+                                                    <th scope="col">Cadastrador</th>
+                                                    <th scope="col">Sala</th>
+                                                    <th scope="col">Equipamentos</th>
+                                                    <th scope="col">Ano</th>
+                                                    <th scope="col">Curso</th>
+                                                    <th scope="col">Observações</th>
+                                                    <th scope="col">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {schedules.map(schedule => (
+                                                    <tr key={schedule.id}>
+                                                        <td>{returnDateFormatted(schedule.date)}</td>
+                                                        <td>{schedule.initial}</td>
+                                                        <td>{schedule.final}</td>
+                                                        <td>{schedule.requesting_user.fullname}</td>
+                                                        <td>{schedule.registration_user.fullname}</td>
+                                                        <td>{schedule.place.name}</td>
+                                                        <td className="d-flex flex-column">
+                                                            {schedule.equipaments.map(equipament => (
+                                                                <p key={equipament.id}>{equipament.name}</p>
+                                                                
+                                                            ))
+                                                            }
+                                                        </td>
+                                                        <td>{schedule.category.description}</td>
+                                                        <td>{schedule.course.name}</td>
+                                                        <td>{schedule.comments}</td>
+                                                        <td>
+                                                            <button onClick={() => defineEdit(schedule)} className="btn btn-primary btnColor">
+                                                                Editar
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))} 
+                                            </tbody>
+                                        </table>
+                                        {(schedules.length <= 0) && 
+                                            <div className="zero">
+                                                <p>Nada a ser exibido</p>
+                                            </div>
                                         }
-                                    </table>
                                     </>
-                                )
-                        }
+                            )}
+                        </div>
                     </div>
-                </div>
                 </>
             }
         </div>

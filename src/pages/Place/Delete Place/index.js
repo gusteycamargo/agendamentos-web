@@ -10,14 +10,26 @@ import withReactContent from 'sweetalert2-react-content'
 import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
+import { useSelector } from 'react-redux';
+import isAdm from '../../../utils/isAdm';
 
-function DeletePlace(props) {
+function DeletePlace({ history }) {
     const MySwal = withReactContent(Swal);
     
     const [places, setPlaces] = useState([]);
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const userLogged = useSelector(state => state.user);
+
+    useEffect(() => {        
+        if(isAdm(userLogged)) {
+            setShow(true);
+        }
+        else {
+            history.push("/schedule/new");
+        }
+    }, [history, userLogged]);
 
     useEffect(() => {
         async function retrievePlaces() {
@@ -32,24 +44,10 @@ function DeletePlace(props) {
             })
             .catch(function (error) {
                 console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
             setIsLoading(false);
         }
 
-        async function verify() {
-            setIsLoading(true);
-            const response = await api.get("/userLogged");
-            setIsLoading(false);
-            if(response.data.user.function !== 'adm') {
-                props.history.push("/schedule/new");
-            }
-            else{
-                return true;
-            }
-        }
-
-        setShow(verify());
         retrievePlaces();
     }, [deleted]);
 
@@ -87,14 +85,17 @@ function DeletePlace(props) {
 
     return (
         <div>
-            {    
-                (show) ? 
+            {(show) ? 
                 (  
                 <>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        {
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        {(isLoading) &&
+                            <div className="loading">
+                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                            </div>
+                        }
+                        <div className="container-index">
                             <table className="table table-bordered table-hover">
                                 <thead className="thead-dark">
                                     <tr>
@@ -103,36 +104,22 @@ function DeletePlace(props) {
                                         <th scope="col">Ações</th>
                                     </tr>
                                 </thead>
-                                {(isLoading) ? 
-                                    (
-                                        <tbody>
-                                            <tr className="loading">
-                                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
-                                            </tr>
-                                        </tbody>
-                                    ) : 
-                                    (
-                                        <tbody>
-                                            {places.map(place => (
-                                                <tr key={place.id}>
-                                                    <td>{place.name}</td>
-                                                    <td>{place.capacity}</td>
-                                                    <td>
-                                                        <button onClick={() => confirmDelete(place)} className="btn btn-primary btnColor">
-                                                            Excluir
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))} 
-                                            
-                                        </tbody>
-                                    )
-                                }
+                                <tbody>
+                                    {places.map(place => (
+                                        <tr key={place.id}>
+                                            <td>{place.name}</td>
+                                            <td>{place.capacity}</td>
+                                            <td>
+                                                <button onClick={() => confirmDelete(place)} className="btn btn-primary btnColor">
+                                                    Excluir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}                                    
+                                </tbody>
                             </table>
-                        }
-                        
+                        </div>
                     </div>
-                </div>
                 </>
                 )  : (<Index></Index>)
             }

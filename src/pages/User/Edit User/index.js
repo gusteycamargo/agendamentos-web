@@ -11,8 +11,10 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import FormUser from '../../../components/Form User';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
+import { useSelector } from 'react-redux';
+import isAdm from '../../../utils/isAdm';
 
-function EditUser(props) {
+function EditUser({ history }) {
     const MySwal = withReactContent(Swal);
     
     const [users, setUsers] = useState([]);
@@ -20,6 +22,16 @@ function EditUser(props) {
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const userLogged = useSelector(state => state.user);
+
+    useEffect(() => {        
+        if(isAdm(userLogged)) {
+            setShow(true);
+        }
+        else {
+            history.push("/schedule/new");
+        }
+    }, [history, userLogged]);
 
     useEffect(() => {
         async function retrieveUsers() {
@@ -34,23 +46,10 @@ function EditUser(props) {
             })
             .catch(function (error) {
                 console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
             });
             setIsLoading(false);
         }
 
-        async function verify() {
-            setIsLoading(true);
-            const response = await api.get("/userLogged");
-            setIsLoading(false);
-            if(response.data.user.function !== 'adm') {
-                props.history.push("/schedule/new");
-            }
-            else{
-                return true;
-            }
-        }
-        setShow(verify());
         retrieveUsers();
     }, [edit]);
 
@@ -83,11 +82,15 @@ function EditUser(props) {
             {    
                 (show) ?  
                 (<>
-                <Index></Index>
-                <div className="d-flex align-items-center justify-content-center mt-2">
-                    <div className="container-index">
-                        {
-                            (edit) ?
+                    <Index></Index>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                        {(isLoading) &&
+                            <div className="loading">
+                                <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
+                            </div>
+                        }
+                        <div className="container-index">
+                            {(edit) ?
                                 (
                                     <>
                                         <FormUser onSubmit={editUsers} user={user}></FormUser>
@@ -110,38 +113,30 @@ function EditUser(props) {
                                                 <th scope="col">Ações</th>
                                             </tr>
                                         </thead>
-                                        {(isLoading) ? 
-                                            (
-                                                <tbody>
-                                                    <tr className="loading">
-                                                        <Bounce color="#727981" size={40} speed={1} animating={isLoading} />
-                                                    </tr>
-                                                </tbody>
-                                            ) : 
-                                            (
-                                                <tbody>
-                                                    {users.map(user => (
-                                                        <tr key={user.id}>
-                                                            <td>{user.fullname}</td>
-                                                            <td>{user.username}</td>
-                                                            <td>{user.email}</td>
-                                                            <td>{user.function}</td>
-                                                            <td>
-                                                                <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
-                                                                    Editar
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))} 
-                                                </tbody>
-                                            )
-                                        }
+                                        <tbody>
+                                            {users.map(user => (
+                                                <tr key={user.id}>
+                                                    <td>{user.fullname}</td>
+                                                    <td>{user.username}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.function}</td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                        </tbody>
                                     </table>
-                                )
-                        }
-                        
+                            )} 
+                            {(users.length <= 0) && 
+                                <div className="zero">
+                                    <p>Nada a ser exibido</p>
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
                 </>)
                 :
                 (<Index></Index>)
