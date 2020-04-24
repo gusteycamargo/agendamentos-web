@@ -59,8 +59,11 @@ function FormSchedule({ onSubmit, schedule }) {
 
         getUser();
 
-        if(schedule !== ''){         
-            setDate(new Date(schedule.date));            
+        if(schedule !== ''){   
+            const dateSplit = schedule.date.split('T');
+            const parse = dateSplit[0].split('-');
+            
+            setDate(new Date(parse[0], parse[1]-1, parse[2]));            
             setEquipaments(schedule.equipaments);
             setInitial(schedule.initial);
             setFinal(schedule.final);
@@ -70,12 +73,9 @@ function FormSchedule({ onSubmit, schedule }) {
             setRequestingUser(schedule.requesting_user);
             setComments(schedule.comments);
         }
-
     }, [schedule]);
 
-    async function disponibilty() {
-        console.log(date);
-        
+    async function disponibilty() {        
         if(date && initial && final) {
             setIsLoadingVerification(true);
             await api.get("/availability", {
@@ -104,9 +104,7 @@ function FormSchedule({ onSubmit, schedule }) {
                 
                 MySwal.fire('Oops...', error.response.data.error, 'error')
             });
-            setIsLoadingVerification(false);
-
-            
+            setIsLoadingVerification(false);           
         }
         else {
             MySwal.fire('Campos não preenchidos...', 'Preencha todos os campos!', 'error')
@@ -147,7 +145,6 @@ function FormSchedule({ onSubmit, schedule }) {
         else {
             equipamentsSelected.push(equipament.id);
             setEquipamentsView([...equipamentsView, equipament.name]);
-            //equipamentsView.push(equipament.name);
         }
     }
 

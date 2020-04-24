@@ -35,10 +35,24 @@ function EditSchedule(props) {
     useEffect(() => {
         async function retrieveSchedules() {
             setIsLoading(true);
+            let dateFilter, periodFilter;
+            if(date && period) {
+                if(period.period === "Manhã") {
+                    period.period = "Manha";
+                }
+
+                dateFilter = dateFnsFormat(date, FORMAT);
+                periodFilter = period.period;
+            }
+            else {
+                dateFilter = dateFnsFormat(new Date(), FORMAT);
+                periodFilter = '';
+            }
+
             await api.get("/filter", {
                 headers: { 
-                    period: '',
-                    date_a: dateFnsFormat(new Date(), FORMAT), 
+                    period: periodFilter,
+                    date_a: dateFilter, 
                 },
             })
             .then(function (response) {
@@ -56,7 +70,7 @@ function EditSchedule(props) {
 
         retrieveSchedules();
         setPeriods([{ period: "Manhã"}, { period: "Tarde"}, { period: "Noite"}]);
-    }, [edit]);
+    }, [edit, date, period]);
 
     async function filter() {
         if(date && period) {
