@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import api from '../../services/api'
 import Logo from "../../assets/logo.png";
-import { login } from "../../services/auth";
+import { login, isAuthenticated } from "../../services/auth";
 import Spinner from 'react-activity/lib/Spinner';
 import { useDispatch } from 'react-redux';
 import 'react-activity/lib/Spinner/Spinner.css';
 import '../../styles/global.css'
 import './index.css';
 
-function Login(props) {
+function Login({ history }) {
     const [username, setUsername] = useState([]);
     const [password, setPassword] = useState([]);
     const [error, setError] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+
+    useEffect(() => {    
+        if(isAuthenticated()) {
+            history.push("/schedule/new");
+        }
+    }, [history]);
 
     function addUserLoggedAction(user) {
         return { type: 'ADD_USER_LOGGED', user }
@@ -41,7 +47,7 @@ function Login(props) {
                 const responseUser = await api.get('/userLogged');
                 addUserAndCampus(responseUser.data.user, responseUser.data.campus);
 
-                props.history.push("/schedule/new");
+                history.push("/schedule/new");
             } catch (err) {
                 console.log(err);
                 
