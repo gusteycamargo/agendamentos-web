@@ -13,14 +13,16 @@ import { Combobox } from 'react-widgets'
 import { parseDate } from '../../utils/parseDate';
 import { formatDate } from '../../utils/formatDate';
 import { Chart } from "react-google-charts";
-import WindowSizeListener from 'react-window-size-listener'
+import WindowSizeListener from 'react-window-size-listener';
+import { useSelector } from 'react-redux';
+import isAdm from '../../utils/isAdm';
 import 'react-activity/lib/Spinner/Spinner.css';
 import 'react-day-picker/lib/style.css';
 import 'react-widgets/dist/css/react-widgets.css';
 import './index.css';
 
 
-function Reports(props) {
+function Reports({ history }) {
     const MySwal = withReactContent(Swal);
     const FORMAT = 'yyyy-MM-dd';
     const FORMATVIEW = 'dd/MM/yyyy';
@@ -36,9 +38,10 @@ function Reports(props) {
     const [typeChart, setTypeChart] = useState([]);
     const [firstLook, setFirstLook] = useState(true);
     const [filterData, setFilterData] = useState(false);
+    const userLogged = useSelector(state => state.user);
 
     useEffect(() => {
-        async function filter() {
+        async function filter() {            
             await api.get("/reports", {
                 headers: {
                     date_a: dateFnsFormat(datea, FORMAT),
@@ -56,21 +59,12 @@ function Reports(props) {
             });
         }
 
-        async function verify() {
-            const response = await api.get("/userLogged");
-            if(response.data.user.function !== 'adm') {
-                props.history.push("/schedule/new");
-            }
-            else{
-                return true;
-            }
-        }
+        
         
         if(!firstLook) {
             filter();
         }
 
-        setShow(verify());
         setTypes([{ name: "Ano", type_chart: "category"}, 
                   { name: "Curso", type_chart: "course"}, 
                   { name: "Equipamento", type_chart: "equipament"},
@@ -78,6 +72,15 @@ function Reports(props) {
                   { name: "Usuários", type_chart: "requesting_user"}]);
         setFilterData(false);
     }, [filterData]);    
+
+    useEffect(() => {        
+        if(isAdm(userLogged)) {
+            setShow(true);
+        }
+        else {
+            history.push("/schedule/new");
+        }
+    }, [history, userLogged]);
 
     async function onFilter() {
         setIsLoading(true);
@@ -156,7 +159,7 @@ function Reports(props) {
                                         data={dataChart}
                                         options={{
                                             title: 'Utilizações em agendamentos',
-                                            chartArea: { width: '70%' },
+                                            chartArea: { width: '80%' },
                                             hAxis: {
                                                 title: 'Nomes',
                                                 minValue: 0,

@@ -37,6 +37,8 @@
 .row {
     display: flex;
     flex-direction: row;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .column {
