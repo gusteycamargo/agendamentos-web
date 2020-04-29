@@ -26,11 +26,9 @@ function NewSchedule(props) {
     return (
         <div>
             {      
-                <>
                 <div className="container d-flex flex-column align-items-center justify-content-center">
                     <FormSchedule onSubmit={save} schedule={''}></FormSchedule>
                 </div>
-                </>
             }
         </div>
     );

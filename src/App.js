@@ -11,7 +11,6 @@ import usePeristedState from './utils/usePersistedState';
 import Index from './components/Index/';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import { useEffect } from 'react';
 
 function App() {
     const [theme, setTheme] = usePeristedState('theme', light);

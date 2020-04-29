@@ -61,7 +61,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
     <Switch>
       <Route exact path="/" component={Login} />
-      <Route path="/schedule/new" render={NewSchedule} />
+      <PrivateRoute path="/schedule/new" component={NewSchedule} />
       <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />

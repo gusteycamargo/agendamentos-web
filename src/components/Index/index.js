@@ -1,18 +1,12 @@
 import React, { useEffect, useState, memo } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu, Container, ContainerIndex, Header, InfoUser, Image, CampusName, UserFullname, Button, Dropbutton } from './style';
 import { useHistory } from "react-router-dom";
-
 import { logout } from "../../services/auth";
 import Logo from "../../assets/logo.png";
 import MenuAdm from '../MenuAdm';
 import Switch from 'react-switch';
-import { useSelector } from 'react-redux';
 import CryptoJS from 'crypto-js';
-// import { toggleTheme } from '../../utils/changeTheme';
-import light from '../../styles/themes/light';
-import dark from '../../styles/themes/dark'; 
-import usePeristedState from '../../utils/usePersistedState';
 import { ThemeContext } from 'styled-components';
 import './index.css';
 import { useContext } from "react";

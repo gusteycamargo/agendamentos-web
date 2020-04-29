@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import Index from "../../../components/Index";
 import api from '../../../services/api';
 import './index.css';
 import 'react-activity/lib/Spinner/Spinner.css';

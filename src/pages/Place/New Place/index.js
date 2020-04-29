@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import Index from "../../../components/Index";
 import api from '../../../services/api';
 import './index.css';
 import Swal from 'sweetalert2'
@@ -38,16 +37,10 @@ function NewPlace({ history }) {
       
     return (
         <div>
-            {  
-                (show) ?    
-                (<>
-                    <Index></Index>
-                    <div className="container d-flex flex-column align-items-center justify-content-center">
-                        <FormPlace onSubmit={save} place={''}></FormPlace>
-                    </div>
-                </>)
-                :
-                (<Index></Index>)
+            {(show) &&
+                <div className="container d-flex flex-column align-items-center justify-content-center">
+                    <FormPlace onSubmit={save} place={''}></FormPlace>
+                </div>
             }
         </div>
     );

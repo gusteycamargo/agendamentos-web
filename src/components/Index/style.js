@@ -14,6 +14,7 @@ export const Header = styled.div`
     align-items: center;
     display: flex;
     justify-content: center;
+    background-color: ${props => props.theme.colors.primary};
 `;
 
 export const ContainerIndex = styled.div`
