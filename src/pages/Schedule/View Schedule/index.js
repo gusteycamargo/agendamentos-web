@@ -144,20 +144,20 @@ function ViewSchedule(props) {
                             <tbody>
                                 {schedules.map(schedule => (
                                     <tr key={schedule.id}>
-                                        <td>{returnDateFormatted(schedule.date)}</td>
-                                        <td>{schedule.initial}</td>
-                                        <td>{schedule.final}</td>
-                                        <td>{schedule.requesting_user.fullname}</td>
-                                        <td>{schedule.registration_user.fullname}</td>
-                                        <td>{schedule.place.name}</td>
+                                        <td><p>{returnDateFormatted(schedule.date)}</p></td>
+                                        <td><p>{schedule.initial}</p></td>
+                                        <td><p>{schedule.final}</p></td>
+                                        <td><p>{schedule.requesting_user.fullname}</p></td>
+                                        <td><p>{schedule.registration_user.fullname}</p></td>
+                                        <td><p>{schedule.place.name}</p></td>
                                         <td className="d-flex flex-column">
                                             {schedule.equipaments.map(equipament => (
                                                 <p key={equipament.id}>{equipament.name}</p>          
                                             ))
                                             }
                                         </td>
-                                        <td>{schedule.category.description}</td>
-                                        <td>{schedule.course.name}</td>
+                                        <td><p>{schedule.category.description}</p></td>
+                                        <td><p>{schedule.course.name}</p></td>
                                         <td>{
                                             <p className={
                                                 (schedule.status === 'Cancelado') ?
@@ -167,7 +167,7 @@ function ViewSchedule(props) {
                                             }>{schedule.status}</p>
                                                                                     
                                             }</td>
-                                        <td>{schedule.comments}</td>
+                                        <td><p>{schedule.comments}</p></td>
                                     </tr>
                                 ))}                                    
                             </tbody>

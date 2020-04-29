@@ -9,12 +9,11 @@ export const Menu = styled.div`
 
 export const Header = styled.div`
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+
     align-items: center;
     display: flex;
     justify-content: center;
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${props => props.theme.colors.headerBackground};
 `;
 
 export const ContainerIndex = styled.div`
@@ -44,7 +43,6 @@ export const Image = styled.img`
 export const UserFullname = styled.p`
     font-size: 16px;
 	font-weight: bold;
-	color: #000;
 	margin-bottom: 0;
 `;
 

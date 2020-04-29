@@ -15,4 +15,7 @@ export default createGlobalStyle`
     height: 100%;
     width: 100%;
   }
+  p {
+    color: ${props => props.theme.colors.text};
+  }
 `;
