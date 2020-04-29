@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import isAdm from '../../../utils/isAdm';
-import Index from "../../../components/Index";
 import api from '../../../services/api';
 import './index.css';
 import Swal from 'sweetalert2'
@@ -38,17 +37,10 @@ function NewCampus({ history }) {
       
     return (
         <div>
-            {   
-                (show) ? 
-                (   
-                <>
-                <Index></Index>
+            {(show) &&
                 <div className="container d-flex flex-column align-items-center justify-content-center">
                     <FormCampus onSubmit={save} campus={''}></FormCampus>
                 </div>
-                </>
-                )
-                : (<Index></Index>)
             }
         </div>
     );

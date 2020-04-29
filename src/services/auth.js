@@ -19,5 +19,5 @@ export const login = token => {
 };
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem('persist:root')
+  localStorage.removeItem('persist:root');
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdm } from "./services/auth";
 import Login from './pages/Login';
 import NewSchedule from './pages/Schedule/New Schedule';
@@ -59,10 +59,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 const Routes = () => (
-  <BrowserRouter>
     <Switch>
       <Route exact path="/" component={Login} />
-      <PrivateRoute path="/schedule/new" component={NewSchedule} />
+      <Route path="/schedule/new" render={NewSchedule} />
       <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
@@ -93,7 +92,6 @@ const Routes = () => (
       <AdmRoute path="/reports" component={Reports} />
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
-  </BrowserRouter>
 );
 
 export default Routes;

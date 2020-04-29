@@ -10,7 +10,7 @@ const persistConfig = {
 
 const INITIAL_STATE = {
     user: {},
-    campus: {}
+    campus: {},
 };
   
 function userLogged(state = INITIAL_STATE, action) {
@@ -30,6 +30,7 @@ function userLogged(state = INITIAL_STATE, action) {
 
 const persistedReducer = persistReducer(persistConfig, userLogged);
 
-export const store = createStore(persistedReducer)
+export const store = createStore(persistedReducer);
+
 export const persistor = persistStore(store);
 

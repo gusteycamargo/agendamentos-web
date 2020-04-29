@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import Index from "../../../components/Index";
 import api from '../../../services/api';
 import isAdm from '../../../utils/isAdm';
 import './index.css';
@@ -38,14 +37,10 @@ function NewCategory({ history }) {
       
     return (
         <div>
-            {      
-                (show) ?
-                (<>
-                    <Index></Index>
-                    <div className="container d-flex flex-column align-items-center justify-content-center">
-                        <FormCategory onSubmit={save} category={''}></FormCategory>
-                    </div>
-                </>):(<Index></Index>)
+            {(show) &&
+                <div className="container d-flex flex-column align-items-center justify-content-center">
+                    <FormCategory onSubmit={save} category={''}></FormCategory>
+                </div>
             }
         </div>
     );

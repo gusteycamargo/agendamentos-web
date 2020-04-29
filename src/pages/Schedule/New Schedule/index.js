@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 // import './index.css';
 import React from "react";
 import { withRouter } from "react-router-dom";
-import Index from "../../../components/Index";
 import api from '../../../services/api';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -28,7 +27,6 @@ function NewSchedule(props) {
         <div>
             {      
                 <>
-                <Index></Index>
                 <div className="container d-flex flex-column align-items-center justify-content-center">
                     <FormSchedule onSubmit={save} schedule={''}></FormSchedule>
                 </div>
