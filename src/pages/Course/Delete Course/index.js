@@ -102,7 +102,7 @@ function DeleteCourse({ history }) {
                             <tbody>
                                 {courses.map(course => (
                                     <tr key={course.id}>
-                                        <td>{course.name}</td>
+                                        <td><p>{course.name}</p></td>
                                         <td>
                                             <button onClick={() => confirmDelete(course)} className="btn btn-primary btnColor">
                                                 Excluir

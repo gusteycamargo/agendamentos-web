@@ -108,7 +108,7 @@ function EditCategory({ history }) {
                                     <tbody>
                                         {categories.map(category => (
                                             <tr key={category.id}>
-                                                <td>{category.description}</td>
+                                                <td><p>{category.description}</p></td>
                                                 <td>
                                                     <button onClick={() => defineEdit(category)} className="btn btn-primary btnColor">
                                                         Editar

@@ -62,9 +62,9 @@ function ViewCampus({ history }) {
                             <tbody>
                                 {campuses.map(campus => (
                                     <tr key={campus.id}>
-                                        <td>{campus.city}</td>
-                                        <td>{campus.adress}</td>
-                                        <td>{campus.status}</td>
+                                        <td><p>{campus.city}</p></td>
+                                        <td><p>{campus.adress}</p></td>
+                                        <td><p>{campus.status}</p></td>
                                     </tr>
                                 ))} 
                                 

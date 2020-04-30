@@ -104,9 +104,9 @@ function DeleteEquipament({ history }) {
                             <tbody>
                                 {equipaments.map(equipament => (
                                     <tr key={equipament.id}>
-                                        <td>{equipament.name}</td>
-                                        <td>{equipament.brand}</td>
-                                        <td>{equipament.equityNumber}</td>
+                                        <td><p>{equipament.name}</p></td>
+                                        <td><p>{equipament.brand}</p></td>
+                                        <td><p>{equipament.equityNumber}</p></td>
                                         <td>
                                             <button onClick={() => confirmDelete(equipament)} className="btn btn-primary btnColor">
                                                 Excluir

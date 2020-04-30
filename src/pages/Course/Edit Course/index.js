@@ -108,7 +108,7 @@ function EditCourse({ history }) {
                                     <tbody>
                                         {courses.map(course => (
                                             <tr key={course.id}>
-                                                <td>{course.name}</td>
+                                                <td><p>{course.name}</p></td>
                                                 <td>
                                                     <button onClick={() => defineEdit(course)} className="btn btn-primary btnColor">
                                                         Editar

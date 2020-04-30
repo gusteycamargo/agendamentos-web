@@ -60,8 +60,8 @@ function ViewCategory({ history }) {
                             <tbody>
                                 {categories.map(category => (
                                     <tr key={category.id}>
-                                        <td>{category.description}</td>
-                                        <td>{category.status}</td>
+                                        <td><p>{category.description}</p></td>
+                                        <td><p>{category.status}</p></td>
                                     </tr>
                                 ))} 
                                 

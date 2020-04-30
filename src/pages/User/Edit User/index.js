@@ -112,10 +112,10 @@ function EditUser({ history }) {
                                     <tbody>
                                         {users.map(user => (
                                             <tr key={user.id}>
-                                                <td>{user.fullname}</td>
-                                                <td>{user.username}</td>
-                                                <td>{user.email}</td>
-                                                <td>{user.function}</td>
+                                                <td><p>{user.fullname}</p></td>
+                                                <td><p>{user.username}</p></td>
+                                                <td><p>{user.email}</p></td>
+                                                <td><p>{user.function}</p></td>
                                                 <td>
                                                     <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
                                                         Editar

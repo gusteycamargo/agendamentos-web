@@ -103,8 +103,8 @@ function DeletePlace({ history }) {
                             <tbody>
                                 {places.map(place => (
                                     <tr key={place.id}>
-                                        <td>{place.name}</td>
-                                        <td>{place.capacity}</td>
+                                        <td><p>{place.name}</p></td>
+                                        <td><p>{place.capacity}</p></td>
                                         <td>
                                             <button onClick={() => confirmDelete(place)} className="btn btn-primary btnColor">
                                                 Excluir
@@ -114,6 +114,11 @@ function DeletePlace({ history }) {
                                 ))}                                    
                             </tbody>
                         </table>
+                        {(places.length <= 0) && 
+                            <div className="zero">
+                                <p>Nada a ser exibido</p>
+                            </div>
+                        }
                     </div>
                 </div>
             }

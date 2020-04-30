@@ -109,8 +109,8 @@ function EditPlace({ history }) {
                                     <tbody>
                                         {places.map(place => (
                                             <tr key={place.id}>
-                                                <td>{place.name}</td>
-                                                <td>{place.capacity}</td>
+                                                <td><p>{place.name}</p></td>
+                                                <td><p>{place.capacity}</p></td>
                                                 <td>
                                                     <button onClick={() => defineEdit(place)} className="btn btn-primary btnColor">
                                                         Editar

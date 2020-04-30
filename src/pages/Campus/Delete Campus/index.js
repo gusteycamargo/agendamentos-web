@@ -103,8 +103,8 @@ function DeleteCampus({ history }) {
                             <tbody>
                                 {campuses.map(campus => (
                                     <tr key={campus.id}>
-                                        <td>{campus.city}</td>
-                                        <td>{campus.adress}</td>
+                                        <td><p>{campus.city}</p></td>
+                                        <td><p>{campus.adress}</p></td>
                                         <td><button onClick={() => confirmDelete(campus)} className="btn btn-danger btnColor">
                                                 Excluir
                                             </button>

@@ -63,10 +63,10 @@ function ViewEquipament({ history }) {
                             <tbody>
                                 {equipaments.map(equipament => (
                                     <tr key={equipament.id}>
-                                        <td>{equipament.name}</td>
-                                        <td>{equipament.brand}</td>
-                                        <td>{equipament.equityNumber}</td>
-                                        <td>{equipament.status}</td>
+                                        <td><p>{equipament.name}</p></td>
+                                        <td><p>{equipament.brand}</p></td>
+                                        <td><p>{equipament.equityNumber}</p></td>
+                                        <td><p>{equipament.status}</p></td>
                                     </tr>
                                 ))} 
                                 

@@ -62,9 +62,9 @@ function ViewPlace({ history }) {
                             <tbody>
                                 {places.map(place => (
                                     <tr key={place.id}>
-                                        <td>{place.name}</td>
-                                        <td>{place.capacity}</td>
-                                        <td>{place.status}</td>
+                                        <td><p>{place.name}</p></td>
+                                        <td><p>{place.capacity}</p></td>
+                                        <td><p>{place.status}</p></td>
                                     </tr>
                                 ))} 
                                 

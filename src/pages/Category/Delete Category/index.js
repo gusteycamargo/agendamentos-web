@@ -101,7 +101,7 @@ function DeleteCategory({ history }) {
                             <tbody>
                                 {categories.map(category => (
                                     <tr key={category.id}>
-                                        <td>{category.description}</td>
+                                        <td><p>{category.description}</p></td>
                                         <td>
                                             <button onClick={() => confirmDelete(category)} className="btn btn-danger btnColor">
                                                 Excluir

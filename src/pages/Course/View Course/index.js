@@ -61,11 +61,10 @@ function ViewCourse({ history }) {
                             <tbody>
                                 {courses.map(course => (
                                     <tr key={course.id}>
-                                        <td>{course.name}</td>
-                                        <td>{course.status}</td>
+                                        <td><p>{course.name}</p></td>
+                                        <td><p>{course.status}</p></td>
                                     </tr>
-                                ))} 
-                                
+                                ))}                                
                             </tbody>
                         </table>
                         {(courses.length <= 0) && 
