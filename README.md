@@ -1,68 +1,39 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+  <img src="http://paranagua.unespar.edu.br/menu-de-apoio/identidade-visual/UNESPAR_Paranagua.png" />
+</div>
 
-## Available Scripts
+<h3 align="center">
+  Sistema de agendamentos de equipamentos
+</h3>
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## :calendar: Sobre o sistema
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Este sistema tem como objetivo manter os agendamentos realizados pelos funcionários e professores da UNESPAR centralizados e organizados em um único local. 
 
-### `yarn test`
+Para a sua construção foi utilizada a linguagem JavaScript e biblioteca ReactJS. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### :computer: Funcionalidades da aplicação
 
-### `yarn build`
+- **`Cadastrar, editar, remover e listar`**: A aplicação cobre todos esses itens para as seguintes categorias: Agendamentos, ano, camous, curso, equipamentos, sala e usuário.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **`Envio de confirmação por e-mail`**: Quando um agendamento é realizado ou editado, uma confirmação é enviada ao solicitante por e-mail.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- **`Modo escuro`**: O usuário tem a opção de alternar entre o modo normal e o modo escuro.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### :camera: Algumas telas
 
-### `yarn eject`
+Em cada teste, tem uma breve descrição no que sua aplicação deve cumprir para que o teste passe.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<div align="center">
+  <img src="https://imgur.com/bbOrgOz.png" />
+  <img src="https://imgur.com/8u4xE6d.png" />
+  <img src="https://imgur.com/hovpfa6.png" />
+  <img src="https://imgur.com/FsrfkwK.png" />
+  <img src="https://imgur.com/Hs8UeqU.png" />
+</div>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Desenvolvido por Gustavo Camargo
