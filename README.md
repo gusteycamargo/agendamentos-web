@@ -6,8 +6,6 @@
   Sistema de agendamentos de equipamentos
 </h3>
 
-
-
 ## :calendar: Sobre o sistema
 
 Este sistema tem como objetivo manter os agendamentos realizados pelos funcionários e professores da UNESPAR centralizados e organizados em um único local. 
@@ -23,8 +21,6 @@ Para a sua construção foi utilizada a linguagem JavaScript e biblioteca ReactJ
 - **`Modo escuro`**: O usuário tem a opção de alternar entre o modo normal e o modo escuro.
 
 ### :camera: Algumas telas
-
-Em cada teste, tem uma breve descrição no que sua aplicação deve cumprir para que o teste passe.
 
 <div align="center">
   <img src="https://imgur.com/bbOrgOz.png" />
