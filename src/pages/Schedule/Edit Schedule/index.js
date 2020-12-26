@@ -72,33 +72,31 @@ function EditSchedule(props) {
     }, [edit, date, period]);
 
     async function filter() {
-        if(date && period) {
-            setIsLoading(true);
-            if(period.period === "Manhã") {
-                period.period = "Manha";
-            }
-            await api.get("/filter", {
-                headers: { 
-                    period: period.period,
-                    date_a: dateFnsFormat(date, FORMAT), 
-                },
-            })
-            .then(function (response) {
-                const schedulesReceived = response.data.filter((elem) => {
-                    return elem.status === 'Confirmado';
-                });
+        if(!date) { MySwal.fire('Data não preenchida', 'O campo data deve ser preenchido!', 'error'); return }     
+        if(!period) { MySwal.fire('Turno não preenchido', 'O campo turno deve ser preenchido!', 'error'); return }     
 
-                setSchedules(schedulesReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-                MySwal.fire('Oops...', 'Houve um tentar filtrar as informações, tente novamente!', 'error');
+        setIsLoading(true);
+        if(period.period === "Manhã") {
+            period.period = "Manha";
+        }
+        await api.get("/filter", {
+            headers: { 
+                period: period.period,
+                date_a: dateFnsFormat(date, FORMAT), 
+            },
+        })
+        .then(function (response) {
+            const schedulesReceived = response.data.filter((elem) => {
+                return elem.status === 'Confirmado';
             });
-            setIsLoading(false);
-        }
-        else {
-            MySwal.fire('Campos não preenchidos...', 'Preencha todos os campos!', 'error')
-        }
+
+            setSchedules(schedulesReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+            MySwal.fire('Oops...', 'Houve um tentar filtrar as informações, tente novamente!', 'error');
+        });
+        setIsLoading(false);
     }
     
     function returnDateFormatted(date) {
