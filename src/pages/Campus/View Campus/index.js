@@ -14,10 +14,10 @@ function ViewCampus({ history }) {
     const [campuses, setCampuses] = useState([]);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {

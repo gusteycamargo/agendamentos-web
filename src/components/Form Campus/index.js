@@ -16,7 +16,7 @@ function FormCampus({ onSubmit, campus }) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if(campus !== ''){
+        if(campus){
             setCity(campus.city);
             setAdress(campus.adress);
         }
@@ -24,52 +24,51 @@ function FormCampus({ onSubmit, campus }) {
 
     async function save(e) {
         e.preventDefault();
+        if(!city) { MySwal.fire('Cidade não preenchida', 'O campo cidade deve ser preenchido!', 'error'); return }     
+        if(!adress) { MySwal.fire('Endereço não preenchido', 'O campo endereço deve ser preenchido!', 'error'); return }     
 
-        if(city && adress) {
-            setIsLoading(true);
-            await onSubmit(campus.id, {
-                city,
-                adress,
-                status: "Ativo"
-            })
-            setIsLoading(false);
-            setCity('');
-            setAdress('');
-        }
-        else {
-            MySwal.fire('Campos não preenchidos...', 'Preencha todos os campos!', 'error')
-        }
+        setIsLoading(true);
+        await onSubmit(campus.id, {
+            city,
+            adress,
+            status: "Ativo"
+        })
+        setIsLoading(false);
+        clear()
     }
       
+    function clear() {
+        setCity('');
+        setAdress('');
+    }
+
     return (
         <div>
-            {      
-                <form onSubmit={save}>
-                    <div className="d-flex flex-row align-items justify-content-center">
-                        <div className="d-flex flex-column pb-2 pt-5 ">
-                            <input type="text" 
-                                    className="tam form-control" 
-                                    placeholder="Cidade"
-                                    value={city}
-                                    onChange={e => setCity(e.target.value)}
-                            ></input>
-                            <input type="text" 
-                                    className="tam form-control mt-2" 
-                                    placeholder="Endereço"
-                                    value={adress}
-                                    onChange={e => setAdress(e.target.value)}
-                            ></input>
-                            <button 
-                                type="submit"
-                                className="btn btn-primary btnColor tam mt-3"
-                                >
-                                    Salvar
-                                    <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
-                            </button>
-                        </div>
+            <form onSubmit={save}>
+                <div className="d-flex flex-row align-items justify-content-center">
+                    <div className="d-flex flex-column pb-2 pt-5 ">
+                        <input type="text" 
+                                className="tam form-control" 
+                                placeholder="Cidade"
+                                value={city}
+                                onChange={e => setCity(e.target.value)}
+                        ></input>
+                        <input type="text" 
+                                className="tam form-control mt-2" 
+                                placeholder="Endereço"
+                                value={adress}
+                                onChange={e => setAdress(e.target.value)}
+                        ></input>
+                        <button 
+                            type="submit"
+                            className="btn btn-primary btnColor tam mt-3"
+                            >
+                                Salvar
+                                <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
+                        </button>
                     </div>
-                </form>
-            }
+                </div>
+            </form>
         </div>
     );
 }

@@ -19,10 +19,10 @@ function DeleteCampus({ history }) {
     const [deleted, setDeleted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
