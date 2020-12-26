@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, useContext, memo } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Container, ContainerIndex, Header, InfoUser, Image, CampusName, UserFullname, Button, Dropbutton } from './style';
 import { useHistory } from "react-router-dom";
@@ -6,88 +6,47 @@ import { logout } from "../../services/auth";
 import Logo from "../../assets/logo.png";
 import MenuAdm from '../MenuAdm';
 import Switch from 'react-switch';
-import CryptoJS from 'crypto-js';
 import { ThemeContext } from 'styled-components';
 import './index.css';
-import { useContext } from "react";
-import {store} from '../../store'
-import watch from 'redux-watch';
+import { useDispatch, useSelector } from "react-redux";
+import * as UserLoggedActions from '../../store/actions/userLogged';
+import * as CampusActions from '../../store/actions/campus';
 
 function Index({ toggleTheme }) {
     const [userAdm, setUserAdm] = useState(false); 
-    
-    const [userLogged, setUserLogged] = useState([]);
-    const [campusUserLogged, setCampusUserLogged] = useState([]);
+
     const [isLogged, setIsLogged] = useState(false);
-    const [clickLogout, setClickLogout] = useState(false);
-    
+    const userLogged = useSelector(state => state.userLogged.userLogged);
+    const campusUserLogged = useSelector(state => state.campus.campus);
+    const dispatch = useDispatch();
     const { title } = useContext(ThemeContext);
     let history = useHistory();
 
-    let w = watch(store.getState, 'user')
-    store.subscribe(w((newVal, oldVal, objectPath) => {
-        const bytesU = CryptoJS.AES.decrypt(newVal, process.env.REACT_APP_KEY_USER);
-        setUserLogged(JSON.parse(bytesU.toString(CryptoJS.enc.Utf8)));   
-        setIsLogged(true);         
-    }))
-
-    let wa = watch(store.getState, 'campus')
-    store.subscribe(wa((newVal, oldVal, objectPath) => {
-        const bytesC = CryptoJS.AES.decrypt(newVal, process.env.REACT_APP_KEY_CAMPUS);
-        setCampusUserLogged(JSON.parse(bytesC.toString(CryptoJS.enc.Utf8)));
-    }))
+    function setUserAndCampus() {
+        dispatch(CampusActions.setCampus(''));
+        dispatch(UserLoggedActions.setUserLogged(''));
+    }
 
     useEffect(() => {
-        const redux = store.getState();
-        const bytesUserLogged = CryptoJS.AES.decrypt(redux.user, process.env.REACT_APP_KEY_USER);
-        const bytesCampusUserLogged = CryptoJS.AES.decrypt(redux.campus, process.env.REACT_APP_KEY_CAMPUS);
-        
-        try{
-            const verify = JSON.parse(bytesUserLogged.toString(CryptoJS.enc.Utf8));
-            
-            if(typeof verify.id === 'number' && !clickLogout) {
-                setIsLogged(true);                
+        if(userLogged?.id) {
+            setIsLogged(true)
+            if(userLogged.function == 'adm') {
+                setUserAdm(true)
+            }
+            else {
+                setUserAdm(false)
             }
         }
-        catch(error) {
-            console.log(error);
-            
-        } 
-        
-        if(isLogged && !clickLogout) {            
-            try{
-                setUserLogged(JSON.parse(bytesUserLogged.toString(CryptoJS.enc.Utf8)));
-                setCampusUserLogged(JSON.parse(bytesCampusUserLogged.toString(CryptoJS.enc.Utf8)));
-            }
-            catch(error) {
-                console.log(error);
-            }
-        }        
-    }, [isLogged, clickLogout])
+    }, [userLogged])
 
     useEffect(() => {
         localStorage.setItem('index', JSON.stringify(isLogged));        
     }, [isLogged]);
 
-    useEffect(() => {     
-        try {
-            function isAdm() {
-                if(userLogged.function === 'adm') {
-                    setUserAdm(true);
-                }
-            }
-    
-            isAdm();
-        }
-        catch(error) {
-            console.log(error);   
-        }
-    }, [userLogged]);
-
     async function handleLogout(e) {
         e.preventDefault();
+        setUserAndCampus()
         setIsLogged(false);
-        setClickLogout(true);
         
         logout();
         history.push("/");
@@ -96,7 +55,7 @@ function Index({ toggleTheme }) {
     return (
 
         <div>
-            {(isLogged) && 
+            {(isLogged) && ( 
                 <>
                     <Header>
                         <ContainerIndex>
@@ -167,7 +126,7 @@ function Index({ toggleTheme }) {
                         </Container>		
                     </Menu>
                 </>
-            }
+            )}
         </div>
     );
 }

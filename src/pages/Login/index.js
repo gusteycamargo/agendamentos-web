@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import 'react-activity/lib/Spinner/Spinner.css';
 import '../../styles/global.css'
 import './index.css';
+import * as CampusActions from '../../store/actions/campus';
+import * as UserLoggedActions from '../../store/actions/userLogged';
 
 function Login({ history }) {
     const [username, setUsername] = useState([]);
@@ -22,17 +24,9 @@ function Login({ history }) {
         }
     }, [history]);
 
-    function addUserLoggedAction(user) {
-        return { type: 'ADD_USER_LOGGED', user }
-    }
-
-    function addCampusAction(campus) {
-        return { type: 'ADD_CAMPUS', campus }
-    }
-
     function addUserAndCampus(user, campus) {
-      dispatch(addUserLoggedAction(user));
-      dispatch(addCampusAction(campus));
+      dispatch(CampusActions.setCampus(campus));
+      dispatch(UserLoggedActions.setUserLogged(user));
     }
 
     async function handleLogin(e) {
@@ -40,19 +34,24 @@ function Login({ history }) {
         if (!username || !password) {
             setError("Preencha todos os campos para continuar!");
         } else {
-            try {
-                setIsLoading(true);
-                const response = await api.post("/sessions", { username, password });
+            setIsLoading(true);
+            await api.post("/sessions", { username, password })
+            .then(async response => {
                 login(response.data.token);
-                const responseUser = await api.get('/userLogged');
-                addUserAndCampus(responseUser.data.user, responseUser.data.campus);
-
-                history.push("/schedule/new");
-            } catch (err) {
-                console.log(err);
-                
+                await api.get('/userLogged')
+                .then(async responseUser => {
+                    addUserAndCampus(responseUser.data.user, responseUser.data.campus);
+                    history.push("/schedule/new");
+                })
+                .catch(error => {
+                    console.log(error);
+                    setError("Erro na consulta, tente novamente.");
+                })
+            })
+            .catch(error => {
+                console.log(error);
                 setError("Nome de usuário ou senha incorreta.");
-            }
+            })
             setIsLoading(false);
         }
       }
@@ -61,10 +60,8 @@ function Login({ history }) {
         <div className="container-fluid">
             <div className="background-form"> 
                 <form className="form" onSubmit={handleLogin}>
-                    <img className="logo" src={Logo} alt="Airbnb logo" />
+                    <img className="logo" src={Logo} alt="Unespar logo" />
                     {error && <p className="error">{error}</p>}
-
-                    {/* {this.state.error && <p>{this.state.error}</p>} */}
                     <input
                     className="input"
                     type="text"

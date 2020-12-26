@@ -16,6 +16,7 @@ import 'react-day-picker/lib/style.css';
 import 'react-activity/lib/Spinner/Spinner.css';
 import 'react-widgets/dist/css/react-widgets.css';
 import './index.css';
+import { useSelector, useDispatch } from 'react-redux';
 
 function FormSchedule({ onSubmit, schedule }) {
     const FORMAT = 'yyyy-MM-dd';
@@ -43,18 +44,11 @@ function FormSchedule({ onSubmit, schedule }) {
     const [isUser, setIsUser] = useState(true);
     const [isLoadingVerification, setIsLoadingVerification] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [userLogged, setUserLogged] = useState([]);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {
         async function getUser() {
-            const response = await api.get('/userLogged');
-            setUserLogged(response.data.user);
-            if(response.data.user.function === 'user') {
-                setIsUser(true);
-            }
-            else {
-                setIsUser(false);
-            }
+            //console.log(userLogged);
         }
 
         getUser();
