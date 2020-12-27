@@ -11,7 +11,6 @@ import FormCourse from '../../../components/Form Course';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function EditCourse({ history }) {
     const MySwal = withReactContent(Swal);
@@ -21,10 +20,10 @@ function EditCourse({ history }) {
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -33,24 +32,24 @@ function EditCourse({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveCourses() {
-            setIsLoading(true);
-            await api.get("/courses")
-            .then(function (response) {
-                const coursesReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setCourses(coursesReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveCourses();
     }, [edit]);
+
+    async function retrieveCourses() {
+        setIsLoading(true);
+        await api.get("/courses")
+        .then(function (response) {
+            const coursesReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setCourses(coursesReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function editCourses(id, data) {
         setIsLoading(true);

@@ -10,7 +10,6 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function DeleteCourse({ history }) {
     const MySwal = withReactContent(Swal);
@@ -19,10 +18,10 @@ function DeleteCourse({ history }) {
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -31,24 +30,24 @@ function DeleteCourse({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveCourses() {
-            setIsLoading(true);
-            await api.get("/courses")
-            .then(function (response) {
-                const coursesReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setCourses(coursesReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveCourses();
     }, [deleted]);
+
+    async function retrieveCourses() {
+        setIsLoading(true);
+        await api.get("/courses")
+        .then(function (response) {
+            const coursesReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setCourses(coursesReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function deleteCourses(id) {
         setIsLoading(true);

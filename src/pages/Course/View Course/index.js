@@ -8,16 +8,15 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function ViewCourse({ history }) {
     const [show, setShow] = useState(false);
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -26,20 +25,20 @@ function ViewCourse({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveCourses() {
-            setIsLoading(true);
-            await api.get("/courses")
-            .then(function (response) {
-                setCourses(response.data);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveCourses();
     }, []);    
+
+    async function retrieveCourses() {
+        setIsLoading(true);
+        await api.get("/courses")
+        .then(function (response) {
+            setCourses(response.data);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
       
     return (
         <div>

@@ -13,10 +13,10 @@ import FormCourse from '../../../components/Form Course';
 function NewCourse({ history }) {
     const [show, setShow] = useState(false);
     const MySwal = withReactContent(Swal);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
