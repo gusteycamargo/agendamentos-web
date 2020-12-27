@@ -11,7 +11,6 @@ import FormCategory from '../../../components/Form Category';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function EditCategory({ history }) {
     const MySwal = withReactContent(Swal);
@@ -21,10 +20,10 @@ function EditCategory({ history }) {
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -33,24 +32,24 @@ function EditCategory({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveCategories() {
-            setIsLoading(true);
-            await api.get("/categories")
-            .then(function (response) {
-                const categoriesReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setCategories(categoriesReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveCategories();
     }, [edit]);
+
+    async function retrieveCategories() {
+        setIsLoading(true);
+        await api.get("/categories")
+        .then(function (response) {
+            const categoriesReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setCategories(categoriesReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function editCategories(id, data) {
         setIsLoading(true);

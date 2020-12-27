@@ -8,16 +8,15 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function ViewCategory({ history }) {
     const [categories, setCategories] = useState([]);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -25,20 +24,21 @@ function ViewCategory({ history }) {
         }
     }, [history, userLogged]);
 
-    useEffect(() => {
-        async function retrieveCategories() {
-            setIsLoading(true);
-            await api.get("/categories")
-            .then(function (response) {
-                setCategories(response.data);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }        
+    useEffect(() => {       
         retrieveCategories();
     }, []);
+
+    async function retrieveCategories() {
+        setIsLoading(true);
+        await api.get("/categories")
+        .then(function (response) {
+            setCategories(response.data);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    } 
       
     return (
         <div>
