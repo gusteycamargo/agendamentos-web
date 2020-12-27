@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 import api from '../../../services/api';
 import './index.css';
 import Swal from 'sweetalert2'

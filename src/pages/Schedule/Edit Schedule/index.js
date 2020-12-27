@@ -69,7 +69,7 @@ function EditSchedule(props) {
 
         retrieveSchedules();
         setPeriods([{ period: "Manhã"}, { period: "Tarde"}, { period: "Noite"}]);
-    }, [edit, date, period]);
+    }, [edit]);
 
     async function filter() {
         if(!date) { MySwal.fire('Data não preenchida', 'O campo data deve ser preenchido!', 'error'); return }     
@@ -185,50 +185,55 @@ function EditSchedule(props) {
                                         </div>
                                     </div>
 
-                                    <table className="table table-bordered table-hover mt-3">
-                                        <thead className="thead-dark">
-                                            <tr>
-                                                <th scope="col">Data</th>
-                                                <th scope="col">Início</th>
-                                                <th scope="col">Término</th>
-                                                <th scope="col">Solicitante</th>
-                                                <th scope="col">Cadastrador</th>
-                                                <th scope="col">Sala</th>
-                                                <th scope="col">Equipamentos</th>
-                                                <th scope="col">Ano</th>
-                                                <th scope="col">Curso</th>
-                                                <th scope="col">Observações</th>
-                                                <th scope="col">Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {schedules.map(schedule => (
-                                                <tr key={schedule.id}>
-                                                    <td><p>{returnDateFormatted(schedule.date)}</p></td>
-                                                    <td><p>{schedule.initial}</p></td>
-                                                    <td><p>{schedule.final}</p></td>
-                                                    <td><p>{schedule.requesting_user.fullname}</p></td>
-                                                    <td><p>{schedule.registration_user.fullname}</p></td>
-                                                    <td><p>{schedule.place.name}</p></td>
-                                                    <td className="d-flex flex-column">
-                                                        {schedule.equipaments.map(equipament => (
-                                                            <p key={equipament.id}>{equipament.name}</p>
-                                                            
-                                                        ))
-                                                        }
-                                                    </td>
-                                                    <td><p>{schedule.category.description}</p></td>
-                                                    <td><p>{schedule.course.name}</p></td>
-                                                    <td><p>{schedule.comments}</p></td>
-                                                    <td>
-                                                        <button onClick={() => defineEdit(schedule)} className="btn btn-primary btnColor">
-                                                            Editar
-                                                        </button>
-                                                    </td>
+                                    <div style={{ width: '100%', overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap' }}>
+                                        <table className="table table-bordered table-hover mt-3">
+                                            <thead className="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Data | Início e fim</th>
+                                                    <th scope="col">Solicitante</th>
+                                                    <th scope="col">Cadastrador</th>
+                                                    <th scope="col">Sala</th>
+                                                    <th scope="col">Equipamentos</th>
+                                                    <th scope="col">Ano</th>
+                                                    <th scope="col">Curso</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Observações</th>
+                                                    <th scope="col">Ações</th>
                                                 </tr>
-                                            ))} 
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {schedules.map(schedule => (
+                                                    <tr key={schedule.id}>
+                                                        <td>
+                                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                <p>{returnDateFormatted(schedule.date)}</p>
+                                                                <p>{schedule.initial} - {schedule.final}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td><p>{schedule.requesting_user.fullname}</p></td>
+                                                        <td><p>{schedule.registration_user.fullname}</p></td>
+                                                        <td><p>{schedule.place.name}</p></td>
+                                                        <td className={schedule.equipaments.length > 0 ? "d-flex flex-column" : ""}>
+                                                            {schedule.equipaments.map(equipament => (
+                                                                <p key={equipament.id}>{equipament.name}</p>          
+                                                            ))}
+                                                        </td>
+                                                        <td><p>{schedule.category.description}</p></td>
+                                                        <td><p>{schedule.course.name}</p></td>
+                                                        <td><p className={schedule.status === 'Cancelado' ? "red" : ""}>{schedule.status}</p></td>
+                                                        <td><p>{schedule.comments}</p></td>
+                                                        <td>
+                                                            <button onClick={() => defineEdit(schedule)} className="btn btn-primary btnColor">
+                                                                Editar
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}                                    
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
                                     {(schedules.length <= 0) && 
                                         <div className="zero">
                                             <p>Nada a ser exibido</p>
