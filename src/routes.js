@@ -31,6 +31,7 @@ import DeletePlace from "./pages/Place/Delete Place";
 import DeleteUser from "./pages/User/Delete User";
 import DeleteSchedule from "./pages/Schedule/Delete Schedule";
 import Reports from "./pages/Reports";
+import NotFound from "./pages/NotFound";
 
 const AdmRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -90,7 +91,7 @@ const Routes = () => (
       <AdmRoute path="/user/edit" component={EditUser} />
       <AdmRoute path="/user/delete" component={DeleteUser} />
       <AdmRoute path="/reports" component={Reports} />
-      <Route path="*" component={() => <h1>Page not found</h1>} />
+      <Route path="*" component={NotFound} />
     </Switch>
 );
 

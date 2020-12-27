@@ -14,7 +14,6 @@ import { formatDate } from '../../utils/formatDate';
 import { Chart } from "react-google-charts";
 import WindowSizeListener from 'react-window-size-listener';
 import { useSelector } from 'react-redux';
-import isAdm from '../../utils/isAdm';
 import 'react-activity/lib/Spinner/Spinner.css';
 import 'react-day-picker/lib/style.css';
 import 'react-widgets/dist/css/react-widgets.css';
