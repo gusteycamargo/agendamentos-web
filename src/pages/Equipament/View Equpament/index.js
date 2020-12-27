@@ -8,16 +8,15 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function ViewEquipament({ history }) {    
     const [equipaments, setEquipaments] = useState([]);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -26,20 +25,20 @@ function ViewEquipament({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveEquipaments() {
-            setIsLoading(true);
-            await api.get("/equipaments")
-            .then(function (response) {
-                setEquipaments(response.data);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveEquipaments();
     }, []);    
+
+    async function retrieveEquipaments() {
+        setIsLoading(true);
+        await api.get("/equipaments")
+        .then(function (response) {
+            setEquipaments(response.data);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
       
     return (
         <div>

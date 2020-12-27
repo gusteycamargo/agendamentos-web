@@ -10,7 +10,6 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function DeleteEquipament({ history }) {
     const MySwal = withReactContent(Swal);
@@ -19,10 +18,10 @@ function DeleteEquipament({ history }) {
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -31,24 +30,24 @@ function DeleteEquipament({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveEquipaments() {
-            setIsLoading(true);
-            await api.get("/equipaments")
-            .then(function (response) {
-                const equipamentsReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setEquipaments(equipamentsReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveEquipaments();
     }, [deleted]);
+
+    async function retrieveEquipaments() {
+        setIsLoading(true);
+        await api.get("/equipaments")
+        .then(function (response) {
+            const equipamentsReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setEquipaments(equipamentsReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function deleteEquipaments(id) {
         setIsLoading(true);

@@ -11,7 +11,6 @@ import FormEquipament from '../../../components/Form Equipament';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function EditEquipament({ history }) {
     const MySwal = withReactContent(Swal);
@@ -21,10 +20,10 @@ function EditEquipament({ history }) {
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -33,24 +32,24 @@ function EditEquipament({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveEquipaments() {
-            setIsLoading(true);
-            await api.get("/equipaments")
-            .then(function (response) {
-                const equipamentsReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setEquipaments(equipamentsReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveEquipaments();
     }, [edit]);
+
+    async function retrieveEquipaments() {
+        setIsLoading(true);
+        await api.get("/equipaments")
+        .then(function (response) {
+            const equipamentsReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setEquipaments(equipamentsReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function editEquipaments(id, data) {
         setIsLoading(true);
