@@ -37,7 +37,7 @@ function Reports({ history }) {
     const [typeChart, setTypeChart] = useState([]);
     const [firstLook, setFirstLook] = useState(true);
     const [filterData, setFilterData] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {
         async function filter() {            
@@ -73,7 +73,7 @@ function Reports({ history }) {
     }, [filterData]);    
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
