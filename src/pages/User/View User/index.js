@@ -8,16 +8,15 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function ViewUser({ history }) {
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [users, setUsers] = useState([]);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -26,21 +25,20 @@ function ViewUser({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveUsers() {
-            setIsLoading(true);
-            await api.get("/users")
-            .then(function (response) {
-                setUsers(response.data);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveUsers();
     }, [])
     
+    async function retrieveUsers() {
+        setIsLoading(true);
+        await api.get("/users")
+        .then(function (response) {
+            setUsers(response.data);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
       
     return (
         <div>

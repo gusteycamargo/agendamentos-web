@@ -10,7 +10,6 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function DeleteUser({ history }) {
     const MySwal = withReactContent(Swal);
@@ -19,10 +18,10 @@ function DeleteUser({ history }) {
     const [deleted, setDeleted] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -31,24 +30,24 @@ function DeleteUser({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveUsers() {
-            setIsLoading(true);
-            await api.get("/users")
-            .then(function (response) {
-                const usersReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setUsers(usersReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveUsers();
     }, [deleted]);
+
+    async function retrieveUsers() {
+        setIsLoading(true);
+        await api.get("/users")
+        .then(function (response) {
+            const usersReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setUsers(usersReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function deleteUsers(id) {
         setIsLoading(true);

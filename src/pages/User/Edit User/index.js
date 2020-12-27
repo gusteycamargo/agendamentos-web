@@ -11,7 +11,6 @@ import FormUser from '../../../components/Form User';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function EditUser({ history }) {
     const MySwal = withReactContent(Swal);
@@ -21,10 +20,10 @@ function EditUser({ history }) {
     const [edit, setEdit] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
@@ -33,24 +32,24 @@ function EditUser({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        async function retrieveUsers() {
-            setIsLoading(true);
-            await api.get("/users")
-            .then(function (response) {
-                const usersReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
-                });
-
-                setUsers(usersReceived);
-            })
-            .catch(function (error) {
-                console.log(error)
-            });
-            setIsLoading(false);
-        }
-
         retrieveUsers();
     }, [edit]);
+
+    async function retrieveUsers() {
+        setIsLoading(true);
+        await api.get("/users")
+        .then(function (response) {
+            const usersReceived = response.data.filter((elem) => {
+                return elem.status === 'Ativo';
+            });
+
+            setUsers(usersReceived);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+        setIsLoading(false);
+    }
 
     async function editUsers(id, data) {
         setIsLoading(true);
@@ -74,7 +73,6 @@ function EditUser({ history }) {
     function returnToTable() {
         setEdit(false);
     }
-    
       
     return (
         <div>

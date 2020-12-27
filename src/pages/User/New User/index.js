@@ -8,15 +8,14 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import FormUser from '../../../components/Form User';
 import { useSelector } from 'react-redux';
-import isAdm from '../../../utils/isAdm';
 
 function NewCategory({ history }) {
     const [show, setShow] = useState(false);
     const MySwal = withReactContent(Swal);
-    const userLogged = useSelector(state => state.user);
+    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(isAdm(userLogged)) {
+        if(userLogged.function == 'adm') {
             setShow(true);
         }
         else {
