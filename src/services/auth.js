@@ -1,23 +1,56 @@
 import api from './api';
 
 export const TOKEN_KEY = "@agendamentos-Token";
-export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
+
+export function isAuthenticated() {
+  return new Promise((resolve, reject) => {
+    api.get('/userLogged')
+    .then(response => {
+      if(response.data.user.id) {
+        resolve()
+      }
+      else {
+        reject()
+      }
+    })
+    .catch(error => {
+      reject()
+    })
+  })
+}
+
+//export const isAuthenticated = () => isLogged() !== false;
 
 
 export async function isAdm () {
-  const response = await api.get("/userLogged");
-  if(response.data.user.function === 'adm') {
-    return true;
-  }
-
-  return false;
+  return new Promise((resolve, reject) => {
+    api.get('/userLogged')
+    .then(response => {
+      if(response.data.user.function === 'adm') {
+        resolve()
+      }
+      else {
+        reject()
+      }
+    })
+    .catch(error => {
+      reject()
+    })
+  })
 } 
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const login = token => {
   localStorage.setItem(TOKEN_KEY, token);
 };
-export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem('persist:root');
-};
+
+export function logout() {
+  return new Promise((resolve, reject) => {
+    api.get('/logout')
+    .then(() => {
+      localStorage.removeItem('persist:root');
+      resolve()
+    })
+    .catch(reject)
+  })
+}

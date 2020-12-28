@@ -28,6 +28,7 @@ function Index({ toggleTheme }) {
     }
 
     useEffect(() => {
+        console.log(userLogged);
         if(userLogged?.id) {
             setIsLogged(true)
             if(userLogged.function == 'adm') {
@@ -48,8 +49,9 @@ function Index({ toggleTheme }) {
         setUserAndCampus()
         setIsLogged(false);
         
-        logout();
-        history.push("/");
+        await logout()
+        .then(() => history.push("/"))
+        .catch(() => handleLogout(e))        
     }
 
     return (

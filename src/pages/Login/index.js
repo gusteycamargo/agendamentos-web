@@ -19,10 +19,14 @@ function Login({ history }) {
     const dispatch = useDispatch();
 
     useEffect(() => {    
-        if(isAuthenticated()) {
-            history.push("/schedule/new");
-        }
+        isLogged()
     }, [history]);
+
+    async function isLogged() {
+        await isAuthenticated()
+        .then(() => history.push("/schedule/new"))
+        .catch((error) => console.log(error))
+    }
 
     function addUserAndCampus(user, campus) {
       dispatch(CampusActions.setCampus(campus));
@@ -37,7 +41,7 @@ function Login({ history }) {
             setIsLoading(true);
             await api.post("/sessions", { username, password })
             .then(async response => {
-                login(response.data.token);
+                //login(response.data.token);
                 await api.get('/userLogged')
                 .then(async responseUser => {
                     addUserAndCampus(responseUser.data.user, responseUser.data.campus);
