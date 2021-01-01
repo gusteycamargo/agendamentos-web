@@ -10,6 +10,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function DeleteEquipament({ history }) {
     const MySwal = withReactContent(Swal);
@@ -91,30 +92,32 @@ function DeleteEquipament({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Marca</th>
-                                    <th scope="col">Número de patrimônio</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {equipaments.map(equipament => (
-                                    <tr key={equipament.id}>
-                                        <td><p>{equipament.name}</p></td>
-                                        <td><p>{equipament.brand}</p></td>
-                                        <td><p>{equipament.equityNumber}</p></td>
-                                        <td>
-                                            <button onClick={() => confirmDelete(equipament)} className="btn btn-primary btnColor">
-                                                Excluir
-                                            </button>
-                                        </td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Número de patrimônio</th>
+                                        <th scope="col">Ações</th>
                                     </tr>
-                                ))}    
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {equipaments.map(equipament => (
+                                        <tr key={equipament.id}>
+                                            <td><p>{equipament.name}</p></td>
+                                            <td><p>{equipament.brand}</p></td>
+                                            <td><p>{equipament.equityNumber}</p></td>
+                                            <td>
+                                                <button onClick={() => confirmDelete(equipament)} className="btn btn-primary btnColor">
+                                                    Excluir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}    
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(equipaments.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
