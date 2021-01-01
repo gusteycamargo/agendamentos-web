@@ -15,6 +15,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
+import TabWidth from '../../../components/TabWidth';
 
 function ViewSchedule(props) {
     const MySwal = withReactContent(Swal);
@@ -122,7 +123,7 @@ function ViewSchedule(props) {
                         </div>
                     </div>
 
-                    <div style={{ width: '100%', overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap' }}>
+                    <TabWidth>
                         <table className="table table-bordered table-hover mt-3">
                             <thead className="thead-dark">
                                 <tr>
@@ -162,7 +163,7 @@ function ViewSchedule(props) {
                                 ))}                                    
                             </tbody>
                         </table>
-                    </div>
+                    </TabWidth>
                     {(schedules.length <= 0) && 
                         <div className="zero">
                             <p>Nada a ser exibido</p>

@@ -8,6 +8,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function ViewUser({ history }) {
     const [show, setShow] = useState(false);
@@ -50,28 +51,30 @@ function ViewUser({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover"> 
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Nome completo</th>
-                                    <th scope="col">Nome de usuário</th>
-                                    <th scope="col">E-mail</th>
-                                    <th scope="col">Função</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map(user => (
-                                    <tr key={user.id}>
-                                        <td><p>{user.fullname}</p></td>
-                                        <td><p>{user.username}</p></td>
-                                        <td><p>{user.email}</p></td>
-                                        <td><p>{user.function}</p></td>
-                                        <td><p>{user.status}</p></td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover"> 
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nome completo</th>
+                                        <th scope="col">Nome de usuário</th>
+                                        <th scope="col">E-mail</th>
+                                        <th scope="col">Função</th>
+                                        <th scope="col">Status</th>
                                     </tr>
-                                ))}                                            
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {users.map(user => (
+                                        <tr key={user.id}>
+                                            <td><p>{user.fullname}</p></td>
+                                            <td><p>{user.username}</p></td>
+                                            <td><p>{user.email}</p></td>
+                                            <td><p>{user.function}</p></td>
+                                            <td><p>{user.status}</p></td>
+                                        </tr>
+                                    ))}                                            
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(users.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
