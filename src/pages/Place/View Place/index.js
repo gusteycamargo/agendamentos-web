@@ -8,6 +8,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function ViewPlace({ history }) {    
     const [places, setPlaces] = useState([]);
@@ -50,25 +51,27 @@ function ViewPlace({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Capacidade</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {places.map(place => (
-                                    <tr key={place.id}>
-                                        <td><p>{place.name}</p></td>
-                                        <td><p>{place.capacity}</p></td>
-                                        <td><p>{place.status}</p></td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Capacidade</th>
+                                        <th scope="col">Status</th>
                                     </tr>
-                                ))} 
-                                
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {places.map(place => (
+                                        <tr key={place.id}>
+                                            <td><p>{place.name}</p></td>
+                                            <td><p>{place.capacity}</p></td>
+                                            <td><p>{place.status}</p></td>
+                                        </tr>
+                                    ))} 
+                                    
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(places.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
