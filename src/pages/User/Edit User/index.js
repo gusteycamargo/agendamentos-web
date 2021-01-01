@@ -11,6 +11,7 @@ import FormUser from '../../../components/Form User';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function EditUser({ history }) {
     const MySwal = withReactContent(Swal);
@@ -97,32 +98,34 @@ function EditUser({ history }) {
                             ) 
                             : 
                             (
-                                <table className="table table-bordered table-hover">
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th scope="col">Nome completo</th>
-                                            <th scope="col">Nome de usuário</th>
-                                            <th scope="col">E-mail</th>
-                                            <th scope="col">Função</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {users.map(user => (
-                                            <tr key={user.id}>
-                                                <td><p>{user.fullname}</p></td>
-                                                <td><p>{user.username}</p></td>
-                                                <td><p>{user.email}</p></td>
-                                                <td><p>{user.function}</p></td>
-                                                <td>
-                                                    <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
-                                                        Editar
-                                                    </button>
-                                                </td>
+                                <TabWidth>
+                                    <table className="table table-bordered table-hover">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Nome completo</th>
+                                                <th scope="col">Nome de usuário</th>
+                                                <th scope="col">E-mail</th>
+                                                <th scope="col">Função</th>
+                                                <th scope="col">Ações</th>
                                             </tr>
-                                        ))} 
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {users.map(user => (
+                                                <tr key={user.id}>
+                                                    <td><p>{user.fullname}</p></td>
+                                                    <td><p>{user.username}</p></td>
+                                                    <td><p>{user.email}</p></td>
+                                                    <td><p>{user.function}</p></td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(user)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                        </tbody>
+                                    </table>
+                                </TabWidth>
                         )} 
                         {(users.length <= 0) && 
                             <div className="zero">

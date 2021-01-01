@@ -10,6 +10,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function DeleteUser({ history }) {
     const MySwal = withReactContent(Swal);
@@ -91,32 +92,34 @@ function DeleteUser({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Nome completo</th>
-                                    <th scope="col">Nome de usuário</th>
-                                    <th scope="col">E-mail</th>
-                                    <th scope="col">Função</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map(user => (
-                                    <tr key={user.id}>
-                                        <td><p>{user.fullname}</p></td>
-                                        <td><p>{user.username}</p></td>
-                                        <td><p>{user.email}</p></td>
-                                        <td><p>{user.function}</p></td>
-                                        <td>
-                                            <button onClick={() => confirmDelete(user)} className="btn btn-danger btnColor">
-                                                Excluir
-                                            </button>
-                                        </td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nome completo</th>
+                                        <th scope="col">Nome de usuário</th>
+                                        <th scope="col">E-mail</th>
+                                        <th scope="col">Função</th>
+                                        <th scope="col">Ações</th>
                                     </tr>
-                                ))} 
-                            </tbody>
-                        </table>   
+                                </thead>
+                                <tbody>
+                                    {users.map(user => (
+                                        <tr key={user.id}>
+                                            <td><p>{user.fullname}</p></td>
+                                            <td><p>{user.username}</p></td>
+                                            <td><p>{user.email}</p></td>
+                                            <td><p>{user.function}</p></td>
+                                            <td>
+                                                <button onClick={() => confirmDelete(user)} className="btn btn-danger btnColor">
+                                                    Excluir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))} 
+                                </tbody>
+                            </table>   
+                        </TabWidth>
                         {(users.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
