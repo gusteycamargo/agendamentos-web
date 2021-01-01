@@ -10,6 +10,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function DeleteCampus({ history }) {
     const MySwal = withReactContent(Swal);
@@ -91,28 +92,30 @@ function DeleteCampus({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Cidade</th>
-                                    <th scope="col">Endereço</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {campuses.map(campus => (
-                                    <tr key={campus.id}>
-                                        <td><p>{campus.city}</p></td>
-                                        <td><p>{campus.adress}</p></td>
-                                        <td><button onClick={() => confirmDelete(campus)} className="btn btn-danger btnColor">
-                                                Excluir
-                                            </button>
-                                        </td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Cidade</th>
+                                        <th scope="col">Endereço</th>
+                                        <th scope="col">Ações</th>
                                     </tr>
-                                ))} 
-                                
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {campuses.map(campus => (
+                                        <tr key={campus.id}>
+                                            <td><p>{campus.city}</p></td>
+                                            <td><p>{campus.adress}</p></td>
+                                            <td><button onClick={() => confirmDelete(campus)} className="btn btn-danger btnColor">
+                                                    Excluir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))} 
+                                    
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(campuses.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
