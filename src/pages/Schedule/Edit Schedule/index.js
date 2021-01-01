@@ -17,6 +17,7 @@ import { Combobox } from 'react-widgets'
 import 'react-widgets/dist/css/react-widgets.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
+import TabWidth from '../../../components/TabWidth';
 
 function EditSchedule(props) {
     const MySwal = withReactContent(Swal);
@@ -185,7 +186,7 @@ function EditSchedule(props) {
                                         </div>
                                     </div>
 
-                                    <div style={{ width: '100%', overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap' }}>
+                                    <TabWidth>
                                         <table className="table table-bordered table-hover mt-3">
                                             <thead className="thead-dark">
                                                 <tr>
@@ -231,7 +232,7 @@ function EditSchedule(props) {
                                                 ))}                                    
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </TabWidth>
 
 
                                     {(schedules.length <= 0) && 
