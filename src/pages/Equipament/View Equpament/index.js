@@ -8,6 +8,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function ViewEquipament({ history }) {    
     const [equipaments, setEquipaments] = useState([]);
@@ -50,27 +51,29 @@ function ViewEquipament({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Marca</th>
-                                    <th scope="col">Número de patrimônio</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {equipaments.map(equipament => (
-                                    <tr key={equipament.id}>
-                                        <td><p>{equipament.name}</p></td>
-                                        <td><p>{equipament.brand}</p></td>
-                                        <td><p>{equipament.equityNumber}</p></td>
-                                        <td><p>{equipament.status}</p></td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Número de patrimônio</th>
+                                        <th scope="col">Status</th>
                                     </tr>
-                                ))} 
-                                
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {equipaments.map(equipament => (
+                                        <tr key={equipament.id}>
+                                            <td><p>{equipament.name}</p></td>
+                                            <td><p>{equipament.brand}</p></td>
+                                            <td><p>{equipament.equityNumber}</p></td>
+                                            <td><p>{equipament.status}</p></td>
+                                        </tr>
+                                    ))} 
+                                    
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(equipaments.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
