@@ -8,6 +8,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function ViewCategory({ history }) {
     const [categories, setCategories] = useState([]);
@@ -50,23 +51,25 @@ function ViewCategory({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Descrição</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {categories.map(category => (
-                                    <tr key={category.id}>
-                                        <td><p>{category.description}</p></td>
-                                        <td><p>{category.status}</p></td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Status</th>
                                     </tr>
-                                ))} 
-                                
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {categories.map(category => (
+                                        <tr key={category.id}>
+                                            <td><p>{category.description}</p></td>
+                                            <td><p>{category.status}</p></td>
+                                        </tr>
+                                    ))} 
+                                    
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(categories.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
