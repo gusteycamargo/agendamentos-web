@@ -11,6 +11,7 @@ import FormCourse from '../../../components/Form Course';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function EditCourse({ history }) {
     const MySwal = withReactContent(Swal);
@@ -97,26 +98,28 @@ function EditCourse({ history }) {
                             ) 
                             : 
                             (
-                                <table className="table table-bordered table-hover">
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {courses.map(course => (
-                                            <tr key={course.id}>
-                                                <td><p>{course.name}</p></td>
-                                                <td>
-                                                    <button onClick={() => defineEdit(course)} className="btn btn-primary btnColor">
-                                                        Editar
-                                                    </button>
-                                                </td>
+                                <TabWidth>
+                                    <table className="table table-bordered table-hover">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Ações</th>
                                             </tr>
-                                        ))}                                                       
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {courses.map(course => (
+                                                <tr key={course.id}>
+                                                    <td><p>{course.name}</p></td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(course)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}                                                       
+                                        </tbody>
+                                    </table>
+                                </TabWidth>
                         )}
                         {(courses.length <= 0) && 
                             <div className="zero">
