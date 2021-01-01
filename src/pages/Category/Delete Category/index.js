@@ -10,6 +10,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function DeleteCategory({ history }) {
     const MySwal = withReactContent(Swal);
@@ -90,26 +91,28 @@ function DeleteCategory({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Descrição</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {categories.map(category => (
-                                    <tr key={category.id}>
-                                        <td><p>{category.description}</p></td>
-                                        <td>
-                                            <button onClick={() => confirmDelete(category)} className="btn btn-danger btnColor">
-                                                Excluir
-                                            </button>
-                                        </td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Ações</th>
                                     </tr>
-                                ))}                                        
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {categories.map(category => (
+                                        <tr key={category.id}>
+                                            <td><p>{category.description}</p></td>
+                                            <td>
+                                                <button onClick={() => confirmDelete(category)} className="btn btn-danger btnColor">
+                                                    Excluir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}                                        
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(categories.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>

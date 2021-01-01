@@ -11,6 +11,7 @@ import FormCategory from '../../../components/Form Category';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function EditCategory({ history }) {
     const MySwal = withReactContent(Swal);
@@ -97,27 +98,29 @@ function EditCategory({ history }) {
                             ) 
                             : 
                             (
-                                <table className="table table-bordered table-hover">
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th scope="col">Descrição</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {categories.map(category => (
-                                            <tr key={category.id}>
-                                                <td><p>{category.description}</p></td>
-                                                <td>
-                                                    <button onClick={() => defineEdit(category)} className="btn btn-primary btnColor">
-                                                        Editar
-                                                    </button>
-                                                </td>
+                                <TabWidth>
+                                    <table className="table table-bordered table-hover">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Descrição</th>
+                                                <th scope="col">Ações</th>
                                             </tr>
-                                        ))} 
-                                        
-                                    </tbody>
-                                </table> 
+                                        </thead>
+                                        <tbody>
+                                            {categories.map(category => (
+                                                <tr key={category.id}>
+                                                    <td><p>{category.description}</p></td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(category)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                            
+                                        </tbody>
+                                    </table> 
+                                </TabWidth>
                             )}
                             {(categories.length <= 0) && 
                                 <div className="zero">
