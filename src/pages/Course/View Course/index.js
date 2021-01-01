@@ -8,6 +8,7 @@ import 'react-activity/lib/Spinner/Spinner.css';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function ViewCourse({ history }) {
     const [show, setShow] = useState(false);
@@ -50,22 +51,24 @@ function ViewCourse({ history }) {
                         </div>
                     }
                     <div className="container-index">
-                        <table className="table table-bordered table-hover">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>               
-                            <tbody>
-                                {courses.map(course => (
-                                    <tr key={course.id}>
-                                        <td><p>{course.name}</p></td>
-                                        <td><p>{course.status}</p></td>
+                        <TabWidth>
+                            <table className="table table-bordered table-hover">
+                                <thead className="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Status</th>
                                     </tr>
-                                ))}                                
-                            </tbody>
-                        </table>
+                                </thead>               
+                                <tbody>
+                                    {courses.map(course => (
+                                        <tr key={course.id}>
+                                            <td><p>{course.name}</p></td>
+                                            <td><p>{course.status}</p></td>
+                                        </tr>
+                                    ))}                                
+                                </tbody>
+                            </table>
+                        </TabWidth>
                         {(courses.length <= 0) && 
                             <div className="zero">
                                 <p>Nada a ser exibido</p>
