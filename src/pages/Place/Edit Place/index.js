@@ -11,6 +11,7 @@ import FormPlace from '../../../components/Form Place';
 import Bounce from 'react-activity/lib/Bounce';
 import 'react-activity/lib/Bounce/Bounce.css';
 import { useSelector } from 'react-redux';
+import TabWidth from '../../../components/TabWidth';
 
 function EditPlace({ history }) {
     const MySwal = withReactContent(Swal);
@@ -97,29 +98,31 @@ function EditPlace({ history }) {
                             ) 
                             : 
                             (
-                                <table className="table table-bordered table-hover">
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">Capacidade</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {places.map(place => (
-                                            <tr key={place.id}>
-                                                <td><p>{place.name}</p></td>
-                                                <td><p>{place.capacity}</p></td>
-                                                <td>
-                                                    <button onClick={() => defineEdit(place)} className="btn btn-primary btnColor">
-                                                        Editar
-                                                    </button>
-                                                </td>
+                                <TabWidth>
+                                    <table className="table table-bordered table-hover">
+                                        <thead className="thead-dark">
+                                            <tr>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Capacidade</th>
+                                                <th scope="col">Ações</th>
                                             </tr>
-                                        ))} 
-                                        
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {places.map(place => (
+                                                <tr key={place.id}>
+                                                    <td><p>{place.name}</p></td>
+                                                    <td><p>{place.capacity}</p></td>
+                                                    <td>
+                                                        <button onClick={() => defineEdit(place)} className="btn btn-primary btnColor">
+                                                            Editar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))} 
+                                            
+                                        </tbody>
+                                    </table>
+                                </TabWidth>
                         )} 
                         {(places.length <= 0) && 
                             <div className="zero">
