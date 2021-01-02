@@ -41,7 +41,7 @@
     margin-right: 0;
 }
 
-.column {
+.clmRep {
     display: flex;
     flex-direction: column;
     height: 34px;
@@ -63,4 +63,10 @@
 
 .mt-5 {
     margin-top: 5px;
+}
+
+@media screen and (max-width: 565px) { 
+    .clmRep {
+        width: 100%;
+    }
 }

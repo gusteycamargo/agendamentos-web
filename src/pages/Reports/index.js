@@ -93,10 +93,11 @@ function Reports({ history }) {
                     <div className="container-index mb-3 ">
 
                         <div className="row flex-wrap">   
-                            <div className="column mt-1">
+                            <div className="clmRep mt-1 mr-2">
                                 <DayPickerInput
+                                    style={{ width: '100%' }}
                                     onDayChange={setDatea}
-                                    className="date-input tam"
+                                    className="date-input tamView"
                                     formatDate={formatDate}
                                     format={FORMATVIEW}
                                     parseDate={parseDate}
@@ -105,10 +106,11 @@ function Reports({ history }) {
                                 />
                             </div>                         
                             
-                            <div className="column mt-1 ml-2 mr-2">
+                            <div className="clmRep mt-1 mr-2">
                                 <DayPickerInput
+                                    style={{ width: '100%' }}
                                     onDayChange={setDateb}
-                                    className="date-input tam"
+                                    className="date-input tamView"
                                     formatDate={formatDate}
                                     format={FORMATVIEW}
                                     parseDate={parseDate}
@@ -117,23 +119,21 @@ function Reports({ history }) {
                                 />
                             </div>
                             
-                            <div className="column mt-1">
+                            <div className="clmRep mt-1 mr-2">
                                 <Combobox 
                                     textField='name' 
                                     data={types} 
                                     onChange={setTypeChart}
                                     value={typeChart}
                                     placeholder="Tipo" 
-                                    className="tam" 
+                                    className="tamView" 
                                 />
                             </div>
                             
-                            <div className="column ml-2 mt-1">
-                                <button onClick={onFilter} className="btFiltrar bt-height">
-                                    Filtrar
-                                    <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
-                                </button>
-                            </div>
+                            <button onClick={onFilter} className="btFiltrar bt-height mt-1">
+                                Filtrar
+                                <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
+                            </button>
                             
                         </div>
 
