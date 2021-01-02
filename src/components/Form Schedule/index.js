@@ -43,6 +43,7 @@ function FormSchedule({ onSubmit, schedule }) {
     const [disabledFixed, setDisabledFixed] = useState(true);
     const [isLoadingVerification, setIsLoadingVerification] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [changeOrder, setChangeOrder] = useState(false);
     const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {
@@ -205,11 +206,115 @@ function FormSchedule({ onSubmit, schedule }) {
         setCategory('');
         setEquipamentsSelected([]);
     }
+
+    function showMenu(x) {
+        if (x.matches) { // If media query matches
+            if(!changeOrder) {
+                setChangeOrder(true)
+            }
+        }
+        else {
+            if(changeOrder) {
+                setChangeOrder(false)
+            }
+        }
+    }
+    
+    const x = window.matchMedia("(max-width: 565px)")
+    showMenu(x) // Call listener function at run time
+    x.addListener(showMenu) // Attach listener function on state changes
+
+    function renderFinalPart() {
+        return(
+            <>
+                <div className={`${changeOrder ? '' : 'pt-5'} d-flex flex-column pb-2 `}>
+                    <div className="col-sm col-pd pb-2">
+                        <Combobox 
+                            disabled={disabledFixed} 
+                            textField='description' 
+                            data={categories} 
+                            onChange={setCategory}
+                            value={category}
+                            placeholder="Ano" 
+                            className="tam" 
+                        />
+                    </div>
+                    <div className="col-sm col-pd pb-2">
+                        <Combobox 
+                            disabled={disabledFixed} 
+                            onChange={setRequestingUser}
+                            value={requestingUser}
+                            placeholder="Solicitante" 
+                            className="tam" 
+                            textField='fullname' 
+                            data={users}     
+                        />
+                    </div>
+                    <div className="col-sm col-pd pb-2">
+                        <Combobox 
+                            disabled={disabledFixed} 
+                            onChange={setCourse}
+                            value={course}
+                            textField='name' 
+                            data={courses} 
+                            placeholder="Curso" 
+                            className="tam" 
+                        />
+                    </div>
+                    <div className="col-sm col-pd pb-2">
+                        <Combobox 
+                            textField='name' 
+                            data={equipaments} 
+                            disabled={disabledFixed} 
+                            onChange={setEquipament}
+                            value={equipament}
+                            placeholder="Equipamento" 
+                            className="tam" 
+                        />
+                    </div>
+                    <div className="col-sm col-pd pb-3">
+                        <textarea 
+                            disabled={true} 
+                            className="tam form-control disabled"  
+                            placeholder="Seus equipamentos selecionados aparecerão aqui" 
+                            rows="2"
+                            value={equipamentsView.toString()}></textarea>
+                    </div>
+                    <div className="col-sm col-pd pb-2">
+                        <button 
+                            disabled={disabledFixed} 
+                            onClick={save} 
+                            className="btn btn-primary btnColor tam"
+                            >
+                                Salvar
+                                <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
+                        </button>
+                    </div>
+                </div>
+
+                <div className={`${changeOrder ? '' : 'pt-5'} d-flex flex-column pb-2`}>
+                    <div className="col-right pb-1">
+                    </div>
+                    <div className="col-right pb-1">
+                    </div>
+                    <div className="col-right pb-1">
+                    </div>
+                    <div className="col-right pb-1">
+                        <button disabled={disabledFixed} type="button" onClick={selectEquipament} className="btn btn-primary btnColor btn-sel">Sel. equi.</button>
+                    </div>
+                    <div className="col-sm pb-2 col-pd ">
+                    </div>
+                    <div className="col-sm pb-2 col-pd ">
+                    </div>
+                </div>
+            </>
+        )
+    }
       
     return (
         <div>    
             <form onSubmit={save}>
-                <div className="d-flex flex-row align-items justify-content-center">
+                <div className={`${changeOrder ? 'flex-column' : 'flex-row'} d-flex align-items justify-content-center`}>
                     <div className="d-flex flex-column pb-2 pt-5 ">
                             <div className="col-sm col-pd pb-2">
                                 <DayPickerInput
@@ -251,7 +356,7 @@ function FormSchedule({ onSubmit, schedule }) {
                                     className="tam" 
                                 />
                             </div>
-                            <div className="col-sm col-pd pb-3">
+                            <div className={`${changeOrder && !disabledFixed ? '' : 'pb-3'} col-sm col-pd`}>
                                 <textarea 
                                     disabled={disabledFixed} 
                                     className="tam form-control" 
@@ -262,97 +367,26 @@ function FormSchedule({ onSubmit, schedule }) {
                                 ></textarea>
                             </div>
                             <div className="col-sm col-pd pb-2">
-                                <button 
-                                    type="button"
-                                    onClick={disponibilty} 
-                                    className="btn btn-primary btnColor tam"
+                                {((changeOrder && disabledFixed) || (!changeOrder)) && (
+                                    <button 
+                                        type="button"
+                                        onClick={disponibilty} 
+                                        className="btn btn-primary btnColor tam"
                                     >
                                         Ver. disponibilidade
                                         <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoadingVerification} />
                                     </button>
+                                )}
                             </div>
                         </div>
 
-                        <div className="d-flex flex-column pb-2 pt-5 ">
-                            <div className="col-sm col-pd pb-2">
-                                <Combobox 
-                                    disabled={disabledFixed} 
-                                    textField='description' 
-                                    data={categories} 
-                                    onChange={setCategory}
-                                    value={category}
-                                    placeholder="Ano" 
-                                    className="tam" 
-                                />
+                        {changeOrder ? (
+                            <div className="d-flex flex-row">
+                                {renderFinalPart()}
                             </div>
-                            <div className="col-sm col-pd pb-2">
-                                <Combobox 
-                                    disabled={disabledFixed} 
-                                    onChange={setRequestingUser}
-                                    value={requestingUser}
-                                    placeholder="Solicitante" 
-                                    className="tam" 
-                                    textField='fullname' 
-                                    data={users}     
-                                />
-                            </div>
-                            <div className="col-sm col-pd pb-2">
-                                <Combobox 
-                                    disabled={disabledFixed} 
-                                    onChange={setCourse}
-                                    value={course}
-                                    textField='name' 
-                                    data={courses} 
-                                    placeholder="Curso" 
-                                    className="tam" 
-                                />
-                            </div>
-                            <div className="col-sm col-pd pb-2">
-                                <Combobox 
-                                    textField='name' 
-                                    data={equipaments} 
-                                    disabled={disabledFixed} 
-                                    onChange={setEquipament}
-                                    value={equipament}
-                                    placeholder="Equipamento" 
-                                    className="tam" 
-                                />
-                            </div>
-                            <div className="col-sm col-pd pb-3">
-                                <textarea 
-                                    disabled={true} 
-                                    className="tam form-control disabled"  
-                                    placeholder="Seus equipamentos selecionados aparecerão aqui" 
-                                    rows="2"
-                                    value={equipamentsView.toString()}></textarea>
-                            </div>
-                            <div className="col-sm col-pd pb-2">
-                                <button 
-                                    disabled={disabledFixed} 
-                                    onClick={save} 
-                                    className="btn btn-primary btnColor tam"
-                                    >
-                                        Salvar
-                                        <Spinner className="ml-2" color="#727981" size={16} speed={0.5} animating={isLoading} />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="d-flex flex-column pb-2 pt-5 ">
-                            <div className="col-right pb-1">
-                            </div>
-                            <div className="col-right pb-1">
-                            </div>
-                            <div className="col-right pb-1">
-                            </div>
-                            <div className="col-right pb-1">
-                                <button disabled={disabledFixed} type="button" onClick={selectEquipament} className="btn btn-primary btnColor btn-sel">Sel. equi.</button>
-                            </div>
-                            <div className="col-sm pb-2 col-pd ">
-                            </div>
-                            <div className="col-sm pb-2 col-pd ">
-                            </div>
-                        </div>
+                        ) : (
+                            <>{renderFinalPart()}</>
+                        )}
                 </div>
             </form>
         </div>
