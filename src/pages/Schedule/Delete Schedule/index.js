@@ -154,8 +154,9 @@ function DeleteSchedule(props) {
                     <div className="filtro">
                         <div className="w-date">
                             <DayPickerInput
+                                style={{ width: '100%' }}
                                 onDayChange={setDate}
-                                className="date-input tam"
+                                className="date-input tamView"
                                 formatDate={formatDate}
                                 format={FORMATVIEW}
                                 parseDate={parseDate}
@@ -169,7 +170,7 @@ function DeleteSchedule(props) {
                             onChange={setPeriod}
                             value={period}
                             placeholder="Turno" 
-                            className="tam mr" 
+                            className="tamView mr" 
                         />
                         
                         <button onClick={filter} className="btFiltrar">
