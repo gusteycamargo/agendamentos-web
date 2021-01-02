@@ -11,6 +11,7 @@ import './index.css';
 import { useDispatch, useSelector } from "react-redux";
 import * as UserLoggedActions from '../../store/actions/userLogged';
 import * as CampusActions from '../../store/actions/campus';
+import api from "../../services/api";
 
 function Index({ toggleTheme }) {
     const [userAdm, setUserAdm] = useState(false); 
@@ -28,17 +29,26 @@ function Index({ toggleTheme }) {
     }
 
     useEffect(() => {
-        console.log(userLogged);
-        if(userLogged?.id) {
-            setIsLogged(true)
-            if(userLogged.function == 'adm') {
-                setUserAdm(true)
-            }
-            else {
-                setUserAdm(false)
-            }
-        }
+        verifyIfIsLogged()
     }, [userLogged])
+
+    async function verifyIfIsLogged() {
+        await api.get('/userLogged')
+        .then(response => {
+            if(userLogged?.id) {
+                setIsLogged(true)
+                if(userLogged.function == 'adm') {
+                    setUserAdm(true)
+                }
+                else {
+                    setUserAdm(false)
+                }
+            }
+        })
+        .catch(error => {
+            logout()
+        })
+    }
 
     useEffect(() => {
         localStorage.setItem('index', JSON.stringify(isLogged));        
