@@ -17,8 +17,10 @@ function Index({ toggleTheme }) {
     const [userAdm, setUserAdm] = useState(false); 
 
     const [isLogged, setIsLogged] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false)
     const userLogged = useSelector(state => state.userLogged.userLogged);
     const campusUserLogged = useSelector(state => state.campus.campus);
+    const [hambMenu, setHambMenu] = useState(false)
     const dispatch = useDispatch();
     const { title } = useContext(ThemeContext);
     let history = useHistory();
@@ -64,81 +66,129 @@ function Index({ toggleTheme }) {
         .catch(() => handleLogout(e))        
     }
 
+    function showMenu(x) {
+        if (x.matches) { // If media query matches
+            if(!hambMenu) {
+                setHambMenu(true)
+            }
+        }
+        else {
+            if(hambMenu) {
+                setHambMenu(false)
+                setOpenDrawer(false)
+            }
+        }
+    }
+    
+    const x = window.matchMedia("(max-width: 460px)")
+    showMenu(x) // Call listener function at run time
+    x.addListener(showMenu) // Attach listener function on state changes
+      
+    function renderOptions(column, mb) {
+        return(
+            <>
+                <div className={column ? "columnDrawer" : ""}>
+                    <div className={`${mb ? "mb12" : ""} dropdown`}>
+                        <Dropbutton>Novo</Dropbutton>
+                        <div className="dropdown-content ">
+                                <Link onClick={() => setOpenDrawer(false)} to="/schedule/new">Agendamento</Link>
+
+                            { userAdm && <MenuAdm closeDrawer={() => setOpenDrawer(false)} value="new"></MenuAdm> }
+                        </div>
+                    </div>
+
+                    <div className={`${mb ? "mb12" : ""} dropdown`}>
+                        <Dropbutton>Editar</Dropbutton>
+                        <div className="dropdown-content ">
+                            <Link onClick={() => setOpenDrawer(false)} to="/schedule/edit">Agendamento</Link>
+                            { userAdm && <MenuAdm closeDrawer={() => setOpenDrawer(false)} value="edit"></MenuAdm> }
+                        </div>
+                    </div>
+
+                    <div className={`${mb ? "mb12" : ""} dropdown`}>
+                        <Dropbutton>Excluir</Dropbutton>
+                        <div className="dropdown-content ">
+                            <Link onClick={() => setOpenDrawer(false)} to="/schedule/delete">Agendamento</Link>
+                            { userAdm && <MenuAdm closeDrawer={() => setOpenDrawer(false)} value="delete"></MenuAdm> }
+                        </div>
+                    </div>
+
+                    <div className={`${mb ? "mb12" : ""} dropdown`}>
+                        <Dropbutton>Visualizar</Dropbutton>
+                        <div className="dropdown-content">
+                            <Link onClick={() => setOpenDrawer(false)} to="/schedule/view">Agendamento</Link>
+                            { userAdm && <MenuAdm closeDrawer={() => setOpenDrawer(false)} value="view"></MenuAdm> }
+                        </div>
+                    </div>
+                    {
+                        userAdm &&
+                        <div className={`${mb ? "mb12" : ""} dropdown`}>
+                            <Dropbutton>Ações</Dropbutton>
+                            <div className="dropdown-content ">
+                                { userAdm && <Link onClick={() => setOpenDrawer(false)} to="/reports">Gráficos</Link> }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <Switch
+                    onChange={toggleTheme}
+                    checked={title === 'dark'}
+                    checkedIcon={false}
+                    uncheckedIcon={false}
+                    height={10}
+                    width={40}
+                    handleDiameter={20}
+                />
+            </>
+        )
+    }
+
+
     return (
 
         <div>
-            {(isLogged) && ( 
-                <>
-                    <Header>
-                        <ContainerIndex>
-                            <Image src={Logo} alt="Logo da UNESPAR"></Image>
-                            <InfoUser>
-                                <UserFullname >{(isLogged) && userLogged.fullname}</UserFullname>
-                                <CampusName >{(isLogged) &&  "Campus de "+campusUserLogged.city}</CampusName>
-                                <Button onClick={handleLogout}>Logout</Button>
-                            </InfoUser>
-                        </ContainerIndex>
-                    </Header>
+            <>
+                {openDrawer && (
+                    <div style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: '#042963', zIndex: 10, padding: '20px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <button onClick={() => setOpenDrawer(false)} className="btnHamb">
+                                <i className="fas fa-times white"/>
+                            </button>
+                        </div>
 
-                    <Menu>
-                        <Container>
-                            <div>
-                                <div className="dropdown">
-                                    <Dropbutton>Novo</Dropbutton>
-                                    <div className="dropdown-content ">
-                                            <Link to="/schedule/new">Agendamento</Link>
+                        {renderOptions(true, true)}
+                    </div>
+                )}
+                {(isLogged) && ( 
+                    <>
+                        <Header>
+                            <ContainerIndex>
+                                <Image src={Logo} alt="Logo da UNESPAR"></Image>
+                                <InfoUser>
+                                    <UserFullname >{(isLogged) && userLogged.fullname}</UserFullname>
+                                    <CampusName >{(isLogged) &&  "Campus de "+campusUserLogged.city}</CampusName>
+                                    <Button onClick={handleLogout}>Logout</Button>
+                                </InfoUser>
+                            </ContainerIndex>
+                        </Header>
 
-                                        { userAdm && <MenuAdm value="new"></MenuAdm> }
-                                    </div>
-                                </div>
-
-                                <div className="dropdown">
-                                    <Dropbutton>Editar</Dropbutton>
-                                    <div className="dropdown-content ">
-                                        <Link to="/schedule/edit">Agendamento</Link>
-                                        { userAdm && <MenuAdm value="edit"></MenuAdm> }
-                                    </div>
-                                </div>
-
-                                <div className="dropdown">
-                                    <Dropbutton>Excluir</Dropbutton>
-                                    <div className="dropdown-content ">
-                                        <Link to="/schedule/delete">Agendamento</Link>
-                                        { userAdm && <MenuAdm value="delete"></MenuAdm> }
-                                    </div>
-                                </div>
-
-                                <div className="dropdown">
-                                    <Dropbutton>Visualizar</Dropbutton>
-                                    <div className="dropdown-content">
-                                        <Link to="/schedule/view">Agendamento</Link>
-                                        { userAdm && <MenuAdm value="view"></MenuAdm> }
-                                    </div>
-                                </div>
-                                {
-                                    userAdm &&
-                                    <div className="dropdown">
-                                        <Dropbutton>Ações</Dropbutton>
-                                        <div className="dropdown-content ">
-                                            { userAdm && <Link to="/reports">Gráficos</Link> }
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                                <Switch
-                                    onChange={toggleTheme}
-                                    checked={title === 'dark'}
-                                    checkedIcon={false}
-                                    uncheckedIcon={false}
-                                    height={10}
-                                    width={40}
-                                    handleDiameter={20}
-                                    
-                                />
-                        </Container>		
-                    </Menu>
-                </>
-            )}
+                        <Menu>
+                            <Container>
+                                {!hambMenu ? (
+                                    <>
+                                        {renderOptions()} 
+                                    </>
+                                ) : (
+                                    <button onClick={() => setOpenDrawer(true)} className="btnHamb">
+                                        <i className="fas fa-bars white"/>
+                                    </button>
+                                )}
+                            </Container>		
+                        </Menu>
+                        
+                    </>
+                )}
+            </>
         </div>
     );
 }

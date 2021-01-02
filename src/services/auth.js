@@ -47,10 +47,7 @@ export const login = token => {
 export function logout() {
   return new Promise((resolve, reject) => {
     localStorage.removeItem('persist:root');
-    api.get('/logout')
-    .then(() => {
-      resolve()
-    })
-    .catch(reject)
+    localStorage.removeItem(TOKEN_KEY);
+    resolve()
   })
 }

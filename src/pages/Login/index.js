@@ -41,7 +41,7 @@ function Login({ history }) {
             setIsLoading(true);
             await api.post("/sessions", { username, password })
             .then(async response => {
-                //login(response.data.token);
+                login(response.data.token);
                 await api.get('/userLogged')
                 .then(async responseUser => {
                     addUserAndCampus(responseUser.data.user, responseUser.data.campus);

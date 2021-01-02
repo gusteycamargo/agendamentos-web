@@ -38,3 +38,23 @@
 .dropdown:hover .dropbtn {
 	background-color: #042963;
 }
+
+.white {
+	color: #fff;
+}
+
+.btnHamb {
+	border: none; 
+	background-color: transparent; 
+	cursor: pointer; 
+	outline: none
+}
+
+.columnDrawer {
+	display: flex;
+	flex-direction: column;
+}
+
+.mb12 {
+	margin-bottom: 12px;
+}
