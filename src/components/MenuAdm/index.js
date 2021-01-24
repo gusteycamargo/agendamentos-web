@@ -11,7 +11,7 @@ function MenuAdm({ value, closeDrawer }) {
 
     return(
         <div>
-            <Link onClick={() => closeDrawer()} to={category}>Ano</Link>
+            <Link onClick={() => closeDrawer()} to={category}>Ano (curso)</Link>
             <Link onClick={() => closeDrawer()} to={campus}>Campus</Link>
             <Link onClick={() => closeDrawer()} to={course}>Curso</Link>
             <Link onClick={() => closeDrawer()} to={equipament}>Equipamento</Link>

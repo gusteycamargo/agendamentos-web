@@ -188,7 +188,7 @@ function DeleteSchedule(props) {
                                 <th scope="col">Cadastrador</th>
                                 <th scope="col">Sala</th>
                                 <th scope="col">Equipamentos</th>
-                                <th scope="col">Ano</th>
+                                <th scope="col">Ano (curso)</th>
                                 <th scope="col">Curso</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Observações</th>

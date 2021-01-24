@@ -235,7 +235,7 @@ function FormSchedule({ onSubmit, schedule }) {
                             data={categories} 
                             onChange={setCategory}
                             value={category}
-                            placeholder="Ano" 
+                            placeholder="Ano (curso)" 
                             className="tam" 
                         />
                     </div>

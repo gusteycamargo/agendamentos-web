@@ -63,7 +63,7 @@ function Reports({ history }) {
             filter();
         }
 
-        setTypes([{ name: "Ano", type_chart: "category"}, 
+        setTypes([{ name: "Ano (Curso)", type_chart: "category"}, 
                   { name: "Curso", type_chart: "course"}, 
                   { name: "Equipamento", type_chart: "equipament"},
                   { name: "Sala", type_chart: "place"},
