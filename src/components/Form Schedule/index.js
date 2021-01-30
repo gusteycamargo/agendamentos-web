@@ -90,10 +90,15 @@ function FormSchedule({ onSubmit, schedule }) {
             if(schedule){                    
                 setEquipaments([...equipaments, ...response.data.avaibilityEquipaments]);
                 setPlaces([schedule.place, ...response.data.avaibilityPlaces]);
+                
+                let arrayPlace = [schedule.place, ...response.data.avaibilityPlaces]
+                if(arrayPlace.length <= 0) { MySwal.fire('Sem salas disponíveis', 'Não há nenhuma sala disponível neste horário', 'error'); return }
             }
             else {
                 setEquipaments(response.data.avaibilityEquipaments);
                 setPlaces(response.data.avaibilityPlaces);
+
+                if(response.data.avaibilityPlaces.length <= 0) { MySwal.fire('Sem salas disponíveis', 'Não há nenhuma sala disponível neste horário', 'error'); return }
             }
             setDisabledFixed(false);
 
