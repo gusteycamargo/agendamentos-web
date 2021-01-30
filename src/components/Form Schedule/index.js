@@ -179,9 +179,6 @@ function FormSchedule({ onSubmit, schedule }) {
         if(!requestingUser) { MySwal.fire('Solicitante não preenchido', 'O campo solicitante deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-
-        if(userLogged.function == 'adm'){ requestingUser.id = userLogged.id }
-
         await onSubmit(schedule.id, {
             place_id: place.id,
             category_id: category.id,
