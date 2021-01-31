@@ -54,16 +54,13 @@ function EditCampus({ history }) {
 
     async function editCampus(id, data) {
         setIsLoading(true);
-        await api.put(`/campuses/${id}`, data)
-        .then(function (response) {
-            MySwal.fire('Prontinho', 'Campus editado com sucesso', 'success');
-            setEdit(false);
+        return new Promise((resolve, reject) => {
+            api.put(`/campuses/${id}`, data)
+            .then(resolve)
+            .then(() => setEdit(false))
+            .catch(reject)
+            .finally(() => setIsLoading(false))
         })
-        .catch(function (error) {
-            console.log(error)
-            MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
-        });
-        setIsLoading(false);
     }
 
     function defineEdit(campus) {

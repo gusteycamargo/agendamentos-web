@@ -39,7 +39,6 @@ function FormCategory({ onSubmit, category }) {
         })
         .catch(function (error) {
             setIsLoading(false);
-            console.log(error);
             if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
             else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
         });
