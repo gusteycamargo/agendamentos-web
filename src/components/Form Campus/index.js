@@ -22,19 +22,27 @@ function FormCampus({ onSubmit, campus }) {
         }
     }, [campus])
 
-    async function save(e) {
+    function save(e) {
         e.preventDefault();
         if(!city) { MySwal.fire('Cidade não preenchida', 'O campo cidade deve ser preenchido!', 'error'); return }     
         if(!adress) { MySwal.fire('Endereço não preenchido', 'O campo endereço deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-        await onSubmit(campus.id, {
+        onSubmit(campus.id, {
             city,
             adress,
             status: "Ativo"
         })
-        setIsLoading(false);
-        clear()
+        .then(function (response) {
+            setIsLoading(false);
+            clear()
+            MySwal.fire('Prontinho', 'Campus cadastrado com sucesso!', 'success');       
+        })
+        .catch(function (error) {
+            setIsLoading(false);
+            if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
+            else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
+        });
     }
       
     function clear() {
