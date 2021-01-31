@@ -22,18 +22,26 @@ function FormCourse({ onSubmit, course }) {
         }
     }, [course])
 
-    async function save(e) {
+    function save(e) {
         e.preventDefault();
         if(!name) { MySwal.fire('Nome não preenchido', 'O campo nome deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-        await onSubmit(course.id, {
+        onSubmit(course.id, {
             name,
             status: 'Ativo',
             campus_id: userLogged.campus_id,
         })
-        setIsLoading(false);
-        setName('');
+        .then(function (response) {
+            setIsLoading(false);
+            setName('');
+            MySwal.fire('Prontinho', 'Curso cadastrado com sucesso!', 'success');
+        })
+        .catch(function (error) {
+            setIsLoading(false);
+            if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
+            else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
+        }); 
     }
       
     return (

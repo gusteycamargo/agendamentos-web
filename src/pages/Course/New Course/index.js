@@ -23,15 +23,12 @@ function NewCourse({ history }) {
         }
     }, [history, userLogged]);
 
-    async function save(id, data) {
-        await api.post("/courses", data)
-        .then(function (response) {
-            MySwal.fire('Prontinho', 'Curso cadastrado com sucesso!', 'success');
+    function save(id, data) {
+        return new Promise((resolve, reject) => {
+            api.post("/courses", data)
+            .then(resolve)
+            .catch(reject)
         })
-        .catch(function (error) {
-            console.log(error)
-            MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error');
-        }); 
     }
       
     return (
