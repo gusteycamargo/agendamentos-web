@@ -23,16 +23,12 @@ function NewCategory({ history }) {
         }
     }, [history, userLogged]);
 
-    async function save(id, data) {
-        await api.post("/users", data)
-        .then(function (response) {
-            MySwal.fire('Prontinho', 'Usuário cadastrado com sucesso!', 'success');
-            
+    function save(id, data) {
+        return new Promise((resolve, reject) => {
+            api.post("/users", data)
+            .then(resolve)
+            .catch(reject)
         })
-        .catch(function (error) {
-            console.log(error)
-            MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error');
-        });
     }
       
     return (

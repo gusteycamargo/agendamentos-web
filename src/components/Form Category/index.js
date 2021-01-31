@@ -22,19 +22,26 @@ function FormCategory({ onSubmit, category }) {
         }
     }, [category])
 
-    async function save(e) {
+    function save(e) {
         e.preventDefault();
         if(!description) { MySwal.fire('Descrição não preenchida', 'O campo descrição deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-        await onSubmit(category.id, {
+        onSubmit(category.id, {
             description,
             status: 'Ativo',
             campus_id: userLogged.campus_id,
+        })
+        .then(function (response) {
+            setIsLoading(false);
+            clear()
+            MySwal.fire('Prontinho', 'Ano cadastrado com sucesso!', 'success');
+        })
+        .catch(function (error) {
+            setIsLoading(false);
+            if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
+            else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
         });
-        setIsLoading(false);
-
-        clear()
     }
 
     function clear() {

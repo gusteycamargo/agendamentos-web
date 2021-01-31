@@ -65,8 +65,17 @@ function FormUser({ onSubmit, user }) {
             status: 'Ativo',
             campus_id: campus.id,                
         })
-        clear()
-        setIsLoading(false);
+        .then(function (response) {
+            clear()
+            setIsLoading(false);
+            MySwal.fire('Prontinho', 'Usuário cadastrado com sucesso!', 'success');
+        })
+        .catch(function (error) {
+            setIsLoading(false);
+            if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
+            else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
+        });
+        
     }
 
     function clear() {
