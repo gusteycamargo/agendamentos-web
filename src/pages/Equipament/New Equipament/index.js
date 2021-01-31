@@ -24,14 +24,11 @@ function NewEquipament({ history }) {
     }, [history, userLogged]);
     
     async function save(id, data) {
-        await api.post("/equipaments", data)
-        .then(function (response) {
-            MySwal.fire('Prontinho', 'Equipamento cadastrado com sucesso!', 'success');
+        return new Promise((resolve, reject) => {
+            api.post("/equipaments", data)
+            .then(resolve)
+            .catch(reject)
         })
-        .catch(function (error) {
-            console.log(error)
-            MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error');
-        });
     }
       
     return (

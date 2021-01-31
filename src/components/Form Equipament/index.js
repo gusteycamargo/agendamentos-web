@@ -26,22 +26,31 @@ function FormEquipament({ onSubmit, equipament }) {
         }
     }, [equipament])
 
-    async function save(e) {
+    function save(e) {
         e.preventDefault();
         if(!name) { MySwal.fire('Nome não preenchido', 'O campo nome deve ser preenchido!', 'error'); return }     
         if(!brand) { MySwal.fire('Marca não preenchida', 'O campo marca deve ser preenchido!', 'error'); return }     
         if(!equityNumber) { MySwal.fire('Número de patrimônio não preenchido', 'O campo número de patrimônio deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-        await onSubmit(equipament.id, {
+        onSubmit(equipament.id, {
             name,
             brand,
             equityNumber,
             status: 'Ativo',
             campus_id: userLogged.campus_id,
         })
-        setIsLoading(false);
-        clear()
+        .then(function (response) {
+            setIsLoading(false);
+            clear()
+            MySwal.fire('Prontinho', 'Equipamento cadastrado com sucesso!', 'success');
+        })
+        .catch(function (error) {
+            setIsLoading(false);
+            if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
+            else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
+        });
+        
     }
 
     function clear() {
