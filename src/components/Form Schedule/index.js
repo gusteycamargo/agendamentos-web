@@ -87,11 +87,20 @@ function FormSchedule({ onSubmit, schedule }) {
             },
         })
         .then(function (response) {
-            if(schedule){                    
-                setEquipaments([...equipaments, ...response.data.avaibilityEquipaments]);
-                setPlaces([schedule.place, ...response.data.avaibilityPlaces]);
+            if(schedule){   
+                const result = doIUseEquipamentsAndPlaceOfSchedule()
+                let arrayPlace = []
+                if(result) { 
+                    setEquipaments([...schedule.equipaments, ...response.data.avaibilityEquipaments]) 
+                    setPlaces([schedule.place, ...response.data.avaibilityPlaces]);
+                    arrayPlace = [schedule.place, ...response.data.avaibilityPlaces]
+                }                 
+                else { 
+                    setEquipaments(response.data.avaibilityEquipaments) 
+                    setPlaces(response.data.avaibilityPlaces);
+                    arrayPlace = response.data.avaibilityPlaces
+                }
                 
-                let arrayPlace = [schedule.place, ...response.data.avaibilityPlaces]
                 if(arrayPlace.length <= 0) { MySwal.fire('Sem salas disponíveis', 'Não há nenhuma sala disponível neste horário', 'error'); return }
             }
             else {
@@ -101,7 +110,6 @@ function FormSchedule({ onSubmit, schedule }) {
                 if(response.data.avaibilityPlaces.length <= 0) { MySwal.fire('Sem salas disponíveis', 'Não há nenhuma sala disponível neste horário', 'error'); return }
             }
             setDisabledFixed(false);
-
             retrieveData();
         })
         .catch(function (error) {
@@ -110,6 +118,13 @@ function FormSchedule({ onSubmit, schedule }) {
             MySwal.fire('Oops...', error.response.data.error, 'error')
         });
         setIsLoadingVerification(false);  
+    }
+
+    function doIUseEquipamentsAndPlaceOfSchedule() {
+        if(schedule) {
+            if((schedule.initial != initial) || (schedule.final  != final)) { return false }
+            else { return true }  
+        }
     }
 
     async function retrieveData() {

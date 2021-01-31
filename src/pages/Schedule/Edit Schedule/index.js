@@ -119,7 +119,12 @@ function EditSchedule(props) {
         })
         .catch(function (error) {
             console.log(error)
-            MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
+            if(error?.response?.data?.error) {
+                MySwal.fire('Oops...', error.response.data.error, 'error')
+            }
+            else {
+                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
+            }
         });
     }
 
