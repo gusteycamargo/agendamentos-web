@@ -54,16 +54,13 @@ function EditUser({ history }) {
 
     async function editUsers(id, data) {
         setIsLoading(true);
-        await api.put(`/users/${id}`, data)
-        .then(function (response) {
-            MySwal.fire('Prontinho', 'Usuário editado com sucesso', 'success');
-            setEdit(false);
+        return new Promise((resolve, reject) => {
+            api.put(`/users/${id}`, data)
+            .then(resolve)
+            .then(() => setEdit(false))
+            .catch(reject)
+            .finally(() => setIsLoading(false))
         })
-        .catch(function (error) {
-            console.log(error)
-            MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
-        });
-        setIsLoading(false);
     }
 
     function defineEdit(user) {

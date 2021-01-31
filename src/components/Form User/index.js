@@ -71,6 +71,7 @@ function FormUser({ onSubmit, user }) {
             MySwal.fire('Prontinho', 'Usuário cadastrado com sucesso!', 'success');
         })
         .catch(function (error) {
+            console.log(error);
             setIsLoading(false);
             if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
             else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
