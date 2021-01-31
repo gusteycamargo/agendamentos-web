@@ -24,20 +24,28 @@ function FormPlace({ onSubmit, place }) {
         }
     }, [place])
 
-    async function save(e) {
+    function save(e) {
         e.preventDefault();
         if(!name) { MySwal.fire('Nome não preenchido', 'O campo nome deve ser preenchido!', 'error'); return }     
         if(!capacity) { MySwal.fire('Capacidade não preenchida', 'O campo capacidade deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-        await onSubmit(place.id, {
+        onSubmit(place.id, {
             name,
             capacity,
             status: 'Ativo',
             campus_id: userLogged.campus_id,
         })
-        setIsLoading(false);
-        clear()
+        .then(function (response) {
+            setIsLoading(false);
+            clear()
+            MySwal.fire('Prontinho', 'Sala cadastrada com sucesso!', 'success');
+        })
+        .catch(function (error) {
+            setIsLoading(false);
+            if(error?.response?.data?.error) { MySwal.fire('Oops...', error.response.data.error, 'error') }
+            else { MySwal.fire('Oops...', 'Houve um erro ao cadastrar, tente novamente!', 'error') }
+        });
     }
 
     function clear() {
