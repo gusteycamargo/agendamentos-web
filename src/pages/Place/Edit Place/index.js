@@ -54,16 +54,13 @@ function EditPlace({ history }) {
 
     async function editPlaces(id, data) {
         setIsLoading(true);
-        await api.put(`/places/${id}`, data)
-        .then(function (response) {
-            MySwal.fire('Prontinho', 'Sala editada com sucesso', 'success');
-            setEdit(false);
+        return new Promise((resolve, reject) => {
+            api.put(`/places/${id}`, data)
+            .then(resolve)
+            .then(() => setEdit(false))
+            .catch(reject)
+            .finally(() => setIsLoading(false))
         })
-        .catch(function (error) {
-            console.log(error)
-            MySwal.fire('Oops...', 'Houve um tentar editar as informações, tente novamente!', 'error');
-        });
-        setIsLoading(false);
     }
 
     function defineEdit(place) {        
