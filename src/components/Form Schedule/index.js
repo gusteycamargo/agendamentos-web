@@ -52,12 +52,12 @@ function FormSchedule({ onSubmit, schedule }) {
             const parse = dateSplit[0].split('-');
             
             setDate(new Date(parse[0], parse[1]-1, parse[2]));            
-            setEquipaments(schedule.equipaments);
+            //setEquipaments(schedule.equipaments);
             setInitial(schedule.initial);
             setFinal(schedule.final);
             setCourse(schedule.course);
             setCategory(schedule.category);
-            setPlace(schedule.place);
+            //setPlace(schedule.place);
             setRequestingUser(schedule.requesting_user);
             setComments(schedule.comments);
 
@@ -89,8 +89,6 @@ function FormSchedule({ onSubmit, schedule }) {
         .then(function (response) {
             console.log(response.data);
             if(schedule){   
-                setPlace('')
-                setEquipamentsSelected([])
                 const result = doIUseEquipamentsAndPlaceOfSchedule()
                 let arrayPlace = []
                 if(result) { 
