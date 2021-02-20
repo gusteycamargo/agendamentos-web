@@ -87,7 +87,10 @@ function FormSchedule({ onSubmit, schedule }) {
             },
         })
         .then(function (response) {
+            console.log(response.data);
             if(schedule){   
+                setPlace('')
+                setEquipamentsSelected([])
                 const result = doIUseEquipamentsAndPlaceOfSchedule()
                 let arrayPlace = []
                 if(result) { 
