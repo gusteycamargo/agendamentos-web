@@ -248,6 +248,7 @@ function FormSchedule({ onSubmit, schedule }) {
                 <div className={`${changeOrder ? '' : 'pt-5'} d-flex flex-column pb-2 `}>
                     <div className="col-sm col-pd pb-2">
                         <Combobox 
+                            messages={{emptyList: 'Sem itens na lista'}}
                             disabled={disabledFixed} 
                             textField='description' 
                             data={categories} 
@@ -259,6 +260,7 @@ function FormSchedule({ onSubmit, schedule }) {
                     </div>
                     <div className="col-sm col-pd pb-2">
                         <Combobox 
+                            messages={{emptyList: 'Sem itens na lista'}}
                             disabled={disabledFixed} 
                             onChange={setRequestingUser}
                             value={requestingUser}
@@ -270,6 +272,7 @@ function FormSchedule({ onSubmit, schedule }) {
                     </div>
                     <div className="col-sm col-pd pb-2">
                         <Combobox 
+                            messages={{emptyList: 'Sem itens na lista'}}
                             disabled={disabledFixed} 
                             onChange={setCourse}
                             value={course}
@@ -281,6 +284,7 @@ function FormSchedule({ onSubmit, schedule }) {
                     </div>
                     <div className="col-sm col-pd pb-2">
                         <Combobox 
+                            messages={{emptyList: 'Sem itens na lista'}}
                             textField='name' 
                             data={equipaments} 
                             disabled={disabledFixed} 
@@ -365,6 +369,7 @@ function FormSchedule({ onSubmit, schedule }) {
                             </div>
                             <div className="col-sm col-pd pb-2">
                                 <Combobox 
+                                    messages={{emptyList: 'Sem itens na lista'}}
                                     disabled={disabledFixed} 
                                     textField='name' 
                                     data={places} 

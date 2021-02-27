@@ -119,6 +119,7 @@ function FormUser({ onSubmit, user }) {
                         ></input>
                         <div className="mt-1">
                             <Combobox 
+                                messages={{emptyList: 'Sem itens na lista'}}
                                 textField='func' 
                                 data={func} 
                                 onChange={setFuncUser}
@@ -129,8 +130,9 @@ function FormUser({ onSubmit, user }) {
                         </div>
                         <div className=" mt-2">
                             <Combobox 
+                                messages={{emptyList: 'Sem itens na lista'}}
                                 textField='city' 
-                                data={campuses} 
+                                data={[]} 
                                 onChange={setCampus}
                                 value={campus}
                                 placeholder="Campus" 

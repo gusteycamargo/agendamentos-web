@@ -121,6 +121,7 @@ function Reports({ history }) {
                             
                             <div className="clmRep mt-1 mr-2">
                                 <Combobox 
+                                    messages={{emptyList: 'Sem itens na lista'}}
                                     textField='name' 
                                     data={types} 
                                     onChange={setTypeChart}

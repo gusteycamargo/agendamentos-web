@@ -178,6 +178,7 @@ function EditSchedule(props) {
                                             </div>
                                             
                                             <Combobox 
+                                                messages={{emptyList: 'Sem itens na lista'}}
                                                 textField='period' 
                                                 data={periods} 
                                                 onChange={setPeriod}
