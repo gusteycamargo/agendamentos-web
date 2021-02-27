@@ -132,7 +132,7 @@ function FormUser({ onSubmit, user }) {
                             <Combobox 
                                 messages={{emptyList: 'Sem itens na lista'}}
                                 textField='city' 
-                                data={[]} 
+                                data={campuses} 
                                 onChange={setCampus}
                                 value={campus}
                                 placeholder="Campus" 
