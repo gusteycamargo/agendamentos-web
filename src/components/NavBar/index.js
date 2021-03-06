@@ -9,13 +9,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistor, store } from './store';
-import Routes from './routes/routes';
-import { BrowserRouter } from 'react-router-dom';
+import { Button, TextField } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Logo from '../../assets/logo-branco.png'
 
-function App() {
+function NavBar() {
   const classes = useStyles();
   const [state, setState] = React.useState({ left: false });
 
@@ -54,15 +55,25 @@ function App() {
     </div>
   );
 
-  return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Routes/>
-        </PersistGate>
-      </Provider>
-    </BrowserRouter>
-  );
+  return (<>
+    <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
+      {list("left")}
+    </Drawer>
+
+    <div className={classes.root}>
+      <AppBar className={classes.nav} position="static">
+        <Toolbar>
+          <IconButton onClick={toggleDrawer("left", true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <div className={classes.title}>
+            <img className={classes.image} src={Logo} alt="Logo da UNESPAR"/>
+          </div>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  </>);
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -89,4 +100,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default App;
+export default NavBar;

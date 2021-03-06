@@ -1,44 +1,44 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Login from '../pages/Login';
-import NewSchedule from '../pages/Schedule/New Schedule';
-import NewCategory from "../pages/Category/New Category";
-import NewCampus from "../pages/Campus/New Campus";
-import NewCourse from "../pages/Course/New Course";
-import NewEquipament from "../pages/Equipament/New Equipament";
-import NewPlace from "../pages/Place/New Place";
-import NewUser from "../pages/User/New User";
-import ViewCampus from "../pages/Campus/View Campus";
-import ViewCategory from "../pages/Category/View Category";
-import ViewCourse from "../pages/Course/View Course";
-import ViewEqupament from "../pages/Equipament/View Equpament";
-import ViewPlace from "../pages/Place/View Place";
-import ViewUser from "../pages/User/View User";
-import ViewSchedule from "../pages/Schedule/View Schedule";
-import EditCampus from "../pages/Campus/Edit Campus";
-import EditCategory from "../pages/Category/Edit Category";
-import EditCourse from "../pages/Course/Edit Course";
-import EditEquipament from "../pages/Equipament/Edit Equipament";
-import EditPlace from "../pages/Place/Edit Place";
-import EditUser from "../pages/User/Edit User";
-import EditSchedule from "../pages/Schedule/Edit Schedule";
-import DeleteCampus from "../pages/Campus/Delete Campus";
-import DeleteCategory from "../pages/Category/Delete Category";
-import DeleteCourse from "../pages/Course/Delete Course";
-import DeleteEquipament from "../pages/Equipament/Delete Equipament";
-import DeletePlace from "../pages/Place/Delete Place";
-import DeleteUser from "../pages/User/Delete User";
-import DeleteSchedule from "../pages/Schedule/Delete Schedule";
-import Reports from "../pages/Reports";
-import NotFound from "../pages/NotFound";
-import PrivateRoute from "./PrivateRoute";
-import AdmRoute from "./AdmRoute";
+import NewSchedule from '../pages/Schedule/NewSchedule';
+// import NewCategory from "../pages/Category/New Category";
+// import NewCampus from "../pages/Campus/New Campus";
+// import NewCourse from "../pages/Course/New Course";
+// import NewEquipament from "../pages/Equipament/New Equipament";
+// import NewPlace from "../pages/Place/New Place";
+// import NewUser from "../pages/User/New User";
+// import ViewCampus from "../pages/Campus/View Campus";
+// import ViewCategory from "../pages/Category/View Category";
+// import ViewCourse from "../pages/Course/View Course";
+// import ViewEqupament from "../pages/Equipament/View Equpament";
+// import ViewPlace from "../pages/Place/View Place";
+// import ViewUser from "../pages/User/View User";
+// import ViewSchedule from "../pages/Schedule/View Schedule";
+// import EditCampus from "../pages/Campus/Edit Campus";
+// import EditCategory from "../pages/Category/Edit Category";
+// import EditCourse from "../pages/Course/Edit Course";
+// import EditEquipament from "../pages/Equipament/Edit Equipament";
+// import EditPlace from "../pages/Place/Edit Place";
+// import EditUser from "../pages/User/Edit User";
+// import EditSchedule from "../pages/Schedule/Edit Schedule";
+// import DeleteCampus from "../pages/Campus/Delete Campus";
+// import DeleteCategory from "../pages/Category/Delete Category";
+// import DeleteCourse from "../pages/Course/Delete Course";
+// import DeleteEquipament from "../pages/Equipament/Delete Equipament";
+// import DeletePlace from "../pages/Place/Delete Place";
+// import DeleteUser from "../pages/User/Delete User";
+// import DeleteSchedule from "../pages/Schedule/Delete Schedule";
+// import Reports from "../pages/Reports";
+// import NotFound from "../pages/NotFound";
+// import PrivateRoute from "./PrivateRoute";
+// import AdmRoute from "./AdmRoute";
 
 const Routes = () => (
     <Switch>
       <Route exact path="/" component={Login} />
-      <PrivateRoute path="/schedule/new" component={NewSchedule} />
-      <PrivateRoute path="/schedule/view" component={ViewSchedule} />
+      <Route path="/schedule/new" component={NewSchedule} />
+      {/* <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
       <AdmRoute path="/category/new" component={NewCategory} />
@@ -66,7 +66,7 @@ const Routes = () => (
       <AdmRoute path="/user/edit" component={EditUser} />
       <AdmRoute path="/user/delete" component={DeleteUser} />
       <AdmRoute path="/reports" component={Reports} />
-      <Route path="*" component={NotFound} />
+      <Route path="*" component={NotFound} /> */}
     </Switch>
 );
 
