@@ -15,6 +15,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { PlayCircleFilledOutlined } from '@material-ui/icons';
 
 function FormSchedule({ onSubmit, schedule }) {
   const classes = useStyles();
@@ -40,8 +41,21 @@ function FormSchedule({ onSubmit, schedule }) {
   const [disabledFixed, setDisabledFixed] = useState(true);
   const [isLoadingVerification, setIsLoadingVerification] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [changeOrder, setChangeOrder] = useState(false);
   const userLogged = useSelector(state => state.userLogged.userLogged);
+  const [showColumn, setShowColumn] = useState(false)
+
+  function showMenu(x) {
+    if (x.matches) { // If media query matches
+        if(!showColumn) setShowColumn(true)
+    }
+    else {
+        if(showColumn) setShowColumn(false)
+    }
+  }
+
+  const x = window.matchMedia("(max-width: 889px)")
+  showMenu(x) // Call listener function at run time
+  x.addListener(showMenu) // Attach listener function on state changes
 
   useEffect(() => {
     if (schedule) {
@@ -226,241 +240,344 @@ function FormSchedule({ onSubmit, schedule }) {
     setEquipamentsSelected([]);
   }
 
-  return (
-    <form onSubmit={save} className={classes.form}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Grid container spacing={1}>
+  function dateField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <KeyboardDatePicker
+          className={classes.w100}
+          onFocus={controlFields}
+          onClick={controlFields}
+          margin="none"
+          inputVariant="outlined"
+          label="Data"
+          format="dd/MM/yyyy"
+          value={date}
+          onChange={setDate}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+      </FormControl>
+    )
+  }
 
-          <Grid className={classes.center} container item xs={12} spacing={3}>
-            <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <KeyboardDatePicker
-                  className={classes.w100}
-                  onFocus={controlFields}
-                  onClick={controlFields}
-                  margin="none"
-                  inputVariant="outlined"
-                  label="Data"
-                  format="dd/MM/yyyy"
-                  value={date}
-                  onChange={setDate}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </FormControl>
+  function initialField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <KeyboardTimePicker
+          margin="none"
+          onFocus={controlFields}
+          onClick={controlFields}
+          inputVariant="outlined"
+          className={classes.w100}
+          id="time-picker"
+          label="Início"
+          ampm={false}
+          value={initial}
+          // format="HH:mm"
+          datatype
+          invalidDateMessage="Tempo inválido"
+          onChange={setInitial}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+      </FormControl>
+    )
+  }
+
+  function finalField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <KeyboardTimePicker
+          margin="none"
+          onFocus={controlFields}
+          onClick={controlFields}
+          inputVariant="outlined"
+          className={classes.w100}
+          id="time-picker"
+          label="Fim"
+          ampm={false}
+          format="HH:mm"
+          value={final}
+          onChange={setFinal}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+      </FormControl>
+    )
+  }
+
+  function verDisponibilidadeField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <Button onClick={disponibilty} className={classes.buttons} variant="contained" color="primary">
+          Ver. disponibilidade
+          {isLoadingVerification && <CircularProgress size={18} style={{ marginLeft: 10 }} color="#FFF" />}
+        </Button>
+      </FormControl>
+    )
+  }
+
+  function placeField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="sala">Sala</InputLabel>
+        <Select
+          labelId="sala"
+          id="sala-select"
+          value={place}
+          className={classes.w100}
+          onChange={e => setPlace(e.target.value)}
+          label="Sala"
+          disabled={disabledFixed}
+          required
+        >
+          {places.map(place => (
+            <MenuItem value={place.id}>{place.name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+
+  function categoryField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="ano-curso">Ano (curso)</InputLabel>
+        <Select
+          labelId="ano-curso"
+          id="ano-select"
+          value={category}
+          disabled={disabledFixed}
+          className={classes.w100}
+          onChange={e => setCategory(e.target.value)}
+          label="Ano (curso)"
+        >
+          {categories.map(category => (
+            <MenuItem value={category.id}>{category.description}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+
+  function requestingUserField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="solicitante">Solicitante</InputLabel>
+        <Select
+          labelId="solicitante"
+          id="solicitante-select"
+          value={requestingUser}
+          disabled={disabledFixed}
+          className={classes.w100}
+          onChange={e => setRequestingUser(e.target.value)}
+          label="Solicitante"
+        >
+          {users.map(user => (
+            <MenuItem value={user.id}>{user.fullname}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+
+  function courseField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="curso">Curso</InputLabel>
+        <Select
+          labelId="curso"
+          id="curso-select"
+          disabled={disabledFixed}
+          value={course}
+          className={classes.w100}
+          onChange={e => setCourse(e.target.value)}
+          label="Curso"
+        >
+          {courses.map(course => (
+            <MenuItem value={course.id}>{course.name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+
+  function equipamentsField() {
+    return (
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="equipamentos">Equipamentos</InputLabel>
+        <Select
+          labelId="equipamentos"
+          id="equipamento-select"
+          disabled={disabledFixed}
+          value={equipament}
+          className={classes.w100}
+          onChange={e => setEquipament(e.target.value)}
+          label="Equipamentos"
+        >
+          {equipaments.map(equi => (
+            <MenuItem value={equi.id}>{equi.name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+
+  function selectEquipamentField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <Button disabled={disabledFixed} onClick={selectEquipament} className={classes.buttons} variant="contained" color="primary">
+          Sel. equipamento
+          </Button>
+      </FormControl>
+    )
+  }
+
+  function commentsField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <TextField
+          className={classes.w100}
+          label="Observações"
+          multiline
+          disabled={disabledFixed}
+          rows={3}
+          value={comments}
+          onChange={e => setComments(e.target.value)}
+          placeholder="Observações"
+          variant="outlined"
+        />
+      </FormControl>
+    )
+  }
+
+  function equipamentsSelectedField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <TextField
+          className={classes.w100}
+          label="Equipamentos selecionados"
+          multiline
+          disabled
+          rows={3}
+          placeholder="Seus equipamentos selecionados aparecerão aqui"
+          variant="outlined"
+          value={equipamentsView.toString()}
+        />
+      </FormControl>
+    )
+  }
+
+  function saveField() {
+    return(
+      <FormControl variant="outlined" className={classes.formControl}>
+        <Button type="submit" onClick={save} disabled={disabledFixed} className={classes.buttons} variant="contained" color="primary">
+          Salvar
+          {isLoading && <CircularProgress size={18} style={{ marginLeft: 10 }} color="#FFF" />}
+        </Button>
+      </FormControl>
+    )
+  }
+
+  function column() {
+    return (
+      <Grid style={{ marginBottom: 20 }} container spacing={1}>
+        {dateField()}
+        {initialField()}
+        {finalField()}
+        {disabledFixed && verDisponibilidadeField()}
+        {!disabledFixed && (<>
+          {placeField()}
+          {categoryField()}
+          {requestingUserField()}
+          {courseField()}
+          <Grid container xs={12} spacing={2}>
+            <Grid item xs={6}>
+              {equipamentsField()}
             </Grid>
-            <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="ano-curso">Ano (curso)</InputLabel>
-                <Select
-                  labelId="ano-curso"
-                  id="ano-select"
-                  value={category}
-                  disabled={disabledFixed}
-                  className={classes.w100}
-                  onChange={e => setCategory(e.target.value)}
-                  label="Ano (curso)"
-                >
-                  {categories.map(category => (
-                    <MenuItem value={category.id}>{category.description}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+            <Grid item xs={6}>
+              {selectEquipamentField()}
             </Grid>
           </Grid>
+          
+          {equipamentsSelectedField()}
+          {commentsField()}
+          {saveField()}
+        </>)}
+      </Grid>
+    )
+  }
 
+  function row() {
+    return (
+      <Grid container spacing={1}>
+          <Grid className={classes.center} container item xs={12} spacing={3}>
+            <Grid item xs={4}>
+              {dateField()}
+            </Grid>
+            <Grid item xs={4}>
+              {categoryField()}
+            </Grid>
+          </Grid>
 
           <Grid container item xs={12} spacing={3}>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <KeyboardTimePicker
-                  margin="none"
-                  onFocus={controlFields}
-                  onClick={controlFields}
-                  inputVariant="outlined"
-                  className={classes.w100}
-                  id="time-picker"
-                  label="Início"
-                  ampm={false}
-                  value={initial}
-                  // format="HH:mm"
-                  datatype
-                  invalidDateMessage="Tempo inválido"
-                  onChange={setInitial}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                  }}
-                />
-              </FormControl>
+              {initialField()}
             </Grid>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="solicitante">Solicitante</InputLabel>
-                <Select
-                  labelId="solicitante"
-                  id="solicitante-select"
-                  value={requestingUser}
-                  disabled={disabledFixed}
-                  className={classes.w100}
-                  onChange={e => setRequestingUser(e.target.value)}
-                  label="Solicitante"
-                >
-                  {users.map(user => (
-                    <MenuItem value={user.id}>{user.fullname}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {requestingUserField()}
             </Grid>
           </Grid>
-
 
           <Grid className={classes.center} container item xs={12} spacing={3}>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <KeyboardTimePicker
-                  margin="none"
-                  onFocus={controlFields}
-                  onClick={controlFields}
-                  inputVariant="outlined"
-                  className={classes.w100}
-                  id="time-picker"
-                  label="Fim"
-                  ampm={false}
-                  format="HH:mm"
-                  value={final}
-                  onChange={setFinal}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                  }}
-                />
-              </FormControl>
+              {finalField()}
             </Grid>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="curso">Curso</InputLabel>
-                <Select
-                  labelId="curso"
-                  id="curso-select"
-                  disabled={disabledFixed}
-                  value={course}
-                  className={classes.w100}
-                  onChange={e => setCourse(e.target.value)}
-                  label="Curso"
-                >
-                  {courses.map(course => (
-                    <MenuItem value={course.id}>{course.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {courseField()}
             </Grid>
           </Grid>
-
 
           <Grid className={classes.center} container item xs={12} spacing={3}>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="sala">Sala</InputLabel>
-                <Select
-                  labelId="sala"
-                  id="sala-select"
-                  value={place}
-                  className={classes.w100}
-                  onChange={e => setPlace(e.target.value)}
-                  label="Sala"
-                  disabled={disabledFixed}
-                  required
-                >
-                  {places.map(place => (
-                    <MenuItem value={place.id}>{place.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {placeField()}
             </Grid>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="equipamentos">Equipamentos</InputLabel>
-                <Select
-                  labelId="equipamentos"
-                  id="equipamento-select"
-                  disabled={disabledFixed}
-                  value={equipament}
-                  className={classes.w100}
-                  onChange={e => setEquipament(e.target.value)}
-                  label="Equipamentos"
-                >
-                  {equipaments.map(equi => (
-                    <MenuItem value={equi.id}>{equi.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {equipamentsField()}
             </Grid>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Button disabled={disabledFixed} onClick={selectEquipament} className={classes.buttons} variant="contained" color="primary">
-                  Sel. equipamento
-                  </Button>
-              </FormControl>
+              {selectEquipamentField()}
             </Grid>
           </Grid>
-
 
           <Grid className={classes.center} container item xs={12} spacing={3}>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <TextField
-                  className={classes.w100}
-                  label="Observações"
-                  multiline
-                  disabled={disabledFixed}
-                  rows={3}
-                  value={comments}
-                  onChange={e => setComments(e.target.value)}
-                  placeholder="Observações"
-                  variant="outlined"
-                />
-              </FormControl>
+              {commentsField()}
             </Grid>
-
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <TextField
-                  className={classes.w100}
-                  label="Equipamentos selecionados"
-                  multiline
-                  disabled
-                  rows={3}
-                  placeholder="Seus equipamentos selecionados aparecerão aqui"
-                  variant="outlined"
-                  value={equipamentsView.toString()}
-                />
-              </FormControl>
+              {equipamentsSelectedField()}
             </Grid>
           </Grid>
-
 
           <Grid className={classes.center} container item xs={12} spacing={3}>
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Button onClick={disponibilty} className={classes.buttons} variant="contained" color="primary">
-                  Ver. disponibilidade
-                  {isLoadingVerification && <CircularProgress size={18} style={{ marginLeft: 10 }} color="#FFF" />}
-                </Button>
-              </FormControl>
+              {verDisponibilidadeField()}
             </Grid>
-
             <Grid item xs={4}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Button type="submit" onClick={save} disabled={disabledFixed} className={classes.buttons} variant="contained" color="primary">
-                  Salvar
-                  {isLoading && <CircularProgress size={18} style={{ marginLeft: 10 }} color="#FFF" />}
-                </Button>
-              </FormControl>
+              {saveField()}
             </Grid>
           </Grid>
-
-
         </Grid>
+    )
+  }
+
+  return (
+    <form onSubmit={save} className={classes.form}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {showColumn ? column() : row()}
       </MuiPickersUtilsProvider>
     </form>
   );
@@ -478,6 +595,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     // justifyContent: 'center',
+  },
+  grow: {
+    flexGrow: 1
   },
   form: {
     // flexGrow: 1,
