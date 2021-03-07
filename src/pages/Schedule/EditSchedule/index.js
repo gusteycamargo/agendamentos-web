@@ -121,7 +121,9 @@ function EditSchedule() {
                 const schedulesReceived = response.data.filter((elem) => {
                     return elem.status === 'Confirmado';
                 });
-                setSchedules(schedulesReceived);
+                setTimeout(() => {
+                    setSchedules(schedulesReceived);
+                }, 1000);
             })
             .catch(function (error) {
                 console.log(error)
@@ -208,7 +210,7 @@ function EditSchedule() {
                         </Grid>
                         <Grid item xs={changeOrder ? 12 : 4}>
                             <FormControl variant="outlined" className={classes.formControl}>
-                                <InputLabel id="sala">Sala</InputLabel>
+                                <InputLabel id="turno">Turno</InputLabel>
                                 <Select
                                     labelId="turno"
                                     id="turno-select"

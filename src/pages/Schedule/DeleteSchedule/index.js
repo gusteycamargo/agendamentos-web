@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { DataGrid } from '@material-ui/data-grid';
+import React, { useState, useEffect, useRef } from "react";
+import { DataGrid, useGridApiRef } from '@material-ui/data-grid';
 import { withRouter } from 'react-router-dom';
 import api from '../../../services/api';
 import Swal from 'sweetalert2';
@@ -23,7 +23,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-const columns = [
+const columns = (confirm) => [
     {
         field: 'dateInitialFinal',
         headerName: 'Data | Início e fim',
@@ -51,21 +51,30 @@ const columns = [
     { field: 'category.description', headerName: 'Ano (curso)', valueGetter: (params) => `${params.getValue('category').description || ''}` },
     { field: 'course.name', headerName: 'Curso', valueGetter: (params) => `${params.getValue('course').name || ''}` },
     { field: 'status', headerName: 'Status' },
-    { field: 'comments', headerName: 'Observações' }
+    { field: 'comments', headerName: 'Observações' },
+    {
+        field: "",
+        headerName: "Ação",
+        disableClickEventBubbling: true,
+        renderCell: (params) => {
+            return <Button onClick={() => confirm(params.row)}>Excluir</Button>;
+        }
+    }
 ];
 
-function ViewSchedule() {
+function DeleteSchedule() {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
     const FORMAT = 'yyyy-MM-dd';
-    
+    const apiRef = useGridApiRef(null);
+
     const [date, setDate] = useState(new Date());
     const [schedules, setSchedules] = useState([]);
     const [periods, setPeriods] = useState([]);
     const [period, setPeriod] = useState('');
-    const [changeOrder, setChangeOrder] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
-    const [edit, setEdit] = useState(false);
+    const [deleted, setDeleted] = useState(false);
+    const [changeOrder, setChangeOrder] = useState(false)
 
     function showMenu(x) {
         if (x.matches) { // If media query matches
@@ -83,14 +92,31 @@ function ViewSchedule() {
     useEffect(() => {
         async function retrieveSchedules() {
             setIsLoading(true);
+            let dateFilter, periodFilter;
+            if(date && period) {
+                if(period.period === "Manhã") {
+                    period.period = "Manha";
+                }
+
+                dateFilter = dateFnsFormat(date, FORMAT);
+                periodFilter = period.period;
+            }
+            else {
+                dateFilter = dateFnsFormat(new Date(), FORMAT);
+                periodFilter = '';
+            }
+
             await api.get("/filter", {
                 headers: { 
-                    period: '',
-                    date_a: dateFnsFormat(new Date(), FORMAT), 
+                    period: periodFilter,
+                    date_a: dateFilter, 
                 },
             })
             .then(function (response) {
-                setSchedules(response.data);
+                const schedulesReceived = response.data.filter((elem) => {
+                    return elem.status === 'Confirmado';
+                });
+                setSchedules(schedulesReceived);
             })
             .catch(function (error) {
                 console.log(error)
@@ -100,7 +126,7 @@ function ViewSchedule() {
 
         retrieveSchedules();
         setPeriods([{ period: "Manhã"}, { period: "Tarde"}, { period: "Noite"}]);
-    }, []);
+    }, [deleted]);
 
     async function filter() {
         if(!date) { MySwal.fire('Data não preenchida', 'O campo data deve ser preenchido!', 'error'); return }     
@@ -120,14 +146,47 @@ function ViewSchedule() {
             const schedulesReceived = response.data.filter((elem) => {
                 return elem.status === 'Confirmado';
             });
-
-            setSchedules(schedulesReceived);
+            setTimeout(() => {
+                setSchedules(schedulesReceived);
+            }, 1000);
         })
         .catch(function (error) {
             console.log(error)
             MySwal.fire('Oops...', 'Houve um tentar filtrar as informações, tente novamente!', 'error');
         })
         .finally(() => setIsLoading(false))
+    }
+
+    async function deleteSchedules(id) {
+        setIsLoading(true);
+        await api.delete(`/schedules/${id}`)
+        .then(function (response) {
+            MySwal.fire('Prontinho', 'Agendamento deletado com sucesso', 'success');
+            setDeleted(true);
+        })
+        .catch(function (error) {
+            console.log(error)
+            MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
+        });
+        setIsLoading(false);
+    }
+
+    function confirmDelete(schedule) {
+        MySwal.fire({
+            title: 'Tem certeza?',
+            text: "Não há como desfazer essa ação!!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sim, exclua!'
+          }).then((result) => {
+            if (result.value) {
+                deleteSchedules(schedule.id);
+                setDeleted(false);
+            }
+        });     
     }
 
     return (<>
@@ -182,7 +241,7 @@ function ViewSchedule() {
                     </Grid>
                 </Grid>
             </div>
-            <DataGrid loading={isLoading} autoHeight rows={schedules} columns={columns}/>
+            <DataGrid loading={isLoading} autoHeight rows={schedules} columns={columns(confirmDelete)} apiRef={apiRef}/>
         </div>
     </>);
 }
@@ -228,4 +287,4 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-export default withRouter(ViewSchedule)
+export default withRouter(DeleteSchedule)
