@@ -136,16 +136,18 @@ function EditSchedule() {
     async function filter() {
         if(!date) { MySwal.fire('Data não preenchida', 'O campo data deve ser preenchido!', 'error'); return }     
         if(!period) { MySwal.fire('Turno não preenchido', 'O campo turno deve ser preenchido!', 'error'); return }     
+        let manha = ""
 
         setIsLoading(true);
-        if(period === "Manhã") period = "Manha";
+        if(period === "Manhã") manha = "Manha";
         await api.get("/filter", {
             headers: { 
-                period: period,
+                period: manha ? manha : period,
                 date_a: moment(date).format('yyyy-MM-DD'), 
             },
         })
         .then(function (response) {
+            manha = ""
             const schedulesReceived = response.data.filter((elem) => {
                 return elem.status === 'Confirmado';
             });

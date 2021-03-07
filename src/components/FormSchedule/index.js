@@ -586,7 +586,7 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
   }
 
   return (
-    <form onSubmit={save} style={{ width: showColumn ? '70%' : '100%' }}>
+    <form onSubmit={save} style={{ width: showColumn ? '85%' : '100%' }}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         {showColumn ? column() : row()}
       </MuiPickersUtilsProvider>
