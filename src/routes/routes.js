@@ -14,7 +14,7 @@ import NewSchedule from '../pages/Schedule/NewSchedule';
 // import ViewEqupament from "../pages/Equipament/View Equpament";
 // import ViewPlace from "../pages/Place/View Place";
 // import ViewUser from "../pages/User/View User";
-// import ViewSchedule from "../pages/Schedule/View Schedule";
+import ViewSchedule from "../pages/Schedule/ViewSchedule";
 // import EditCampus from "../pages/Campus/Edit Campus";
 // import EditCategory from "../pages/Category/Edit Category";
 // import EditCourse from "../pages/Course/Edit Course";
@@ -39,9 +39,9 @@ const Routes = () => (
       <Route exact path="/" component={Login} />
       <Route path="/schedule/new" component={NewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
-      {/* <PrivateRoute path="/schedule/view" component={ViewSchedule} />
+      <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
-      <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
+      {/* <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
       <AdmRoute path="/category/new" component={NewCategory} />
       <AdmRoute path="/category/view" component={ViewCategory} />
       <AdmRoute path="/category/edit" component={EditCategory} />
