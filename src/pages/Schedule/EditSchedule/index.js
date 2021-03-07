@@ -76,9 +76,23 @@ function EditSchedule() {
     const [schedules, setSchedules] = useState([]);
     const [periods, setPeriods] = useState([]);
     const [period, setPeriod] = useState('');
+    const [changeOrder, setChangeOrder] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
     const [schedule, setSchedule] = useState('');
     const [edit, setEdit] = useState(false);
+
+    function showMenu(x) {
+        if (x.matches) { // If media query matches
+            if(!changeOrder) setChangeOrder(true)
+        }
+        else {
+            if(changeOrder) setChangeOrder(false)
+        }
+    }
+    
+    const x = window.matchMedia("(max-width: 700px)")
+    showMenu(x) // Call listener function at run time
+    x.addListener(showMenu) // Attach listener function on state changes
 
     useEffect(() => {
         async function retrieveSchedules() {
@@ -124,9 +138,7 @@ function EditSchedule() {
         if(!period) { MySwal.fire('Turno não preenchido', 'O campo turno deve ser preenchido!', 'error'); return }     
 
         setIsLoading(true);
-        if(period === "Manhã") {
-            period = "Manha";
-        }
+        if(period === "Manhã") period = "Manha";
         await api.get("/filter", {
             headers: { 
                 period: period,
@@ -143,8 +155,8 @@ function EditSchedule() {
         .catch(function (error) {
             console.log(error)
             MySwal.fire('Oops...', 'Houve um tentar filtrar as informações, tente novamente!', 'error');
-        });
-        setIsLoading(false);
+        })
+        .finally(() => setIsLoading(false))
     }
 
 
@@ -156,26 +168,9 @@ function EditSchedule() {
         })
         .catch(function (error) {
             console.log(error)
-            if(error?.response?.data?.error) {
-                MySwal.fire('Oops...', error.response.data.error, 'error')
-            }
-            else {
-                MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
-            }
+            if(error?.response?.data?.error) MySwal.fire('Oops...', error.response.data.error, 'error')
+            else MySwal.fire('Oops...', 'Houve um tentar visualizar as informações, tente novamente!', 'error');
         });
-    }
-
-    useEffect(() => {
-        console.log(schedule);
-    }, [schedule])
-
-    function defineEdit(schedule) {
-        setSchedule(schedule);
-        setEdit(true);
-    }
-
-    function returnToTable() {
-        setEdit(false);
     }
 
 
@@ -184,15 +179,15 @@ function EditSchedule() {
         <div className={classes.main}>
             {edit ? (<>
                 <div className={classes.edit}>
-                    <FormSchedule onSubmit={editSchedules} schedule={schedule} showBack back={returnToTable}></FormSchedule>
+                    <FormSchedule onSubmit={editSchedules} schedule={schedule} showBack back={() => setEdit(false)}></FormSchedule>
                 </div>
             </>) : (<>
                 <div className={classes.root}>
-                    <Grid container spacing={2}>
+                    <Grid container  spacing={2}>
                         <Grid item xs={12}>
                             <Typography >Filtrar</Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={changeOrder ? 12 : 4}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <FormControl variant="outlined" className={classes.formControl}>
                                     <KeyboardDatePicker
@@ -209,7 +204,7 @@ function EditSchedule() {
                                 </FormControl>
                             </MuiPickersUtilsProvider>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={changeOrder ? 12 : 4}>
                             <FormControl variant="outlined" className={classes.formControl}>
                                 <InputLabel id="sala">Sala</InputLabel>
                                 <Select
@@ -227,7 +222,7 @@ function EditSchedule() {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={changeOrder ? 12 : 4}>
                             <FormControl variant="outlined" className={classes.formControl}>
                                 <Button onClick={filter} className={classes.buttons} variant="contained" color="primary">
                                     Filtrar
