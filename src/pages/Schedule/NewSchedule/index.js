@@ -5,6 +5,7 @@ import NavBar from '../../../components/NavBar';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import api from '../../../services/api';
+import { withRouter } from "react-router-dom";
 
 function NewSchedule() {
   const classes = useStyles();
@@ -37,4 +38,4 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default NewSchedule;
+export default withRouter(NewSchedule);

@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, CircularProgress, Select, FormControl, MenuItem, InputLabel, Grid, makeStyles } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { Button, TextField, CircularProgress, Select, FormControl, MenuItem, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 
-import { withRouter } from "react-router-dom";
-import dateFnsFormat from 'date-fns/format';
-import { formatDate } from '../../utils/formatDate';
+import DateFnsUtils from '@date-io/date-fns';
 import api from '../../services/api';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { PlayCircleFilledOutlined } from '@material-ui/icons';
 
-function FormSchedule({ onSubmit, schedule }) {
-  const classes = useStyles();
+function FormSchedule({ onSubmit, schedule, back, showBack }) {
   const MySwal = withReactContent(Swal);
+  const classes = useStyles();
 
   const [date, setDate] = useState(new Date());
-  const [initial, setInitial] = useState(new Date());
-  const [final, setFinal] = useState(new Date());
+  const [initial, setInitial] = useState();
+  const [final, setFinal] = useState();
   const [equipament, setEquipament] = useState([]);
   const [course, setCourse] = useState('');
   const [category, setCategory] = useState('');
@@ -64,12 +56,12 @@ function FormSchedule({ onSubmit, schedule }) {
 
       setDate(new Date(parse[0], parse[1] - 1, parse[2]));
       //setEquipaments(schedule.equipaments);
-      setInitial(schedule.initial);
-      setFinal(schedule.final);
-      setCourse(schedule.course);
-      setCategory(schedule.category);
+      setInitial(moment(moment().format('yyyy-MM-DD')+' '+schedule.initial));
+      setFinal(moment(moment().format('yyyy-MM-DD')+' '+schedule.final));
+      setCourse(schedule.course.id);
+      setCategory(schedule.category.id);
       //setPlace(schedule.place);
-      setRequestingUser(schedule.requesting_user);
+      setRequestingUser(schedule.requesting_user.id);
       setComments(schedule.comments);
 
       setEdited(true)
@@ -98,7 +90,6 @@ function FormSchedule({ onSubmit, schedule }) {
       },
     })
       .then(function (response) {
-        console.log(response.data);
         if (schedule) {
           const result = doIUseEquipamentsAndPlaceOfSchedule()
           let arrayPlace = []
@@ -430,8 +421,8 @@ function FormSchedule({ onSubmit, schedule }) {
     return(
       <FormControl variant="outlined" className={classes.formControl}>
         <Button disabled={disabledFixed} onClick={selectEquipament} className={classes.buttons} variant="contained" color="primary">
-          Sel. equipamento
-          </Button>
+          Sel. equi.
+        </Button>
       </FormControl>
     )
   }
@@ -482,6 +473,18 @@ function FormSchedule({ onSubmit, schedule }) {
     )
   }
 
+  function backButton() {
+    return(<>
+      {showBack && (
+        <FormControl style={{ marginTop: 20 }} variant="outlined" className={classes.formControl}>
+          <Button onClick={back} className={classes.buttons} variant="contained" color="primary">
+              Voltar
+          </Button>
+        </FormControl>
+      )}
+    </>)
+  }
+
   function column() {
     return (
       <Grid style={{ marginBottom: 20 }} container spacing={1}>
@@ -506,6 +509,8 @@ function FormSchedule({ onSubmit, schedule }) {
           {equipamentsSelectedField()}
           {commentsField()}
           {saveField()}
+          {backButton()}
+
         </>)}
       </Grid>
     )
@@ -523,7 +528,7 @@ function FormSchedule({ onSubmit, schedule }) {
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={3}>
+          <Grid className={classes.center} container item xs={12} spacing={3}>
             <Grid item xs={4}>
               {initialField()}
             </Grid>
@@ -545,10 +550,10 @@ function FormSchedule({ onSubmit, schedule }) {
             <Grid item xs={4}>
               {placeField()}
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               {equipamentsField()}
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               {selectEquipamentField()}
             </Grid>
           </Grid>
@@ -570,12 +575,18 @@ function FormSchedule({ onSubmit, schedule }) {
               {saveField()}
             </Grid>
           </Grid>
-        </Grid>
+
+          <Grid className={classes.center} container item xs={12} spacing={3}>
+            <Grid item xs={8}>
+              {backButton()}
+            </Grid>
+          </Grid>
+      </Grid> 
     )
   }
 
   return (
-    <form onSubmit={save} className={classes.form}>
+    <form onSubmit={save} style={{ width: showColumn ? '70%' : '100%' }}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         {showColumn ? column() : row()}
       </MuiPickersUtilsProvider>
@@ -594,15 +605,15 @@ const useStyles = makeStyles((theme) => ({
   center: {
     display: 'flex',
     alignItems: 'center',
-    // justifyContent: 'center',
+    justifyContent: 'center',
   },
   grow: {
     flexGrow: 1
   },
-  form: {
-    // flexGrow: 1,
-    width: '70%'
-  },
+  // form: {
+  //   // flexGrow: 1,
+  //   width: props => props.showColumn ? '100%' : '70%'
+  // },
   w100: {
     width: '100%',
   },
@@ -610,6 +621,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     width: '100%',
+  },
+  txtSel: {
+    fontSize: 18
   }
 }));
 export default FormSchedule;

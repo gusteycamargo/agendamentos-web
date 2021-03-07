@@ -21,7 +21,7 @@ import NewSchedule from '../pages/Schedule/NewSchedule';
 // import EditEquipament from "../pages/Equipament/Edit Equipament";
 // import EditPlace from "../pages/Place/Edit Place";
 // import EditUser from "../pages/User/Edit User";
-// import EditSchedule from "../pages/Schedule/Edit Schedule";
+import EditSchedule from "../pages/Schedule/EditSchedule";
 // import DeleteCampus from "../pages/Campus/Delete Campus";
 // import DeleteCategory from "../pages/Category/Delete Category";
 // import DeleteCourse from "../pages/Course/Delete Course";
@@ -31,13 +31,14 @@ import NewSchedule from '../pages/Schedule/NewSchedule';
 // import DeleteSchedule from "../pages/Schedule/Delete Schedule";
 // import Reports from "../pages/Reports";
 // import NotFound from "../pages/NotFound";
-// import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 // import AdmRoute from "./AdmRoute";
 
 const Routes = () => (
     <Switch>
       <Route exact path="/" component={Login} />
       <Route path="/schedule/new" component={NewSchedule} />
+      <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       {/* <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
