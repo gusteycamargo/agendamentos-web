@@ -14,6 +14,7 @@ import moment from "moment"
 import NavBar from "../../../components/NavBar";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextGrid"
 import Grid from '@material-ui/core/Grid';
 import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import {
@@ -241,7 +242,7 @@ function DeleteSchedule() {
                     </Grid>
                 </Grid>
             </div>
-            <DataGrid loading={isLoading} autoHeight rows={schedules} columns={columns(confirmDelete)} apiRef={apiRef}/>
+            <DataGrid loading={isLoading} autoHeight rows={schedules} pageSize={5} localeText={localeText} columns={columns(confirmDelete)} apiRef={apiRef}/>
         </div>
     </>);
 }

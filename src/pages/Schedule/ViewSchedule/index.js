@@ -22,6 +22,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextGrid"
 
 const columns = [
     {
@@ -182,7 +183,7 @@ function ViewSchedule() {
                     </Grid>
                 </Grid>
             </div>
-            <DataGrid loading={isLoading} autoHeight rows={schedules} columns={columns}/>
+            <DataGrid loading={isLoading} pageSize={5} localeText={localeText} autoHeight rows={schedules} columns={columns}/>
         </div>
     </>);
 }
