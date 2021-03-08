@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 import api from '../../services/api';
 import MenuItemList from "../Menu"
+import { ExpandLess, ExpandMore, Add, Create, Apps, Assessment, Visibility, Schedule, AccountBalance, LibraryBooks, LaptopChromebook, Room, PeopleAlt, Delete } from '@material-ui/icons';
+import Collapse from '@material-ui/core/Collapse';
 
 function NavBar() {
   const classes = useStyles();
@@ -37,6 +39,11 @@ function NavBar() {
   const userLogged = useSelector(state => state.userLogged.userLogged);
   const campusUserLogged = useSelector(state => state.campus.campus);
   const dispatch = useDispatch();
+
+  const [openNew, setOpenNew] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openView, setOpenView] = useState(false);
 
   const handleClick = (event, url) => {
     setAnchorEl(event.currentTarget);
@@ -103,31 +110,137 @@ function NavBar() {
   showMenu(x) // Call listener function at run time
   x.addListener(showMenu) // Attach listener function on state changes
 
+  function listDrawer(url) {
+    return (<>
+      <List component="div" disablePadding>
+        <ListItem button className={classes.nested}>
+          <ListItemIcon>
+            <Schedule />
+          </ListItemIcon>
+          <ListItemText onClick={() => history.push(`/schedule/${url}`)} primary="Agendamento" />
+        </ListItem>
+      </List>
+
+      {userAdm && (<>
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Apps />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/category/${url}`)} primary="Ano (curso)" />
+          </ListItem>
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <AccountBalance />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/campus/${url}`)} primary="Campus" />
+          </ListItem>
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <LibraryBooks />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/course/${url}`)} primary="Curso" />
+          </ListItem>
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <LaptopChromebook />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/equipament/${url}`)} primary="Equipamento" />
+          </ListItem>
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Room />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/place/${url}`)} primary="Sala" />
+          </ListItem>
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <PeopleAlt />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/user/${url}`)} primary="Usuário" />
+          </ListItem>
+        </List>
+      </>)}
+    </>)
+  }
+
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
+      //onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+        <ListItem button onClick={() => setOpenNew(!openNew)}>
+          <ListItemIcon>
+            <Add />
+          </ListItemIcon>
+          <ListItemText primary="Novo" />
+          {openNew ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested}/>}
+        </ListItem>
+        <Collapse in={openNew} timeout="auto" unmountOnExit>
+          {listDrawer('new')}
+        </Collapse>
+
+        <ListItem button onClick={() => setOpenEdit(!openEdit)}>
+          <ListItemIcon>
+            <Create />
+          </ListItemIcon>
+          <ListItemText primary="Editar" />
+          {openEdit ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested} />}
+        </ListItem>
+        <Collapse in={openEdit} timeout="auto" unmountOnExit>
+          {listDrawer('edit')}
+        </Collapse>
+
+        <ListItem button onClick={() => setOpenDelete(!openDelete)}>
+          <ListItemIcon>
+            <Delete />
+          </ListItemIcon>
+          <ListItemText primary="Excluir" />
+          {openDelete ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested} />}
+        </ListItem>
+        <Collapse in={openDelete} timeout="auto" unmountOnExit>
+          {listDrawer('delete')}
+        </Collapse>
+
+        <ListItem button onClick={() => setOpenView(!openView)}>
+          <ListItemIcon>
+            <Visibility />
+          </ListItemIcon>
+          <ListItemText primary="Visualizar" />
+          {openView ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested} />}
+        </ListItem>
+        <Collapse in={openView} timeout="auto" unmountOnExit>
+          {listDrawer('view')}
+        </Collapse>
+
+        <List component="div" disablePadding>
+          <ListItem button>
+            <ListItemIcon>
+              <Assessment />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/reports`)} primary="Gráficos" />
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        </List>
       </List>
     </div>
   );
@@ -175,6 +288,14 @@ function NavBar() {
                   Visualizar
                 </Button>
               </div>
+
+              {userAdm && (
+                <div>
+                  <Button style={{ marginRight: 10, color: '#FFF' }} aria-controls="simple-menu" aria-haspopup="true" onClick={(e) => history.push('/reports')}>
+                    Gráficos
+                  </Button>
+                </div>
+              )}
             </>)}
           </div>
           <div className={classes.column}>
@@ -220,6 +341,9 @@ const useStyles = makeStyles((theme) => ({
   center: {
     display: 'flex',
     alignItems: 'center',
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
   },
 }));
 
