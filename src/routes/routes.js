@@ -30,7 +30,7 @@ import DeletePlace from "../pages/Place/DeletePlace";
 import DeleteUser from "../pages/User/DeleteUser";
 import DeleteSchedule from "../pages/Schedule/DeleteSchedule";
 import Reports from "../pages/Reports";
-// import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import AdmRoute from "./AdmRoute";
 
@@ -67,15 +67,7 @@ const Routes = () => (
       <AdmRoute path="/place/view" component={ViewPlace} />
       <AdmRoute path="/user/view" component={ViewUser} />
       <AdmRoute path="/reports" component={Reports} />
-
-      {/* 
-      
-      
-      
-      
-      
-      
-      <Route path="*" component={NotFound} /> */}
+      <Route path="*" component={NotFound} />
     </Switch>
 );
 
