@@ -9,7 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -177,8 +177,11 @@ function NavBar() {
               </div>
             </>)}
           </div>
-          
-          <Button color="inherit" onClick={handleLogout}>Sair</Button>
+          <div className={classes.column}>
+            <Typography>{(isLogged) && userLogged.fullname}</Typography>
+            <Typography style={{ fontWeight: 'bold' }}>{(isLogged) &&  "Campus de "+campusUserLogged.city}</Typography>
+            <Button color="inherit" onClick={handleLogout}>Sair</Button>
+          </div>
         </Toolbar>
       </AppBar>
     </div>
@@ -194,6 +197,13 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 5,
+    paddingBottom: 5
   },
   containerButtons: {
     flexGrow: 1,
