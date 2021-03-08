@@ -1,27 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { DataGrid, useGridApiRef } from '@material-ui/data-grid';
 import { withRouter } from 'react-router-dom';
 import api from '../../../services/api';
 import Swal from 'sweetalert2';
 import dateFnsFormat from 'date-fns/format';
-import { formatDate } from '../../../utils/formatDate';
 import withReactContent from 'sweetalert2-react-content'
-import FormSchedule from '../../../components/FormSchedule';
-import Bounce from 'react-activity/lib/Bounce';
-import 'react-activity/lib/Bounce/Bounce.css';
-import 'react-activity/lib/Spinner/Spinner.css';
 import moment from "moment"
 import NavBar from "../../../components/NavBar";
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextGrid"
-import Grid from '@material-ui/core/Grid';
-import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { Button, Grid, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
 const columns = (confirm) => [
@@ -251,12 +240,6 @@ const useStyles = makeStyles((theme) => ({
     main: {
         padding: 25
     },
-    edit: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 35
-    },
     root: {
       flexGrow: 1,
       marginTop: 10,
@@ -265,19 +248,9 @@ const useStyles = makeStyles((theme) => ({
     w100: {
         width: '100%',
     },
-    center: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
     formControl: {
         minWidth: 120,
         width: '100%',
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
     },
     buttons: {
         paddingTop: 15,

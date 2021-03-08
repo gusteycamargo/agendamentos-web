@@ -110,45 +110,6 @@ const useStyles = makeStyles((theme) => ({
     main: {
         padding: 25
     },
-    rootEdit: {
-        width: '50%',
-    },
-    edit: {
-        marginTop: 35,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-    },
-    root: {
-      flexGrow: 1,
-      marginTop: 10,
-      marginBottom: 20
-    },
-    w100: {
-        width: '100%',
-    },
-    center: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    formControl: {
-        minWidth: 120,
-        width: '100%',
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-    buttons: {
-        paddingTop: 15,
-        paddingBottom: 15,
-        paddingLeft: 14,
-        paddingRight: 14,
-        backgroundColor: "#042963"
-      },
 }));
 
 export default withRouter(DeleteCampus)
