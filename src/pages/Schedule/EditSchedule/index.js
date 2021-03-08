@@ -46,7 +46,7 @@ const columns = (setSchedule, setEdit) => [
                 else names = names+', '+equi.name
             }
             return names
-        }
+        },
           
     },
     { field: 'category.description', headerName: 'Ano (curso)', valueGetter: (params) => `${params.getValue('category').description || ''}` },

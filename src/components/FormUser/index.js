@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Button, TextField, CircularProgress, FormControl, Select, MenuItem, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
 import api from "../../services/api";
 
-function FormUser({ onSubmit, user }) {
+function FormUser({ onSubmit, user, showBack, back }) {
     const MySwal = withReactContent(Swal);
     const classes = useStyles();
 
@@ -85,6 +85,12 @@ function FormUser({ onSubmit, user }) {
         setFuncUser('');
     }
       
+    function backButton() {
+        return(<>
+          
+        </>)
+    }
+
     return (
         <div>
             <form onSubmit={save}>
@@ -174,6 +180,14 @@ function FormUser({ onSubmit, user }) {
                         {isLoading && <CircularProgress size={18} style={{ marginLeft: 10 }} color="#FFF" />}
                     </Button>
                 </FormControl>
+
+                {showBack && (
+                    <FormControl style={{ marginTop: 20 }} variant="outlined" className={classes.formControl}>
+                        <Button onClick={back} className={classes.buttons} variant="contained" color="primary">
+                            Voltar
+                        </Button>
+                    </FormControl>
+                )}
             </form>
         </div>
     );

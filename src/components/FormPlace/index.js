@@ -5,7 +5,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { useSelector } from 'react-redux';
 import { Button, TextField, CircularProgress, FormControl, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
 
-function FormPlace({ onSubmit, place }) {
+function FormPlace({ onSubmit, place, back, showBack }) {
     const MySwal = withReactContent(Swal);
     const classes = useStyles();
 
@@ -80,6 +80,13 @@ function FormPlace({ onSubmit, place }) {
                         {isLoading && <CircularProgress size={18} style={{ marginLeft: 10 }} color="#FFF" />}
                     </Button>
                 </FormControl>
+                {showBack && (
+                    <FormControl style={{ marginTop: 20 }} variant="outlined" className={classes.formControl}>
+                        <Button onClick={back} className={classes.buttons} variant="contained" color="primary">
+                            Voltar
+                        </Button>
+                    </FormControl>
+                )}
             </form>
         </div>
     );

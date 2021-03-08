@@ -8,26 +8,26 @@ import NewCourse from "../pages/Course/NewCourse";
 import NewEquipament from "../pages/Equipament/NewEquipament";
 import NewPlace from "../pages/Place/NewPlace";
 import NewUser from "../pages/User/NewUser";
-// import ViewCampus from "../pages/Campus/View Campus";
-// import ViewCategory from "../pages/Category/View Category";
-// import ViewCourse from "../pages/Course/View Course";
-// import ViewEqupament from "../pages/Equipament/View Equpament";
-// import ViewPlace from "../pages/Place/View Place";
-// import ViewUser from "../pages/User/View User";
+import ViewCampus from "../pages/Campus/ViewCampus";
+import ViewCategory from "../pages/Category/ViewCategory";
+import ViewCourse from "../pages/Course/ViewCourse";
+import ViewEquipament from "../pages/Equipament/ViewEquipament";
+import ViewPlace from "../pages/Place/ViewPlace";
+import ViewUser from "../pages/User/ViewUser";
 import ViewSchedule from "../pages/Schedule/ViewSchedule";
-// import EditCampus from "../pages/Campus/Edit Campus";
-// import EditCategory from "../pages/Category/Edit Category";
-// import EditCourse from "../pages/Course/Edit Course";
-// import EditEquipament from "../pages/Equipament/Edit Equipament";
-// import EditPlace from "../pages/Place/Edit Place";
-// import EditUser from "../pages/User/Edit User";
+import EditCampus from "../pages/Campus/EditCampus";
+import EditCategory from "../pages/Category/EditCategory";
+import EditCourse from "../pages/Course/EditCourse";
+import EditEquipament from "../pages/Equipament/EditEquipament";
+import EditPlace from "../pages/Place/EditPlace";
+import EditUser from "../pages/User/EditUser";
 import EditSchedule from "../pages/Schedule/EditSchedule";
-// import DeleteCampus from "../pages/Campus/Delete Campus";
-// import DeleteCategory from "../pages/Category/Delete Category";
-// import DeleteCourse from "../pages/Course/Delete Course";
-// import DeleteEquipament from "../pages/Equipament/Delete Equipament";
-// import DeletePlace from "../pages/Place/Delete Place";
-// import DeleteUser from "../pages/User/Delete User";
+import DeleteCampus from "../pages/Campus/DeleteCampus";
+import DeleteCategory from "../pages/Category/DeleteCategory";
+import DeleteCourse from "../pages/Course/DeleteCourse";
+import DeleteEquipament from "../pages/Equipament/DeleteEquipament";
+import DeletePlace from "../pages/Place/DeletePlace";
+import DeleteUser from "../pages/User/DeleteUser";
 import DeleteSchedule from "../pages/Schedule/DeleteSchedule";
 // import Reports from "../pages/Reports";
 // import NotFound from "../pages/NotFound";
@@ -48,30 +48,32 @@ const Routes = () => (
       <AdmRoute path="/equipament/new" component={NewEquipament} />
       <AdmRoute path="/place/new" component={NewPlace} />
       <AdmRoute path="/user/new" component={NewUser} />
-      
-      {/* <AdmRoute path="/category/view" component={ViewCategory} />
-      <AdmRoute path="/category/edit" component={EditCategory} />
-      <AdmRoute path="/category/delete" component={DeleteCategory} />
-      
-      <AdmRoute path="/campus/view" component={ViewCampus} />
-      <AdmRoute path="/campus/edit" component={EditCampus} />
-      <AdmRoute path="/campus/delete" component={DeleteCampus} />
-      
-      <AdmRoute path="/course/view" component={ViewCourse} />
-      <AdmRoute path="/course/edit" component={EditCourse} />
-      <AdmRoute path="/course/delete" component={DeleteCourse} />
-      
-      <AdmRoute path="/equipament/view" component={ViewEqupament} />
-      <AdmRoute path="/equipament/edit" component={EditEquipament} />
-      <AdmRoute path="/equipament/delete" component={DeleteEquipament} />
-      
-      <AdmRoute path="/place/view" component={ViewPlace} />
-      <AdmRoute path="/place/edit" component={EditPlace} />
-      <AdmRoute path="/place/delete" component={DeletePlace} />
-      
-      <AdmRoute path="/user/view" component={ViewUser} />
       <AdmRoute path="/user/edit" component={EditUser} />
+      <AdmRoute path="/place/edit" component={EditPlace} />
+      <AdmRoute path="/equipament/edit" component={EditEquipament} />
+      <AdmRoute path="/course/edit" component={EditCourse} />
+      <AdmRoute path="/category/edit" component={EditCategory} />
+      <AdmRoute path="/campus/edit" component={EditCampus} />
       <AdmRoute path="/user/delete" component={DeleteUser} />
+      <AdmRoute path="/place/delete" component={DeletePlace} />
+      <AdmRoute path="/equipament/delete" component={DeleteEquipament} />
+      <AdmRoute path="/course/delete" component={DeleteCourse} />
+      <AdmRoute path="/category/delete" component={DeleteCategory} />
+      <AdmRoute path="/campus/delete" component={DeleteCampus} />
+      <AdmRoute path="/campus/view" component={ViewCampus} />
+      <AdmRoute path="/category/view" component={ViewCategory} />
+      <AdmRoute path="/course/view" component={ViewCourse} />
+      <AdmRoute path="/equipament/view" component={ViewEquipament} />
+      <AdmRoute path="/place/view" component={ViewPlace} />
+      <AdmRoute path="/user/view" component={ViewUser} />
+
+      {/* 
+      
+      
+      
+      
+      
+      
       <AdmRoute path="/reports" component={Reports} />
       <Route path="*" component={NotFound} /> */}
     </Switch>
