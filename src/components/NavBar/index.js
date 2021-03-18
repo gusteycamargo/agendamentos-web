@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import api from '../../services/api';
 import MenuItemList from "../Menu"
-import { ExpandLess, ExpandMore, Add, Create, Apps, Assessment, Visibility, Schedule, AccountBalance, LibraryBooks, LaptopChromebook, Room, PeopleAlt, Delete } from '@material-ui/icons';
+import { ExpandLess, ExpandMore, Add, Create, Apps, RestoreFromTrash, Assessment, Visibility, Schedule, AccountBalance, LibraryBooks, LaptopChromebook, Room, PeopleAlt, Delete } from '@material-ui/icons';
 import Collapse from '@material-ui/core/Collapse';
 
 function NavBar() {
@@ -40,6 +40,7 @@ function NavBar() {
   const [openNew, setOpenNew] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openRestore, setOpenRestore] = useState(false);
   const [openView, setOpenView] = useState(false);
 
   const handleClick = (event, url) => {
@@ -219,6 +220,17 @@ function NavBar() {
           {listDrawer('delete')}
         </Collapse>
 
+        <ListItem button onClick={() => setOpenRestore(!openRestore)}>
+          <ListItemIcon>
+            <RestoreFromTrash />
+          </ListItemIcon>
+          <ListItemText primary="Reativar" />
+          {openRestore ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested} />}
+        </ListItem>
+        <Collapse in={openRestore} timeout="auto" unmountOnExit>
+          {listDrawer('restore')}
+        </Collapse>
+
         <ListItem button onClick={() => setOpenView(!openView)}>
           <ListItemIcon>
             <Visibility />
@@ -277,6 +289,12 @@ function NavBar() {
               <div>
                 <Button style={{ marginRight: 10, color: '#FFF' }} aria-controls="simple-menu" aria-haspopup="true" onClick={(e) => handleClick(e, 'delete')}>
                   Excluir
+                </Button>
+              </div>
+
+              <div>
+                <Button style={{ marginRight: 10, color: '#FFF' }} aria-controls="simple-menu" aria-haspopup="true" onClick={(e) => handleClick(e, 'restore')}>
+                  Reativar
                 </Button>
               </div>
 

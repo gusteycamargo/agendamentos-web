@@ -14,8 +14,8 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
   const classes = useStyles();
 
   const [date, setDate] = useState(new Date());
-  const [initial, setInitial] = useState();
-  const [final, setFinal] = useState();
+  const [initial, setInitial] = useState(moment());
+  const [final, setFinal] = useState(moment().add(45, 'minutes'));
   const [equipament, setEquipament] = useState([]);
   const [course, setCourse] = useState('');
   const [category, setCategory] = useState('');
@@ -243,6 +243,7 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
           label="Data"
           format="dd/MM/yyyy"
           value={date}
+          invalidDateMessage="Data inválida"
           onChange={setDate}
           KeyboardButtonProps={{
             'aria-label': 'change date',
@@ -267,7 +268,7 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
           value={initial}
           // format="HH:mm"
           datatype
-          invalidDateMessage="Tempo inválido"
+          invalidDateMessage="Horário inválido"
           onChange={setInitial}
           KeyboardButtonProps={{
             'aria-label': 'change time',
