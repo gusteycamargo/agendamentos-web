@@ -10,24 +10,24 @@ import { useSelector } from "react-redux";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const columns = (confirmDelete) => [
+const columns = (confirmRestore) => [
     { field: 'name', width: 200, headerName: 'Nome'},
     {
         field: "",
         headerName: "Ação",
         disableClickEventBubbling: true,
         renderCell: (params) => {
-            return <Button onClick={() => confirmDelete(params.row)}>Excluir</Button>;
+            return <Button onClick={() => confirmRestore(params.row)}>Reativar</Button>;
         }
     }
 ];
 
-function DeleteCourse({ history }) {
+function RestoreCourse({ history }) {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
 
     const [courses, setCourses] = useState([]);
-    const [deleted, setDeleted] = useState(false);
+    const [restored, setRestored] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const userLogged = useSelector(state => state.userLogged.userLogged);
@@ -43,14 +43,14 @@ function DeleteCourse({ history }) {
 
     useEffect(() => {
         retrieveCourses();
-    }, [deleted]);
+    }, [restored]);
 
     async function retrieveCourses() {
         setIsLoading(true);
         await api.get("/courses")
         .then(function (response) {
             const coursesReceived = response.data.filter((elem) => {
-                return elem.status === 'Ativo';
+                return elem.status === 'Inativo';
             });
 
             setCourses(coursesReceived);
@@ -61,12 +61,12 @@ function DeleteCourse({ history }) {
         setIsLoading(false);
     }
 
-    async function deleteCourses(id) {
+    async function restoreCourses(id) {
         setIsLoading(true);
-        await api.delete(`/courses/${id}`)
+        await api.post(`/courses/restore/${id}`)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Curso deletado com sucesso', 'success');
-            setDeleted(true);
+            MySwal.fire('Prontinho', 'Curso reativado com sucesso', 'success');
+            setRestored(true);
         })
         .catch(function (error) {
             console.log(error)
@@ -75,20 +75,20 @@ function DeleteCourse({ history }) {
         setIsLoading(false);
     }
 
-    function confirmDelete(course) {
+    function confirmRestore(course) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Deseja mesmo excluir esse curso?",
+            text: "Deseja mesmo reativar esse curso?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Sim, exclua!'
+            confirmButtonText: 'Sim, reative!'
           }).then((result) => {
             if (result.value) {
-                deleteCourses(course.id);
-                setDeleted(false);
+                restoreCourses(course.id);
+                setRestored(false);
             }
         });     
     }
@@ -98,7 +98,7 @@ function DeleteCourse({ history }) {
             {show && (<>
                 <NavBar/>
                 <div className={classes.main}>
-                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={courses} columns={columns(confirmDelete)}/>
+                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={courses} columns={columns(confirmRestore)}/>
                 </div>
             </>)}
         </>
@@ -118,4 +118,4 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default withRouter(DeleteCourse)
+export default withRouter(RestoreCourse)
