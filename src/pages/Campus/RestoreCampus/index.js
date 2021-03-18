@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const columns = (confirmDelete) => [
+const columns = (confirmRestore) => [
     { field: 'city', width: 200, headerName: 'Cidade'},
     { field: 'adress', width: 200, headerName: 'Endereço'},
     {
@@ -18,17 +18,17 @@ const columns = (confirmDelete) => [
         headerName: "Ação",
         disableClickEventBubbling: true,
         renderCell: (params) => {
-            return <Button onClick={() => confirmDelete(params.row)}>Excluir</Button>;
+            return <Button onClick={() => confirmRestore(params.row)}>Reativar</Button>;
         }
     }
 ];
 
-function DeleteCampus({ history }) {
+function RestoreCampus({ history }) {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
 
     const [campuses, setCampuses] = useState([]);
-    const [deleted, setDeleted] = useState(false);
+    const [restored, setRestored] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(false);
     const userLogged = useSelector(state => state.userLogged.userLogged);
@@ -48,7 +48,7 @@ function DeleteCampus({ history }) {
             await api.get("/campuses")
             .then(function (response) {
                 const campusesReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
+                    return elem.status === 'Inativo';
                 });
 
                 setCampuses(campusesReceived);
@@ -60,14 +60,14 @@ function DeleteCampus({ history }) {
         }
 
         retrieveCampuses();
-    }, [deleted]);
+    }, [restored]);
 
-    async function deleteCampus(id) {
+    async function restoreCampus(id) {
         setIsLoading(true);
-        await api.delete(`/campuses/${id}`)
+        await api.post(`/campuses/restore/${id}`)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Campus deletado com sucesso', 'success');
-            setDeleted(true);
+            MySwal.fire('Prontinho', 'Campus restaurado com sucesso', 'success');
+            setRestored(true);
         })
         .catch(function (error) {
             console.log(error)
@@ -76,20 +76,20 @@ function DeleteCampus({ history }) {
         setIsLoading(false);
     }
 
-    function confirmDelete(campus) {
+    function confirmRestore(campus) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Deseja mesmo excluir esse campus?",
+            text: "Deseja mesmo reativar esse campus?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Sim, exclua!'
+            confirmButtonText: 'Sim, reative!'
           }).then((result) => {
             if (result.value) {
-                deleteCampus(campus.id);
-                setDeleted(false);
+                restoreCampus(campus.id);
+                setRestored(false);
             }
         });     
     }
@@ -99,7 +99,7 @@ function DeleteCampus({ history }) {
             {show && (<>
                 <NavBar/>
                 <div className={classes.main}>
-                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={campuses} columns={columns(confirmDelete)}/>
+                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={campuses} columns={columns(confirmRestore)}/>
                 </div>
             </>)}
         </>
@@ -112,4 +112,4 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default withRouter(DeleteCampus)
+export default withRouter(RestoreCampus)

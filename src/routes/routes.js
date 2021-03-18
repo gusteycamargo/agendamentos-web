@@ -33,6 +33,7 @@ import Reports from "../pages/Reports";
 import NotFound from "../pages/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import AdmRoute from "./AdmRoute";
+import RestoreCampus from "../pages/Campus/RestoreCampus";
 
 const Routes = () => (
     <Switch>
@@ -60,6 +61,7 @@ const Routes = () => (
       <AdmRoute path="/course/delete" component={DeleteCourse} />
       <AdmRoute path="/category/delete" component={DeleteCategory} />
       <AdmRoute path="/campus/delete" component={DeleteCampus} />
+      <AdmRoute path="/campus/restore" component={RestoreCampus} />
       <AdmRoute path="/campus/view" component={ViewCampus} />
       <AdmRoute path="/category/view" component={ViewCategory} />
       <AdmRoute path="/course/view" component={ViewCourse} />
