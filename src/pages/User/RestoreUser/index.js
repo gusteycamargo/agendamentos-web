@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const columns = (confirmDelete) => [
+const columns = (confirmRestore) => [
     { field: 'fullname', width: 200, headerName: 'Nome completo'},
     { field: 'username', width: 200, headerName: 'Nome de usuário'},
     { field: 'email', headerName: 'E-mail', width: 200},
@@ -20,12 +20,12 @@ const columns = (confirmDelete) => [
         headerName: "Ação",
         disableClickEventBubbling: true,
         renderCell: (params) => {
-            return <Button onClick={() => confirmDelete(params.row)}>Excluir</Button>;
+            return <Button onClick={() => confirmRestore(params.row)}>Reativar</Button>;
         }
     }
 ];
 
-function DeleteUser({ history }) {
+function RestoreUser({ history }) {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
 
@@ -53,7 +53,7 @@ function DeleteUser({ history }) {
         await api.get("/users")
         .then(function (response) {
             const usersReceived = response.data.filter((elem) => {
-                return elem.status === 'Ativo';
+                return elem.status === 'Inativo';
             });
 
             setUsers(usersReceived);
@@ -64,11 +64,11 @@ function DeleteUser({ history }) {
         setIsLoading(false);
     }
 
-    async function deleteUsers(id) {
+    async function restoreUsers(id) {
         setIsLoading(true);
-        await api.delete(`/users/${id}`)
+        await api.post(`/users/restore/${id}`)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Usuário deletado com sucesso', 'success');
+            MySwal.fire('Prontinho', 'Usuário reativado com sucesso', 'success');
             setDeleted(true);
         })
         .catch(function (error) {
@@ -78,19 +78,19 @@ function DeleteUser({ history }) {
         setIsLoading(false);
     }
 
-    function confirmDelete(user) {
+    function confirmRestore(user) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Deseja mesmo excluir esse usuário?",
+            text: "Deseja mesmo reativar esse usuário?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Sim, exclua!'
+            confirmButtonText: 'Sim, reative!'
           }).then((result) => {
             if (result.value) {
-                deleteUsers(user.id);
+                restoreUsers(user.id);
                 setDeleted(false);
             }
         });     
@@ -101,7 +101,7 @@ function DeleteUser({ history }) {
             {show && (<>
                 <NavBar/>
                 <div className={classes.main}>
-                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={users} columns={columns(confirmDelete)}/>
+                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={users} columns={columns(confirmRestore)}/>
                 </div>
             </>)}
         </>
@@ -114,4 +114,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default withRouter(DeleteUser)
+export default withRouter(RestoreUser)

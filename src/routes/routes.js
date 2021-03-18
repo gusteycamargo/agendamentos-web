@@ -38,45 +38,55 @@ import RestoreCategory from "../pages/Category/RestoreCategory";
 import RestoreCourse from "../pages/Course/RestoreCourse";
 import RestoreEquipament from "../pages/Equipament/RestoreEquipament";
 import RestorePlace from "../pages/Place/RestorePlace";
+import RestoreUser from "../pages/User/RestoreUser";
 
 const Routes = () => (
     <Switch>
       <Route exact path="/" component={Login} />
+      <AdmRoute path="/reports" component={Reports} />
+      
       <PrivateRoute path="/schedule/new" component={NewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/delete" component={DeleteSchedule} />
-      <AdmRoute path="/category/new" component={NewCategory} />
-      <AdmRoute path="/course/new" component={NewCourse} />
+      
       <AdmRoute path="/campus/new" component={NewCampus} />
-      <AdmRoute path="/equipament/new" component={NewEquipament} />
-      <AdmRoute path="/place/new" component={NewPlace} />
-      <AdmRoute path="/user/new" component={NewUser} />
-      <AdmRoute path="/user/edit" component={EditUser} />
-      <AdmRoute path="/place/edit" component={EditPlace} />
-      <AdmRoute path="/equipament/edit" component={EditEquipament} />
-      <AdmRoute path="/course/edit" component={EditCourse} />
-      <AdmRoute path="/category/edit" component={EditCategory} />
       <AdmRoute path="/campus/edit" component={EditCampus} />
-      <AdmRoute path="/user/delete" component={DeleteUser} />
-      <AdmRoute path="/place/delete" component={DeletePlace} />
-      <AdmRoute path="/place/restore" component={RestorePlace} />
-      <AdmRoute path="/equipament/delete" component={DeleteEquipament} />
-      <AdmRoute path="/equipament/restore" component={RestoreEquipament} />
-      <AdmRoute path="/course/delete" component={DeleteCourse} />
-      <AdmRoute path="/course/restore" component={RestoreCourse} />
-      <AdmRoute path="/category/delete" component={DeleteCategory} />
-      <AdmRoute path="/category/restore" component={RestoreCategory} />
       <AdmRoute path="/campus/delete" component={DeleteCampus} />
       <AdmRoute path="/campus/restore" component={RestoreCampus} />
       <AdmRoute path="/campus/view" component={ViewCampus} />
+
+      <AdmRoute path="/category/new" component={NewCategory} />
+      <AdmRoute path="/category/edit" component={EditCategory} />
+      <AdmRoute path="/category/delete" component={DeleteCategory} />
+      <AdmRoute path="/category/restore" component={RestoreCategory} />
       <AdmRoute path="/category/view" component={ViewCategory} />
+
+      <AdmRoute path="/course/new" component={NewCourse} />
+      <AdmRoute path="/course/edit" component={EditCourse} />
+      <AdmRoute path="/course/delete" component={DeleteCourse} />
+      <AdmRoute path="/course/restore" component={RestoreCourse} />
       <AdmRoute path="/course/view" component={ViewCourse} />
+
+      <AdmRoute path="/equipament/new" component={NewEquipament} />
+      <AdmRoute path="/equipament/edit" component={EditEquipament} />
+      <AdmRoute path="/equipament/delete" component={DeleteEquipament} />
+      <AdmRoute path="/equipament/restore" component={RestoreEquipament} />
       <AdmRoute path="/equipament/view" component={ViewEquipament} />
+
+      <AdmRoute path="/place/new" component={NewPlace} />
+      <AdmRoute path="/place/edit" component={EditPlace} />
+      <AdmRoute path="/place/delete" component={DeletePlace} />
+      <AdmRoute path="/place/restore" component={RestorePlace} />
       <AdmRoute path="/place/view" component={ViewPlace} />
+
+      <AdmRoute path="/user/new" component={NewUser} />
+      <AdmRoute path="/user/edit" component={EditUser} />
+      <AdmRoute path="/user/delete" component={DeleteUser} />
+      <AdmRoute path="/user/restore" component={RestoreUser} />
       <AdmRoute path="/user/view" component={ViewUser} />
-      <AdmRoute path="/reports" component={Reports} />
+      
       <Route path="*" component={NotFound} />
     </Switch>
 );
