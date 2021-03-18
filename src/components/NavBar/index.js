@@ -110,14 +110,16 @@ function NavBar() {
 
   function listDrawer(url) {
     return (<>
-      <List component="div" disablePadding>
-        <ListItem button className={classes.nested}>
-          <ListItemIcon>
-            <Schedule />
-          </ListItemIcon>
-          <ListItemText onClick={() => history.push(`/schedule/${url}`)} primary="Agendamento" />
-        </ListItem>
-      </List>
+      {url !== "restore" && 
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Schedule />
+            </ListItemIcon>
+            <ListItemText onClick={() => history.push(`/schedule/${url}`)} primary="Agendamento" />
+          </ListItem>
+        </List>
+      }
 
       {userAdm && (<>
         <List component="div" disablePadding>
