@@ -28,9 +28,11 @@ function Login({ history }) {
     }, [history]);
 
     async function isLogged() {
+        setIsLoading(true)
         await isAuthenticated()
             .then(() => history.push("/schedule/new"))
             .catch((error) => console.log(error))
+            .finally(() => setIsLoading((false)))
     }
 
     function addUserAndCampus(user, campus) {

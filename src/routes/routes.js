@@ -37,7 +37,7 @@ import AdmRoute from "./AdmRoute";
 const Routes = () => (
     <Switch>
       <Route exact path="/" component={Login} />
-      <Route path="/schedule/new" component={NewSchedule} />
+      <PrivateRoute path="/schedule/new" component={NewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
       <PrivateRoute path="/schedule/view" component={ViewSchedule} />
       <PrivateRoute path="/schedule/edit" component={EditSchedule} />
