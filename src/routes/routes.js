@@ -34,6 +34,7 @@ import NotFound from "../pages/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import AdmRoute from "./AdmRoute";
 import RestoreCampus from "../pages/Campus/RestoreCampus";
+import RestoreCategory from "../pages/Category/RestoreCategory";
 
 const Routes = () => (
     <Switch>
@@ -60,6 +61,7 @@ const Routes = () => (
       <AdmRoute path="/equipament/delete" component={DeleteEquipament} />
       <AdmRoute path="/course/delete" component={DeleteCourse} />
       <AdmRoute path="/category/delete" component={DeleteCategory} />
+      <AdmRoute path="/category/restore" component={RestoreCategory} />
       <AdmRoute path="/campus/delete" component={DeleteCampus} />
       <AdmRoute path="/campus/restore" component={RestoreCampus} />
       <AdmRoute path="/campus/view" component={ViewCampus} />

@@ -10,24 +10,24 @@ import { useSelector } from "react-redux";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const columns = (confirmDelete) => [
+const columns = (confirmRestore) => [
     { field: 'description', width: 200, headerName: 'Descrição'},
     {
         field: "",
         headerName: "Ação",
         disableClickEventBubbling: true,
         renderCell: (params) => {
-            return <Button onClick={() => confirmDelete(params.row)}>Excluir</Button>;
+            return <Button onClick={() => confirmRestore(params.row)}>Reativar</Button>;
         }
     }
 ];
 
-function DeleteCategory({ history }) {
+function RestoreCategory({ history }) {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
 
     const [categories, setCategories] = useState([]);
-    const [deleted, setDeleted] = useState(false);
+    const [restored, setRestored] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const userLogged = useSelector(state => state.userLogged.userLogged);
@@ -47,7 +47,7 @@ function DeleteCategory({ history }) {
             await api.get("/categories")
             .then(function (response) {
                 const categoriesReceived = response.data.filter((elem) => {
-                    return elem.status === 'Ativo';
+                    return elem.status === 'Inativo';
                 });
 
                 setCategories(categoriesReceived);
@@ -59,14 +59,14 @@ function DeleteCategory({ history }) {
         }
 
         retrieveCategories();
-    }, [deleted]);
+    }, [restored]);
 
-    async function deleteCategories(id) {
+    async function restoreCategories(id) {
         setIsLoading(true);
-        await api.delete(`/categories/${id}`)
+        await api.post(`/categories/restore/${id}`)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Ano deletado com sucesso', 'success');
-            setDeleted(true);
+            MySwal.fire('Prontinho', 'Ano reativado com sucesso', 'success');
+            setRestored(true);
         })
         .catch(function (error) {
             console.log(error)
@@ -75,20 +75,20 @@ function DeleteCategory({ history }) {
         setIsLoading(false);
     }
 
-    function confirmDelete(category) {
+    function confirmRestore(category) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Deseja mesmo excluir esse campus?",
+            text: "Deseja mesmo reativar esse ano?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Sim, exclua!'
+            confirmButtonText: 'Sim, reative!'
           }).then((result) => {
             if (result.value) {
-                deleteCategories(category.id);
-                setDeleted(false);
+                restoreCategories(category.id);
+                setRestored(false);
             }
         });     
     }
@@ -98,7 +98,7 @@ function DeleteCategory({ history }) {
             {show && (<>
                 <NavBar/>
                 <div className={classes.main}>
-                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={categories} columns={columns(confirmDelete)}/>
+                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={categories} columns={columns(confirmRestore)}/>
                 </div>
             </>)}
         </>
@@ -118,4 +118,4 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default withRouter(DeleteCategory)
+export default withRouter(RestoreCategory)
