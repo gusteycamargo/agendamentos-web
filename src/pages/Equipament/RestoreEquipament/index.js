@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const columns = (confirmDelete) => [
+const columns = (confirmRestore) => [
     { field: 'name', width: 200, headerName: 'Nome'},
     { field: 'brand', width: 200, headerName: 'Marca'},
     { field: 'equityNumber', width: 200, headerName: 'Número de patrimônio'},
@@ -19,12 +19,12 @@ const columns = (confirmDelete) => [
         headerName: "Ação",
         disableClickEventBubbling: true,
         renderCell: (params) => {
-            return <Button onClick={() => confirmDelete(params.row)}>Excluir</Button>;
+            return <Button onClick={() => confirmRestore(params.row)}>Reativar</Button>;
         }
     }
 ];
 
-function DeleteEquipament({ history }) {
+function RestoreEquipament({ history }) {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
 
@@ -52,7 +52,7 @@ function DeleteEquipament({ history }) {
         await api.get("/equipaments")
         .then(function (response) {
             const equipamentsReceived = response.data.filter((elem) => {
-                return elem.status === 'Ativo';
+                return elem.status === 'Inativo';
             });
 
             setEquipaments(equipamentsReceived);
@@ -63,11 +63,11 @@ function DeleteEquipament({ history }) {
         setIsLoading(false);
     }
 
-    async function deleteEquipaments(id) {
+    async function restoreEquipaments(id) {
         setIsLoading(true);
-        await api.delete(`/equipaments/${id}`)
+        await api.post(`/equipaments/restore/${id}`)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Equipamento deletado com sucesso', 'success');
+            MySwal.fire('Prontinho', 'Equipamento reativado com sucesso', 'success');
             setDeleted(true);
         })
         .catch(function (error) {
@@ -77,19 +77,19 @@ function DeleteEquipament({ history }) {
         setIsLoading(false);
     }
 
-    function confirmDelete(equipament) {
+    function confirmRestore(equipament) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Deseja mesmo excluir esse equipamento?",
+            text: "Deseja mesmo reativar esse equipamento?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Sim, exclua!'
+            confirmButtonText: 'Sim, reative!'
           }).then((result) => {
             if (result.value) {
-                deleteEquipaments(equipament.id);
+                restoreEquipaments(equipament.id);
                 setDeleted(false);
             }
         });     
@@ -100,7 +100,7 @@ function DeleteEquipament({ history }) {
             {show && (<>
                 <NavBar/>
                 <div className={classes.main}>
-                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={equipaments} columns={columns(confirmDelete)}/>
+                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={equipaments} columns={columns(confirmRestore)}/>
                 </div>
             </>)}
         </>
@@ -120,4 +120,4 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default withRouter(DeleteEquipament)
+export default withRouter(RestoreEquipament)
