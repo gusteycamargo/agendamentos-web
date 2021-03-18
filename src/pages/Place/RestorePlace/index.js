@@ -12,8 +12,7 @@ import withReactContent from 'sweetalert2-react-content'
 
 const columns = (confirmRestore) => [
     { field: 'name', width: 200, headerName: 'Nome'},
-    { field: 'brand', width: 200, headerName: 'Marca'},
-    { field: 'equityNumber', width: 200, headerName: 'Número de patrimônio'},
+    { field: 'capacity', width: 200, headerName: 'Capacidade'},
     {
         field: "",
         headerName: "Ação",
@@ -24,11 +23,11 @@ const columns = (confirmRestore) => [
     }
 ];
 
-function RestoreEquipament({ history }) {
+function RestorePlace({ history }) {
     const classes = useStyles();
     const MySwal = withReactContent(Swal);
 
-    const [equipaments, setEquipaments] = useState([]);
+    const [places, setPlaces] = useState([]);
     const [restored, setRestored] = useState(false);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -44,18 +43,18 @@ function RestoreEquipament({ history }) {
     }, [history, userLogged]);
 
     useEffect(() => {
-        retrieveEquipaments();
+        retrievePlaces();
     }, [restored]);
 
-    async function retrieveEquipaments() {
+    async function retrievePlaces() {
         setIsLoading(true);
-        await api.get("/equipaments")
+        await api.get("/places")
         .then(function (response) {
-            const equipamentsReceived = response.data.filter((elem) => {
+            const placesReceived = response.data.filter((elem) => {
                 return elem.status === 'Inativo';
             });
 
-            setEquipaments(equipamentsReceived);
+            setPlaces(placesReceived);
         })
         .catch(function (error) {
             console.log(error)
@@ -63,11 +62,11 @@ function RestoreEquipament({ history }) {
         setIsLoading(false);
     }
 
-    async function restoreEquipaments(id) {
+    async function restorePlaces(id) {
         setIsLoading(true);
-        await api.post(`/equipaments/restore/${id}`)
+        await api.post(`/places/restore/${id}`)
         .then(function (response) {
-            MySwal.fire('Prontinho', 'Equipamento reativado com sucesso', 'success');
+            MySwal.fire('Prontinho', 'Sala reativada com sucesso', 'success');
             setRestored(true);
         })
         .catch(function (error) {
@@ -77,10 +76,10 @@ function RestoreEquipament({ history }) {
         setIsLoading(false);
     }
 
-    function confirmRestore(equipament) {
+    function confirmRestore(place) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Deseja mesmo reativar esse equipamento?",
+            text: "Deseja mesmo reativar essa sala?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -89,18 +88,18 @@ function RestoreEquipament({ history }) {
             confirmButtonText: 'Sim, reative!'
           }).then((result) => {
             if (result.value) {
-                restoreEquipaments(equipament.id);
+                restorePlaces(place.id);
                 setRestored(false);
             }
         });     
-    }
+    }  
 
     return (
         <>
             {show && (<>
                 <NavBar/>
                 <div className={classes.main}>
-                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={equipaments} columns={columns(confirmRestore)}/>
+                    <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={places} columns={columns(confirmRestore)}/>
                 </div>
             </>)}
         </>
@@ -118,6 +117,11 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         flexDirection: 'column',
     },
+    root: {
+      flexGrow: 1,
+      marginTop: 10,
+      marginBottom: 20
+    },
 }));
 
-export default withRouter(RestoreEquipament)
+export default withRouter(RestorePlace)

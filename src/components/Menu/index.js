@@ -12,9 +12,11 @@ export default function MenuItemList({userAdm, anchorEl, handleClose, url}) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <Link style={{ textDecoration: 'none', color: '#313131' }} to={`/schedule/${url}`}>
-                <MenuItem onClick={handleClose}>Agendamento</MenuItem>
-            </Link>
+            {url !== 'restore'&& 
+                <Link style={{ textDecoration: 'none', color: '#313131' }} to={`/schedule/${url}`}>
+                    <MenuItem onClick={handleClose}>Agendamento</MenuItem>
+                </Link>
+            }
             {userAdm && (<>
                 <Link style={{ textDecoration: 'none', color: '#313131' }} to={`/category/${url}`}>
                     <MenuItem onClick={handleClose}>Ano (curso)</MenuItem>

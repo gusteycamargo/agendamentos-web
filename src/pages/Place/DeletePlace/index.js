@@ -79,7 +79,7 @@ function DeletePlace({ history }) {
     function confirmDelete(place) {
         MySwal.fire({
             title: 'Tem certeza?',
-            text: "Não há como desfazer essa ação!!",
+            text: "Deseja mesmo excluir essa sala?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
