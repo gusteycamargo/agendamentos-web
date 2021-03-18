@@ -54,7 +54,6 @@ function ViewSchedule() {
     const [period, setPeriod] = useState('');
     const [changeOrder, setChangeOrder] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
-    const [edit, setEdit] = useState(false);
 
     function showMenu(x) {
         if (x.matches) { // If media query matches

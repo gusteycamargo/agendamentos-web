@@ -11,7 +11,7 @@ const columns = [
     { field: 'fullname', width: 200, headerName: 'Nome completo'},
     { field: 'username', width: 200, headerName: 'Nome de usuário'},
     { field: 'email', width: 200, headerName: 'E-mail'},
-    { field: 'fnc', width: 200, headerName: 'Função', valueGetter: (params) => params.getValue('function') == "adm" ? "Administrador" : "Usuário"},
+    { field: 'fnc', width: 200, headerName: 'Função', valueGetter: (params) => params.getValue('function') === "adm" ? "Administrador" : "Usuário"},
     { field: 'status', width: 200, headerName: 'Status'},
 ];
 
@@ -24,7 +24,7 @@ function ViewUser({ history }) {
     const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(userLogged.function == 'adm') {
+        if(userLogged.function === 'adm') {
             setShow(true);
         }
         else {

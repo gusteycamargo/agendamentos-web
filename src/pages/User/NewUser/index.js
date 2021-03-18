@@ -12,7 +12,7 @@ function NewUser({ history }) {
     const classes = useStyles();
 
     useEffect(() => {        
-        if(userLogged.function == 'adm') setShow(true);
+        if(userLogged.function === 'adm') setShow(true);
         else history.push("/schedule/new");
     }, [history, userLogged]);
 

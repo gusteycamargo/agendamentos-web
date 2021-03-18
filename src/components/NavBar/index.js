@@ -3,13 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,7 +16,7 @@ import { logout } from '../../services/auth';
 import * as UserLoggedActions from '../../store/actions/userLogged';
 import * as CampusActions from '../../store/actions/campus';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import api from '../../services/api';
 import MenuItemList from "../Menu"
 import { ExpandLess, ExpandMore, Add, Create, Apps, Assessment, Visibility, Schedule, AccountBalance, LibraryBooks, LaptopChromebook, Room, PeopleAlt, Delete } from '@material-ui/icons';
@@ -71,7 +68,7 @@ function NavBar() {
     .then(response => {
         if(userLogged?.id) {
             setIsLogged(true)
-            if(userLogged.function == 'adm') {
+            if(userLogged.function === 'adm') {
                 setUserAdm(true)
             }
             else {

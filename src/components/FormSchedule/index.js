@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, CircularProgress, Select, FormControl, MenuItem, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, TextField, CircularProgress, Select, FormControl, MenuItem, InputLabel, Grid, makeStyles } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 
 import DateFnsUtils from '@date-io/date-fns';
@@ -125,7 +125,7 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
 
   function doIUseEquipamentsAndPlaceOfSchedule() {
     if (schedule) {
-      if ((schedule.initial != initial) || (schedule.final != final)) { return false }
+      if ((schedule.initial !== initial) || (schedule.final !== final)) { return false }
       else { return true }
     }
   }
@@ -181,7 +181,7 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
       equipamentsSelected.push(equipament);
       let eqName;
       equipaments.map(eq => {
-        if(eq.id == equipament) eqName = eq.name
+        if(eq.id === equipament) eqName = eq.name
       })
       setEquipamentsView([...equipamentsView, eqName]);
     }

@@ -11,7 +11,7 @@ function NotFound() {
         <NavBar/>
         <div className={classes.background}>
             <div style={{ height: '70%' }}>
-                <img height="100%" src={image}/>
+                <img alt="404 error" height="100%" src={image}/>
             </div>
         </div>
     </>);

@@ -13,7 +13,7 @@ import { withRouter } from "react-router-dom";
 import { login, isAuthenticated } from "../../services/auth";
 import * as CampusActions from '../../store/actions/campus';
 import * as UserLoggedActions from '../../store/actions/userLogged';
-import { FormControl, Typography, CircularProgress } from '@material-ui/core';
+import { Typography, CircularProgress } from '@material-ui/core';
 
 function Login({ history }) {
     const classes = useStyles();

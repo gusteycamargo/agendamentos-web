@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useSelector } from 'react-redux';
-import { Button, TextField, CircularProgress, FormControl, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, TextField, CircularProgress, FormControl, makeStyles } from '@material-ui/core';
 
 function FormPlace({ onSubmit, place, back, showBack }) {
     const MySwal = withReactContent(Swal);

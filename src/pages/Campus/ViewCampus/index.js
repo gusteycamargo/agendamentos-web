@@ -22,7 +22,7 @@ function ViewCampus({ history }) {
     const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {        
-        if(userLogged.function == 'adm') {
+        if(userLogged.function === 'adm') {
             setShow(true);
         }
         else {

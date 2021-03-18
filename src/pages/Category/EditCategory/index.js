@@ -51,7 +51,7 @@ function EditCategory({ history }) {
     x.addListener(showMenu) // Attach listener function on state changes
 
     useEffect(() => {        
-        if(userLogged.function == 'adm') {
+        if(userLogged.function === 'adm') {
             setShow(true);
         }
         else {

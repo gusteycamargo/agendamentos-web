@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { useSelector } from 'react-redux';
-import { Button, TextField, CircularProgress, FormControl, Select, MenuItem, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, TextField, CircularProgress, FormControl, Select, MenuItem, InputLabel, makeStyles } from '@material-ui/core';
 import api from "../../services/api";
 
 function FormUser({ onSubmit, user, showBack, back }) {
@@ -19,7 +18,6 @@ function FormUser({ onSubmit, user, showBack, back }) {
     const [func, setFunc] = useState([]);
     const [funcUser, setFuncUser] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {
         defineCampuses();
@@ -83,12 +81,6 @@ function FormUser({ onSubmit, user, showBack, back }) {
         setPassword('');
         setCampus('');
         setFuncUser('');
-    }
-      
-    function backButton() {
-        return(<>
-          
-        </>)
     }
 
     return (

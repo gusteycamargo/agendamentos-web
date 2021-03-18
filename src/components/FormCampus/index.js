@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { useSelector } from 'react-redux';
-import { Button, TextField, CircularProgress, FormControl, InputLabel, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, TextField, CircularProgress, FormControl, makeStyles } from '@material-ui/core';
 
 function FormCampus({ onSubmit, campus, back, showBack }) {
     const MySwal = withReactContent(Swal);
@@ -12,7 +11,6 @@ function FormCampus({ onSubmit, campus, back, showBack }) {
     const [adress, setAdress] = useState('');
     const [city, setCity] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const userLogged = useSelector(state => state.userLogged.userLogged);
 
     useEffect(() => {
         if(campus){

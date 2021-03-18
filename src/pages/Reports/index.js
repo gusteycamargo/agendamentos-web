@@ -20,7 +20,6 @@ function Reports({ history }) {
     const [datea, setDatea] = useState();
     const [dateb, setDateb] = useState();
     const [dataChart, setDataChart] = useState([]);
-    const [width, setWidth] = useState(600);
     const [height, setHeight] = useState(500);
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +73,7 @@ function Reports({ history }) {
     }, [filterData]);    
 
     useEffect(() => {        
-        if(userLogged.function == 'adm') {
+        if(userLogged.function === 'adm') {
             setShow(true);
         }
         else {
@@ -160,7 +159,6 @@ function Reports({ history }) {
                     </Grid>
 
                     <WindowSizeListener onResize={windowSize => {
-                        setWidth(windowSize.windowWidth-200);
                         setHeight(windowSize.windowHeight-100);
                         }}/>
                     {(firstLook) ? (
