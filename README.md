@@ -31,4 +31,4 @@ Para a sua construção foi utilizada a linguagem JavaScript e biblioteca ReactJ
 
 ---
 
-Feito com 💜 by Gustavo Camargo 
+Feito com 💜  by Gustavo Camargo 
