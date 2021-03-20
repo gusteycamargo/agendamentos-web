@@ -222,16 +222,18 @@ function NavBar() {
           {listDrawer('delete')}
         </Collapse>
 
-        <ListItem button onClick={() => setOpenRestore(!openRestore)}>
-          <ListItemIcon>
-            <RestoreFromTrash />
-          </ListItemIcon>
-          <ListItemText primary="Reativar" />
-          {openRestore ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested} />}
-        </ListItem>
-        <Collapse in={openRestore} timeout="auto" unmountOnExit>
-          {listDrawer('restore')}
-        </Collapse>
+        {userAdm && <>
+          <ListItem button onClick={() => setOpenRestore(!openRestore)}>
+            <ListItemIcon>
+              <RestoreFromTrash />
+            </ListItemIcon>
+            <ListItemText primary="Reativar" />
+            {openRestore ? <ExpandLess className={classes.nested} /> : <ExpandMore className={classes.nested} />}
+          </ListItem>
+          <Collapse in={openRestore} timeout="auto" unmountOnExit>
+            {listDrawer('restore')}
+          </Collapse>
+        </>}
 
         <ListItem button onClick={() => setOpenView(!openView)}>
           <ListItemIcon>
@@ -294,11 +296,13 @@ function NavBar() {
                 </Button>
               </div>
 
-              <div>
-                <Button style={{ marginRight: 10, color: '#FFF' }} aria-controls="simple-menu" aria-haspopup="true" onClick={(e) => handleClick(e, 'restore')}>
-                  Reativar
-                </Button>
-              </div>
+              {userAdm && 
+                <div>
+                  <Button style={{ marginRight: 10, color: '#FFF' }} aria-controls="simple-menu" aria-haspopup="true" onClick={(e) => handleClick(e, 'restore')}>
+                    Reativar
+                  </Button>
+                </div>
+              }
 
               <div>
                 <Button style={{ marginRight: 10, color: '#FFF' }} aria-controls="simple-menu" aria-haspopup="true" onClick={(e) => handleClick(e, 'view')}>
