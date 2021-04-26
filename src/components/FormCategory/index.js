@@ -50,6 +50,7 @@ function FormCategory({ onSubmit, category, back, showBack }) {
                     <TextField 
                         id="descricao" 
                         label="Descrição" 
+                        placeholder="Descrição (Ex: 1˚ ano)"
                         variant="outlined" 
                         value={description}
                         onChange={e => setDescription(e.target.value)}
