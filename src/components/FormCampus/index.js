@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { Button, TextField, CircularProgress, FormControl, makeStyles } from '@material-ui/core';
+import { Button, TextField, CircularProgress, FormControl, makeStyles, Select, MenuItem, InputLabel } from '@material-ui/core';
+import axios from "axios"
 
 function FormCampus({ onSubmit, campus, back, showBack }) {
     const MySwal = withReactContent(Swal);
@@ -10,14 +11,25 @@ function FormCampus({ onSubmit, campus, back, showBack }) {
 
     const [adress, setAdress] = useState('');
     const [city, setCity] = useState('');
+    const [cities, setCities] = useState([])
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        getCities()
+    }, [])
+    
     useEffect(() => {
         if(campus){
             setCity(campus.city);
             setAdress(campus.adress);
         }
     }, [campus])
+
+    function getCities() {
+        axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/41/municipios?orderBy=nome')
+        .then(res => setCities(res.data))
+        .catch(err => MySwal.fire('Oops', 'Erro ao recuperar lista de cidades', 'error'))
+    }
 
     function save(e) {
         e.preventDefault();
@@ -51,14 +63,20 @@ function FormCampus({ onSubmit, campus, back, showBack }) {
         <div>
             <form onSubmit={save}>
                 <FormControl variant="outlined" className={classes.formControl}>
-                    <TextField 
-                        id="cidade" 
-                        label="Cidade" 
-                        variant="outlined" 
+                    <InputLabel id="cidade">Cidade</InputLabel>
+                    <Select
+                        labelId="cidade"
+                        id="cidade-select"
                         value={city}
-                        onChange={e => setCity(e.target.value)}
                         className={classes.w100}
-                    />
+                        onChange={e => setCity(e.target.value)}
+                        label="Cidade"
+                        required
+                    >
+                        {cities.map(city => (
+                            <MenuItem value={city.id}>{city.nome}</MenuItem>
+                        ))}
+                    </Select>
                 </FormControl>
                 <FormControl variant="outlined" className={classes.formControl}>
                     <TextField 
