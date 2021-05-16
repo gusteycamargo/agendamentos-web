@@ -13,6 +13,7 @@ import { Button, Grid, FormControl, InputLabel, MenuItem, Select, Typography } f
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextGrid"
+import ModalViewSchedule from "../../../components/ModalViewSchedule";
 
 const columns = (setSchedule, setEdit) => [
     {
@@ -71,6 +72,8 @@ function EditSchedule() {
     const [isLoading, setIsLoading] = useState(false);
     const [schedule, setSchedule] = useState('');
     const [edit, setEdit] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [scheduleSelected, setScheduleSelected] = useState({})
 
     function showMenu(x) {
         if (x.matches) { // If media query matches
@@ -171,6 +174,11 @@ function EditSchedule() {
 
     return (<>
         <NavBar/>
+
+        {scheduleSelected && (
+            <ModalViewSchedule open={open} onClose={() => setOpen(false)} schedule={scheduleSelected}/>
+        )}
+
         <div className={classes.main}>
             {edit ? (<>
                 <div className={classes.edit}>
@@ -226,7 +234,7 @@ function EditSchedule() {
                         </Grid>
                     </Grid>
                 </div>
-                <DataGrid loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={schedules} columns={columns(setSchedule, setEdit)}/>
+                <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={schedules} columns={columns(setSchedule, setEdit)}/>
             </>)}
         </div>
     </>);

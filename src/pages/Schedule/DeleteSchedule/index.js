@@ -12,6 +12,7 @@ import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextG
 import { Button, Grid, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import ModalViewSchedule from "../../../components/ModalViewSchedule";
 
 const columns = (confirm) => [
     {
@@ -65,6 +66,8 @@ function DeleteSchedule() {
     const [isLoading, setIsLoading] = useState(false);
     const [deleted, setDeleted] = useState(false);
     const [changeOrder, setChangeOrder] = useState(false)
+    const [open, setOpen] = React.useState(false);
+    const [scheduleSelected, setScheduleSelected] = useState({})
 
     function showMenu(x) {
         if (x.matches) { // If media query matches
@@ -181,6 +184,11 @@ function DeleteSchedule() {
 
     return (<>
         <NavBar/>
+
+        {scheduleSelected && (
+            <ModalViewSchedule open={open} onClose={() => setOpen(false)} schedule={scheduleSelected}/>
+        )}
+
         <div className={classes.main}>
             <div className={classes.root}>
                 <Grid container  spacing={2}>
@@ -231,7 +239,7 @@ function DeleteSchedule() {
                     </Grid>
                 </Grid>
             </div>
-            <DataGrid loading={isLoading} autoHeight rows={schedules} pageSize={5} localeText={localeText} columns={columns(confirmDelete)} apiRef={apiRef}/>
+            <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} loading={isLoading} autoHeight rows={schedules} pageSize={5} localeText={localeText} columns={columns(confirmDelete)} apiRef={apiRef}/>
         </div>
     </>);
 }

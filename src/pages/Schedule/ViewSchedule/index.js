@@ -7,7 +7,8 @@ import dateFnsFormat from 'date-fns/format';
 import withReactContent from 'sweetalert2-react-content'
 import moment from "moment"
 import NavBar from "../../../components/NavBar";
-import { Button, makeStyles, Grid, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import ModalViewSchedule from "../../../components/ModalViewSchedule";
+import { Button, makeStyles, Grid, FormControl, InputLabel, MenuItem, Select, Typography, Modal, Backdrop, Fade } from "@material-ui/core";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextGrid"
@@ -54,6 +55,8 @@ function ViewSchedule() {
     const [period, setPeriod] = useState('');
     const [changeOrder, setChangeOrder] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [scheduleSelected, setScheduleSelected] = useState({})
 
     function showMenu(x) {
         if (x.matches) { // If media query matches
@@ -120,6 +123,11 @@ function ViewSchedule() {
 
     return (<>
         <NavBar/>
+
+        {scheduleSelected && (
+            <ModalViewSchedule open={open} onClose={() => setOpen(false)} schedule={scheduleSelected}/>
+        )}
+
         <div className={classes.main}>
             <div className={classes.root}>
                 <Grid container  spacing={2}>
@@ -170,7 +178,7 @@ function ViewSchedule() {
                     </Grid>
                 </Grid>
             </div>
-            <DataGrid loading={isLoading} pageSize={5} localeText={localeText} autoHeight rows={schedules} columns={columns}/>
+            <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} className={classes.table} loading={isLoading} pageSize={5} localeText={localeText} autoHeight rows={schedules} columns={columns}/>
         </div>
     </>);
 }
@@ -178,6 +186,23 @@ function ViewSchedule() {
 const useStyles = makeStyles((theme) => ({
     main: {
         padding: 25
+    },
+    table: {
+        cursor: 'pointer'
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        outline: 'none'
+    },
+    paper: {
+        backgroundColor: '#424242',
+        // border: '2px solid #000',
+        borderRadius: 10,
+        outline: 'none',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
     },
     edit: {
         display: 'flex',
