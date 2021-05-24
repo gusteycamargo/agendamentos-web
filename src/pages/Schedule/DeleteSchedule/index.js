@@ -239,7 +239,7 @@ function DeleteSchedule() {
                     </Grid>
                 </Grid>
             </div>
-            <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} loading={isLoading} autoHeight rows={schedules} pageSize={5} localeText={localeText} columns={columns(confirmDelete)} apiRef={apiRef}/>
+            <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} className={classes.table} loading={isLoading} autoHeight rows={schedules} pageSize={5} localeText={localeText} columns={columns(confirmDelete)} apiRef={apiRef}/>
         </div>
     </>);
 }
@@ -247,6 +247,9 @@ function DeleteSchedule() {
 const useStyles = makeStyles((theme) => ({
     main: {
         padding: 25
+    },
+    table: {
+        cursor: 'pointer'
     },
     root: {
       flexGrow: 1,

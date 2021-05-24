@@ -234,7 +234,7 @@ function EditSchedule() {
                         </Grid>
                     </Grid>
                 </div>
-                <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={schedules} columns={columns(setSchedule, setEdit)}/>
+                <DataGrid onRowClick={({row}) => {setScheduleSelected(row); setOpen(true)}} className={classes.table} loading={isLoading} autoHeight pageSize={5} localeText={localeText} rows={schedules} columns={columns(setSchedule, setEdit)}/>
             </>)}
         </div>
     </>);
@@ -243,6 +243,9 @@ function EditSchedule() {
 const useStyles = makeStyles((theme) => ({
     main: {
         padding: 25
+    },
+    table: {
+        cursor: 'pointer'
     },
     edit: {
         display: 'flex',

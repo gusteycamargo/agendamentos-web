@@ -56,8 +56,8 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
 
       setDate(new Date(parse[0], parse[1] - 1, parse[2]));
       //setEquipaments(schedule.equipaments);
-      setInitial(moment(moment().format('yyyy-MM-DD')+' '+schedule.initial));
-      setFinal(moment(moment().format('yyyy-MM-DD')+' '+schedule.final));
+      setInitial(moment(moment().format('YYYY-MM-DD')+' '+schedule.initial));
+      setFinal(moment(moment().format('YYYY-MM-DD')+' '+schedule.final));
       setCourse(schedule.course.id);
       setCategory(schedule.category.id);
       //setPlace(schedule.place);
@@ -95,10 +95,22 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
           let arrayPlace = []
           if (result) {
             setEquipaments([...schedule.equipaments, ...response.data.avaibilityEquipaments])
+            const idsSelecteds = []
+            const nameSelecteds = []
+            schedule.equipaments.map(equipament => {
+              idsSelecteds.push(equipament.id)
+              nameSelecteds.push(equipament.name)
+            })
+            setEquipamentsSelected(idsSelecteds)
+            setEquipamentsView(nameSelecteds)
+
             setPlaces([schedule.place, ...response.data.avaibilityPlaces]);
+            setPlace(schedule.place.id)
             arrayPlace = [schedule.place, ...response.data.avaibilityPlaces]
           }
           else {
+            setEquipamentsView([])
+            setEquipamentsSelected([])
             setEquipaments(response.data.avaibilityEquipaments)
             setPlaces(response.data.avaibilityPlaces);
             arrayPlace = response.data.avaibilityPlaces
@@ -117,7 +129,6 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
       })
       .catch(function (error) {
         console.log(error);
-
         MySwal.fire('Oops...', error.response.data.error, 'error')
       });
     setIsLoadingVerification(false);
@@ -125,7 +136,9 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
 
   function doIUseEquipamentsAndPlaceOfSchedule() {
     if (schedule) {
-      if ((schedule.initial !== initial) || (schedule.final !== final)) { return false }
+      const initialScheduled = moment(moment().format('YYYY-MM-DD')+' '+schedule.initial)
+      const finalScheduled = moment(moment().format('YYYY-MM-DD')+' '+schedule.final)
+      if (!initialScheduled.isSame(initial) || !finalScheduled.isSame(final)) { return false }
       else { return true }
     }
   }
@@ -221,7 +234,7 @@ function FormSchedule({ onSubmit, schedule, back, showBack }) {
 
   function clear() {
     controlFields();
-    setEquipamentsView('');
+    setEquipamentsView([]);
     setComments('');
     setEquipament([]);
     setPlace('');

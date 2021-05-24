@@ -8,7 +8,7 @@ import withReactContent from 'sweetalert2-react-content'
 import moment from "moment"
 import NavBar from "../../../components/NavBar";
 import ModalViewSchedule from "../../../components/ModalViewSchedule";
-import { Button, makeStyles, Grid, FormControl, InputLabel, MenuItem, Select, Typography, Modal, Backdrop, Fade } from "@material-ui/core";
+import { Button, makeStyles, Grid, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {GRID_DEFAULT_LOCALE_TEXT as localeText} from "../../../utils/localeTextGrid"
