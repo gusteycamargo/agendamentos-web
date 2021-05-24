@@ -20,13 +20,13 @@ Para a sua construção foi utilizada a linguagem JavaScript e biblioteca ReactJ
 ### :camera: Algumas telas
 
 <div align="center">
-  <img src="https://imgur.com/YSos2Wo.png" />
+  <img src="https://imgur.com/CDe1Nq1.png" />
   &nbsp;
-  <img src="https://imgur.com/cEWgM9V.png" />
+  <img src="https://imgur.com/t6Goc5s.png" />
   &nbsp;
-  <img src="https://imgur.com/LhGe8fR.png" />
+  <img src="https://imgur.com/gkCqFnd.png" />
   &nbsp;
-  <img src="https://imgur.com/oVQpTsS.png" />
+  <img src="https://imgur.com/YtDqQNZ.png" />
 </div>
 
 ---
