@@ -246,14 +246,16 @@ function NavBar() {
           {listDrawer('view')}
         </Collapse>
 
-        <List component="div" disablePadding>
-          <ListItem button>
-            <ListItemIcon>
-              <Assessment />
-            </ListItemIcon>
-            <ListItemText onClick={() => history.push(`/reports`)} primary="Gráficos" />
-          </ListItem>
-        </List>
+        {userAdm &&
+          <List component="div" disablePadding>
+            <ListItem button>
+              <ListItemIcon>
+                <Assessment />
+              </ListItemIcon>
+              <ListItemText onClick={() => history.push(`/reports`)} primary="Gráficos" />
+            </ListItem>
+          </List>
+        }
       </List>
     </div>
   );
